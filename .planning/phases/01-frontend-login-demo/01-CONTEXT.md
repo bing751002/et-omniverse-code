@@ -25,7 +25,7 @@ Deliver one full GSD/SDD round-trip on `et-omniverse-v2` (add-phase → discuss 
 
 ### Routing & Page Structure
 
-- **D-01:** Add `vue-router@4` to `src/frontend/ETOmniverse.Web/package.json` via pnpm. No other new runtime deps for this phase.
+- **D-01:** Add `vue-router@^5` to `src/frontend/ETOmniverse.Web/package.json` via pnpm (`pnpm add vue-router`, resolves to `5.0.6` registry latest as of 2026-05-09). No other new runtime deps for this phase. Originally written as `@4`; corrected after RESEARCH.md Q-RES-001 verified `vue-router@4` is now on the `next` dist-tag (legacy-shim) while `latest` moved to 5.x. API surface used by this phase (`createRouter` / `createWebHistory` / `app.use` / `<router-view />` / `router.push`) is identical between 4.x and 5.x.
 - **D-02:** Single router config file at `src/frontend/ETOmniverse.Web/src/router/index.ts` (NOT split per-module). The CONVENTIONS rule "router routes 按模組分檔" addresses multi-module future state — this phase has 2 routes total, splitting now is premature.
 - **D-03:** Use `createWebHistory()` (HTML5 mode), not hash mode. Standard Vue 3 default; Vite dev server handles SPA fallback out of the box.
 - **D-04:** Routes: `/login` → `Login.vue`, `/welcome` → `Welcome.vue`, `/` → redirect to `/login`. The redirect (vs. setting `/login` as default route at `/`) gives an explicit URL that matches the demo narrative.
@@ -58,6 +58,7 @@ Deliver one full GSD/SDD round-trip on `et-omniverse-v2` (add-phase → discuss 
 - **D-15:** Package manager: **pnpm** (matches REQUIREMENTS UI-03 `pnpm dev` and existing `package.json` script set). No npm / yarn lockfiles introduced.
 - **D-16:** No additional Vite plugins, no Tailwind, no ESLint/Prettier config additions in this phase. UI-SPEC explicitly forbids these. Type checking via existing `vue-tsc -b && vite build` already in `package.json`.
 - **D-17:** No tests written for this phase. REQUIREMENTS does not list a test deliverable; CONVENTIONS "沒測試不算完成" applies once feature specs declare acceptance — this phase's acceptance is manual UAT (UI-03) per design. Note this as an explicit dogfood exception, not a normative pattern.
+- **D-18:** Fix the existing bug in `src/frontend/ETOmniverse.Web/vite.config.ts` where `plugins: [vue]` should be `plugins: [vue()]` (`@vitejs/plugin-vue` is a factory; bare reference is invalid — only works today because the placeholder `App.vue` is trivial enough that Vite's HMR still recovers). Phase 1 will exercise this code path (router + 2 SFCs + form bindings) and almost certainly surface the bug. Resolution: fix it as a Wave 1 prerequisite task. **The fix doubles as the D-11 organic rationale-bypass trigger** — a single-line `vite.config.ts` fix is `src/`-touching code with no corresponding doc/spec to update, which is exactly the legitimate trigger for `docs/no-doc-update-vite-plugin-init.md`. (Resolves RESEARCH.md Q-RES-002.)
 
 ### Claude's Discretion
 
