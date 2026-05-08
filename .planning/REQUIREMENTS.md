@@ -62,23 +62,21 @@ Milestone **v1.0 — GSD/SDD Process Validation**。實際 deliverable 不是程
 
 ## Traceability
 
-由 roadmap creation 階段填入：
-
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| DEMO-01 | TBD | Pending |
-| DEMO-02 | TBD | Pending |
-| DEMO-03 | TBD | Pending |
-| UI-01 | TBD | Pending |
-| UI-02 | TBD | Pending |
-| UI-03 | TBD | Pending |
-| DOC-01 | TBD | Pending |
+| DEMO-01 | Phase 1 | Pending |
+| DEMO-02 | Phase 1 | Pending |
+| DEMO-03 | Phase 1 | Pending |
+| UI-01 | Phase 1 | Pending |
+| UI-02 | Phase 1 | Pending |
+| UI-03 | Phase 1 | Pending |
+| DOC-01 | Phase 1 | Pending |
 
 **Coverage:**
 - v1 requirements: 7 total
-- Mapped to phases: 0 (待 roadmap)
-- Unmapped: 7 ⚠️（roadmap 跑完應為 0）
+- Mapped to phases: 7
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-05-08*
-*Last updated: 2026-05-08 after initial definition*
+*Last updated: 2026-05-08 after roadmap creation*
