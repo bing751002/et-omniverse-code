@@ -64,7 +64,7 @@ phase: 1
 
 ## Open questions
 
-- [ ] Q-F001-001: vue-router 鎖 5.x（CONTEXT D-01 post-research 校正後採 `^5`）— 此 question 在 plan-phase 已隨 D-01 解掉，留紀錄供 walkthrough 看歷史軌跡
+- [x] Q-F001-001: vue-router 鎖 5.x — Resolved 2026-05-09 by `pnpm add vue-router` (resolved to registry latest `^5.0.6`)
 
 ## 變更記錄
 
