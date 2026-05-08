@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: Ready to execute
-stopped_at: Completed 01-01-PLAN.md (F-001 approved, vite fixed, vue-router installed)
-last_updated: "2026-05-08T23:04:45.077Z"
+stopped_at: Completed 01-02-PLAN.md (feat 869046b lands /login + /welcome + vue-router; F-001 implementing; build green)
+last_updated: "2026-05-08T23:11:49.126Z"
 progress:
   total_phases: 1
   completed_phases: 0
   total_plans: 3
-  completed_plans: 1
+  completed_plans: 2
 ---
 
 # Project State
@@ -24,7 +24,7 @@ See: .planning/PROJECT.md (updated 2026-05-08)
 ## Current Position
 
 Phase: 01 (frontend-login-demo) — EXECUTING
-Plan: 2 of 3
+Plan: 3 of 3
 
 ## Performance Metrics
 
@@ -47,6 +47,7 @@ Plan: 2 of 3
 
 *Updated after each plan completion*
 | Phase 01-frontend-login-demo P01 | 4min | 4 tasks | 4 files |
+| Phase 01-frontend-login-demo P02 | 5min | 5 tasks | 7 files |
 
 ## Accumulated Context
 
@@ -61,6 +62,8 @@ Recent decisions affecting current work:
 - [Phase 01-frontend-login-demo]: Status flips on F-001 land as separate commits (D-08 enforced)
 - [Phase 01-frontend-login-demo]: D-11 rationale-bypass triggered organically by vite.config.ts fix (paired commit)
 - [Phase 01-frontend-login-demo]: Spec implementation-link placeholders use <...> wrapper to satisfy check-spec-links.py for not-yet-created files
+- [Phase 01-frontend-login-demo]: Single feat commit (869046b) bundles 5 src/ files + F-001 status flip — Plan 02 'this commit IS the feature' design honored
+- [Phase 01-frontend-login-demo]: vue-tsc declaration-emit pollution treated as deferred-items (gitignore patch only); tsconfig fix is out-of-scope for milestone v1.0
 
 ### Pending Todos
 
@@ -72,6 +75,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-05-08T23:04:45.070Z
-Stopped at: Completed 01-01-PLAN.md (F-001 approved, vite fixed, vue-router installed)
+Last session: 2026-05-08T23:11:49.119Z
+Stopped at: Completed 01-02-PLAN.md (feat 869046b lands /login + /welcome + vue-router; F-001 implementing; build green)
 Resume file: None

@@ -76,6 +76,14 @@ dist-ssr/
 .cache/
 .parcel-cache/
 
+# vue-tsc emit artifacts that leak into src/ (declaration build side-output)
+src/frontend/**/src/**/*.vue.js
+src/frontend/**/src/**/*.vue.js.map
+src/frontend/**/src/**/*.ts.js
+src/frontend/**/src/**/*.ts.js.map
+src/frontend/**/src/main.js
+src/frontend/**/src/main.js.map
+
 # ===== TypeScript =====
 *.tsbuildinfo
 

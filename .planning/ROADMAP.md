@@ -29,7 +29,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans**: 3 plans
 Plans:
 - [x] 01-01-PLAN.md — F-001 spec authoring + vite.config.ts fix (D-11/D-18 rationale-bypass) + vue-router install + F-001 status: draft → approved (DEMO-02, DEMO-03)
-- [ ] 01-02-PLAN.md — vue-router config + Login.vue + Welcome.vue + main.ts/App.vue wiring + F-001 status: approved → implementing (UI-01, UI-02)
+- [x] 01-02-PLAN.md — vue-router config + Login.vue + Welcome.vue + main.ts/App.vue wiring + F-001 status: approved → implementing (UI-01, UI-02)
 - [ ] 01-03-PLAN.md — Manual UAT checkpoint + F-001 status: implementing → implemented + WALKTHROUGH.md (UI-03, DEMO-01, DOC-01)
 **UI hint**: yes
 

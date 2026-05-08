@@ -15,8 +15,8 @@ Milestone **v1.0 — GSD/SDD Process Validation**。實際 deliverable 不是程
 
 ### UI
 
-- [ ] **UI-01**: 前端 login 頁含 username + password form，submit 後 `router.push('/welcome')`，無 form validation、無 auth state、無 router guard
-- [ ] **UI-02**: 前端 welcome placeholder 頁（顯示 "Welcome" 文字即可，不做動態內容）
+- [x] **UI-01**: 前端 login 頁含 username + password form，submit 後 `router.push('/welcome')`，無 form validation、無 auth state、無 router guard
+- [x] **UI-02**: 前端 welcome placeholder 頁（顯示 "Welcome" 文字即可，不做動態內容）
 - [ ] **UI-03**: `pnpm dev` 起 frontend，瀏覽器手動操作可完成 login → welcome 跳轉路徑
 
 ### Documentation
@@ -67,8 +67,8 @@ Milestone **v1.0 — GSD/SDD Process Validation**。實際 deliverable 不是程
 | DEMO-01 | Phase 1 | Pending |
 | DEMO-02 | Phase 1 | Complete |
 | DEMO-03 | Phase 1 | Complete |
-| UI-01 | Phase 1 | Pending |
-| UI-02 | Phase 1 | Pending |
+| UI-01 | Phase 1 | Complete |
+| UI-02 | Phase 1 | Complete |
 | UI-03 | Phase 1 | Pending |
 | DOC-01 | Phase 1 | Pending |
 
