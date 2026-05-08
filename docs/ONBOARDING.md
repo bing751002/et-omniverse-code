@@ -12,13 +12,15 @@
 5. 安裝 Docker Desktop
 6. 確認 Python 3.10+ 在 PATH（hook 用）
 7. 安裝 Claude Code（強制工具，版本由 lead 公告）
-8. 在 repo 內跑：npx get-shit-done-cc@latest（GSD 套件）
+8. 在 repo 內跑：`npx get-shit-done-cc@$(cat .gsd-version) -y`（GSD 套件，**版本鎖在 `.gsd-version`**，team 全員一致；**不要用 @latest**）
 9. cd src/frontend/ETOmniverse.Web && pnpm install
 10. dotnet restore
 11. docker compose up -d（看 docker/README.md）
 ```
 
 > Step 2 沒做 → pre-commit hook 不跑 → 你會在 push 後被 Jenkins Docs Lint 擋。每個新 clone 都要做一次。
+>
+> Step 8 用 `@latest` 會抓到比 team 還新的版本，workflow 行為可能跟同事不一致。**升版由 lead 改 `.gsd-version` + 公告**，不主動 npm update。
 
 ## Day 1：閱讀（30-45 分鐘）
 
