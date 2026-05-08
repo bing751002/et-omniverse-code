@@ -2,7 +2,7 @@
 id: F-001
 title: Frontend login page (dogfood)
 module:
-status: draft
+status: approved
 owner: jimmyliao
 created: 2026-05-09
 updated: 2026-05-09
@@ -71,3 +71,4 @@ phase: 1
 | 日期 | 變更 | PR |
 |---|---|---|
 | 2026-05-09 | 初版 (status: draft) | #TBD |
+| 2026-05-09 | status: draft → approved (plan-phase 完，準備開工) | #TBD |
