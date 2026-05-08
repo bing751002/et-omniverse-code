@@ -1,0 +1,12 @@
+**/.git
+**/.vs
+**/bin
+**/obj
+**/node_modules
+**/dist
+**/.env
+**/.env.*
+!**/.env.example
+backup
+docs
+tests

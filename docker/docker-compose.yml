@@ -1,0 +1,14 @@
+name: et-omniverse
+
+include:
+  - docker-compose.infra.yml
+  - compose/base.api.yml
+  - compose/base.web.yml
+
+services:
+  api:
+    depends_on:
+      mssql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy

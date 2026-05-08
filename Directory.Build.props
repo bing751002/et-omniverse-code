@@ -1,0 +1,21 @@
+<Project>
+  <PropertyGroup>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <IsInDevContainer Condition="'$(DOTNET_IN_DEVCONTAINER)' == 'true'">true</IsInDevContainer>
+    <IsInDevContainer Condition="'$(IsInDevContainer)' == '' AND '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' == 'true'">true</IsInDevContainer>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(IsInDevContainer)' == 'true'">
+    <WorktreeName>$([System.IO.Path]::GetFileName($([System.IO.Path]::GetDirectoryName($(MSBuildThisFileDirectory)))))</WorktreeName>
+    <ProjectRelativePath>$([MSBuild]::MakeRelative($(MSBuildThisFileDirectory), $(MSBuildProjectDirectory)))</ProjectRelativePath>
+    <BaseIntermediateOutputPath>/home/vscode/.dotnet-artifacts/$(WorktreeName)/obj/$(ProjectRelativePath)/</BaseIntermediateOutputPath>
+    <OutputPath>/home/vscode/.dotnet-artifacts/$(WorktreeName)/bin/$(ProjectRelativePath)/</OutputPath>
+    <DefaultItemExcludes>$(DefaultItemExcludes);obj/**</DefaultItemExcludes>
+  </PropertyGroup>
+</Project>

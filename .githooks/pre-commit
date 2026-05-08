@@ -1,0 +1,27 @@
+#!/bin/sh
+# Auto-regenerate ADR index when an ADR file or DECISIONS.md is being committed.
+# Validate spec links when any spec file is being committed.
+#
+# Setup: git config core.hooksPath .githooks
+# Requires: python on PATH (3.10+)
+
+set -e
+
+STAGED=$(git diff --cached --name-only --diff-filter=ACMR)
+
+# 1. ADR index sync
+if echo "$STAGED" | grep -qE '^docs/(decisions/D-[0-9]+.*\.md|DECISIONS\.md)$'; then
+    echo "[pre-commit] regenerating ADR index..."
+    python scripts/build-adr-index.py
+    git add docs/DECISIONS.md
+fi
+
+# 2. Spec link validation
+if echo "$STAGED" | grep -qE '^docs/specs/'; then
+    echo "[pre-commit] validating spec links..."
+    python scripts/check-spec-links.py
+fi
+
+# 3. Documentation governance
+echo "[pre-commit] enforcing doc governance..."
+python scripts/check-doc-governance.py --staged
