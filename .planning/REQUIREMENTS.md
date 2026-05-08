@@ -10,8 +10,8 @@ Milestone **v1.0 — GSD/SDD Process Validation**。實際 deliverable 不是程
 ### Process
 
 - [ ] **DEMO-01**: 跑完一輪完整 GSD 流程（add-phase → discuss-phase → plan-phase → execute-phase → verify-work → ship），所有對應的 `.planning/phases/<phase>/` artifact 完整保留
-- [ ] **DEMO-02**: 產出對應的 `docs/specs/F-001-frontend-login-page.md`（人寫的 SDD 契約，frontmatter 完整、status 隨 phase 進度流轉）
-- [ ] **DEMO-03**: pre-commit hook + governance script 在實際 phase commits 中運作（不是空跑），rationale 機制有實際使用至少一次
+- [x] **DEMO-02**: 產出對應的 `docs/specs/F-001-frontend-login-page.md`（人寫的 SDD 契約，frontmatter 完整、status 隨 phase 進度流轉）
+- [x] **DEMO-03**: pre-commit hook + governance script 在實際 phase commits 中運作（不是空跑），rationale 機制有實際使用至少一次
 
 ### UI
 
@@ -65,8 +65,8 @@ Milestone **v1.0 — GSD/SDD Process Validation**。實際 deliverable 不是程
 | Requirement | Phase | Status |
 |-------------|-------|--------|
 | DEMO-01 | Phase 1 | Pending |
-| DEMO-02 | Phase 1 | Pending |
-| DEMO-03 | Phase 1 | Pending |
+| DEMO-02 | Phase 1 | Complete |
+| DEMO-03 | Phase 1 | Complete |
 | UI-01 | Phase 1 | Pending |
 | UI-02 | Phase 1 | Pending |
 | UI-03 | Phase 1 | Pending |

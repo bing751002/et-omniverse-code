@@ -26,7 +26,11 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. `docs/specs/F-001-frontend-login-page.md` 存在，frontmatter 完整，status 為 `implemented`，內容由人撰寫（非 GSD 自動生成）
   4. 至少一次真實 commit 觸發 pre-commit hook，且 governance script 正確執行（含 rationale bypass 機制實際使用一次）
   5. Team 可取得 walkthrough 素材，說明 spec vs PLAN 差異、governance 機制、以及 commit history 如何對應 PLAN tasks
-**Plans**: TBD
+**Plans**: 3 plans
+Plans:
+- [x] 01-01-PLAN.md — F-001 spec authoring + vite.config.ts fix (D-11/D-18 rationale-bypass) + vue-router install + F-001 status: draft → approved (DEMO-02, DEMO-03)
+- [ ] 01-02-PLAN.md — vue-router config + Login.vue + Welcome.vue + main.ts/App.vue wiring + F-001 status: approved → implementing (UI-01, UI-02)
+- [ ] 01-03-PLAN.md — Manual UAT checkpoint + F-001 status: implementing → implemented + WALKTHROUGH.md (UI-03, DEMO-01, DOC-01)
 **UI hint**: yes
 
 ## Progress
@@ -36,4 +40,4 @@ Phases execute in numeric order: 1
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Frontend Login Demo | 0/TBD | Not started | - |
+| 1. Frontend Login Demo | 0/3 | Not started | - |
