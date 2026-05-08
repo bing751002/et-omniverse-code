@@ -6,7 +6,7 @@
   - `.githooks/pre-commit`
   - `ci/jenkins/Jenkinsfile`
   - `scripts/check-doc-governance.py`
-- Summary: 把 `check-doc-governance.py` 接進 pre-commit hook 與 Jenkins Docs Lint stage；同時擴充 Rule 1 的 required docs 範圍、為 access-control 與 adr-summary 兩條 rule 關閉 rationale bypass。
+- Summary: 把 `check-doc-governance.py` 接進 pre-commit hook 與 Jenkins Docs Lint stage；同時擴充 Rule 1 的 required docs 範圍、為 adr-summary rule 關閉 rationale bypass。權限變更暫不做 path-based rule（path prefix 抓不準，等實際 Identity 落地後再決定怎麼補），先靠 reviewer 紀律 + Rule 1 涵蓋。
 
 ## Reason No KB Update Is Needed
 

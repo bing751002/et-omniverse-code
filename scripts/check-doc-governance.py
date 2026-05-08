@@ -36,6 +36,7 @@ RULES = (
         name="source-code-requires-spec-or-kb",
         changed_prefixes=("src/", "tests/"),
         required_prefixes=(
+            ".planning/",
             "docs/specs/",
             "docs/patterns/",
             "docs/ACCESS-CONTROL.md",
@@ -45,20 +46,13 @@ RULES = (
             "docs/GLOSSARY.md",
             "docs/INFRA.md",
         ),
-        message="src/tests changed: update a spec or relevant KB doc.",
+        message="src/tests changed: update a GSD phase artifact (.planning/), spec, or relevant KB doc.",
     ),
     Rule(
         name="infra-requires-infra-doc",
         changed_prefixes=("docker/", "ci/", ".githooks/", "scripts/"),
         required_prefixes=("docs/INFRA.md", "docs/WORKFLOW.md", "docs/DOCUMENTATION.md"),
         message="infra/tooling changed: update INFRA, WORKFLOW, or DOCUMENTATION.",
-    ),
-    Rule(
-        name="access-control-requires-kb",
-        changed_prefixes=("src/backend/ETOmniverse.Domain/Identity/", "src/backend/ETOmniverse.Infrastructure/Auth/", "src/backend/ETOmniverse.Api/Features/Identity/"),
-        required_prefixes=("docs/ACCESS-CONTROL.md", "docs/specs/"),
-        message="identity/access-control changed: update ACCESS-CONTROL or the relevant spec.",
-        allow_rationale=False,
     ),
     Rule(
         name="adr-summary-sync",

@@ -6,15 +6,19 @@
 
 ```
 1. git clone <repo>
-2. 安裝 .NET 10 SDK
-3. 安裝 pnpm + Node 20+
-4. 安裝 Docker Desktop
-5. 安裝 Claude Code（強制工具，版本由 lead 公告）
-6. 在 repo 內跑：npx get-shit-done-cc@latest（GSD 套件）
-7. cd src/frontend/ETOmniverse.Web && pnpm install
-8. dotnet restore
-9. docker compose up -d（看 docker/README.md）
+2. git config core.hooksPath .githooks   ← 啟用 repo 共用 pre-commit hook
+3. 安裝 .NET 10 SDK
+4. 安裝 pnpm + Node 20+
+5. 安裝 Docker Desktop
+6. 確認 Python 3.10+ 在 PATH（hook 用）
+7. 安裝 Claude Code（強制工具，版本由 lead 公告）
+8. 在 repo 內跑：npx get-shit-done-cc@latest（GSD 套件）
+9. cd src/frontend/ETOmniverse.Web && pnpm install
+10. dotnet restore
+11. docker compose up -d（看 docker/README.md）
 ```
+
+> Step 2 沒做 → pre-commit hook 不跑 → 你會在 push 後被 Jenkins Docs Lint 擋。每個新 clone 都要做一次。
 
 ## Day 1：閱讀（30-45 分鐘）
 
