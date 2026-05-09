@@ -2,7 +2,7 @@
 id: F-002
 title: Backend logging foundation (Serilog + CorrelationId)
 module:
-status: approved
+status: implementing
 owner: jimmyliao
 created: 2026-05-09
 updated: 2026-05-09
@@ -226,3 +226,4 @@ CONVENTIONS.md 規定加 NuGet 前要先評估必要性。本 spec 引入：
 |---|---|---|
 | 2026-05-09 | 初版 (status: draft) | #TBD |
 | 2026-05-09 | status: draft → approved；AC-8 / 實作連結 .ps1 → .py（per CONTEXT.md D-03，跨平台 + 既有 governance scripts 全 python） | #TBD |
+| 2026-05-09 | status: approved → implementing（02-01-PLAN Cluster A+D 落地） | #TBD |
