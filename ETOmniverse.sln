@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ETOmniverse.Api.Tests", "te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ETOmniverse.TestSupport", "tests\backend\ETOmniverse.TestSupport\ETOmniverse.TestSupport.csproj", "{020DC92A-958B-4A04-B2C5-4D4FD55D4119}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ETOmniverse.Common.Tests", "tests\backend\ETOmniverse.Common.Tests\ETOmniverse.Common.Tests.csproj", "{96D8AAAA-40E1-4709-AC30-28C6484357FB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -133,6 +135,18 @@ Global
 		{020DC92A-958B-4A04-B2C5-4D4FD55D4119}.Release|x64.Build.0 = Release|Any CPU
 		{020DC92A-958B-4A04-B2C5-4D4FD55D4119}.Release|x86.ActiveCfg = Release|Any CPU
 		{020DC92A-958B-4A04-B2C5-4D4FD55D4119}.Release|x86.Build.0 = Release|Any CPU
+		{96D8AAAA-40E1-4709-AC30-28C6484357FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96D8AAAA-40E1-4709-AC30-28C6484357FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96D8AAAA-40E1-4709-AC30-28C6484357FB}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{96D8AAAA-40E1-4709-AC30-28C6484357FB}.Debug|x64.Build.0 = Debug|Any CPU
+		{96D8AAAA-40E1-4709-AC30-28C6484357FB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{96D8AAAA-40E1-4709-AC30-28C6484357FB}.Debug|x86.Build.0 = Debug|Any CPU
+		{96D8AAAA-40E1-4709-AC30-28C6484357FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96D8AAAA-40E1-4709-AC30-28C6484357FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96D8AAAA-40E1-4709-AC30-28C6484357FB}.Release|x64.ActiveCfg = Release|Any CPU
+		{96D8AAAA-40E1-4709-AC30-28C6484357FB}.Release|x64.Build.0 = Release|Any CPU
+		{96D8AAAA-40E1-4709-AC30-28C6484357FB}.Release|x86.ActiveCfg = Release|Any CPU
+		{96D8AAAA-40E1-4709-AC30-28C6484357FB}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -148,5 +162,6 @@ Global
 		{11140101-9F0F-4697-BE62-D618420F4350} = {C62EED4C-2AC9-F50F-E0BC-649CFEA98BDB}
 		{79CD9337-F607-44BB-8F62-B91C11C1D46E} = {C62EED4C-2AC9-F50F-E0BC-649CFEA98BDB}
 		{020DC92A-958B-4A04-B2C5-4D4FD55D4119} = {C62EED4C-2AC9-F50F-E0BC-649CFEA98BDB}
+		{96D8AAAA-40E1-4709-AC30-28C6484357FB} = {C62EED4C-2AC9-F50F-E0BC-649CFEA98BDB}
 	EndGlobalSection
 EndGlobal
