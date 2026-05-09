@@ -52,7 +52,7 @@ Phases execute in numeric order: 1, 2, 3, 4, 5, 6, 7
 | 4. HTTP outbound base | 5/5 | Complete | 2006-05-09 |
 | 5. Persistence foundation | 5/5 | Complete | 2006-05-09 |
 | 6. Test-mode authentication | 4/4 | Complete | 2006-05-09 |
-| 7. Testability foundation | 0/5 | Planned | — |
+| 7. Testability foundation | 2/5 | In progress | — |
 
 ### Phase 2: Backend Logging Foundation
 
@@ -145,7 +145,7 @@ Plans:
 
 Plans:
 - [x] 07-01-PLAN.md — A 區塊 TimeProvider (DI 註冊 + check-no-datetime-now.py + pre-commit + FakeTimeProviderFixture + CONVENTIONS 段 + F-007 status draft -> approved -> implementing) (AC-A1, A2, A3, A4, A5, A6)
-- [ ] 07-02-PLAN.md — B 區塊基建 (MsSqlContainerFixture + DatabaseCollection + Respawn/Testcontainers.MsSql pkg 加入 + 兩 class 共用 container smoke) (AC-B1, B4, B5)
+- [x] 07-02-PLAN.md — B 區塊基建 (MsSqlContainerFixture + DatabaseCollection + Respawn/Testcontainers.MsSql pkg 加入 + 兩 class 共用 container smoke) (AC-B1, B4, B5)
 - [ ] 07-03-PLAN.md — B 區塊執行 (RespawnDatabaseReset + TransactionalTestBase + 50-fact 速度 smoke + __EFMigrationsHistory 保留整合測) (AC-B2, B3, B6)
 - [ ] 07-04-PLAN.md — C 區塊 (MapTestOnlyEndpointsExtensions + Program.cs 重構 + Production hard-fail + F-002 4 file path migration + check-test-endpoints.py + pre-commit) (AC-C1, C2, C3, C4, C5, C6, C7)
 - [ ] 07-05-PLAN.md — 收尾 (dotnet build/test solution 全綠 + F-007 status implementing -> implemented + 實作連結填實 + Phase 07 PHASE-SUMMARY) (AC-D1, D2, D3)
