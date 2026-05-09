@@ -19,6 +19,52 @@
 - FluentValidation 放 Adapter/In，不放 Domain。
 - Command repository 實作 Domain port；query repository 若直接回傳 read model，必須命名為 Query/Read 並避免混入 command side。
 - 每個 feature 的第一個 endpoint 要同時建立最小測試樣板：UseCase unit test + API/WebApplicationFactory happy path。
+
+## Outbound HTTP
+
+*F-004 落地後生效（per `docs/specs/F-004-http-outbound-base.md`）。*
+
+- 每個外部 service 必須有一個 Domain port；Domain 不 reference `HttpClient` / SDK / ASP.NET。
+- Infrastructure 用 typed client 實作 port，透過 `IHttpClientFactory` 註冊。
+- 共用 handler 順序固定：CorrelationId propagation → outbound logging → resilience → primary send。
+- retry 只適用 timeout、5xx、408、429；一般 4xx 不 retry。
+- outbound log 不記 full query string、authorization/cookie/x-api-key header、request body、response body。
+- 4xx / 5xx / timeout 對 use case 回 `Result<T>.Failure`，不要讓 use case 直接處理 raw `HttpRequestException`。
+- endpoint / API key / token 一律來自 Ops config、env 或 user-secrets；repo 只放 placeholder/schema。
+
+## Persistence / EF Core
+
+*F-005 落地後生效（per `docs/specs/F-005-persistence-foundation.md`）。*
+
+- DbContext 固定為 `src/backend/ETOmniverse.Infrastructure/Persistence/EtOmniverseDbContext.cs` partial class；模組 mapping 追加 `EtOmniverseDbContext.<Module>.cs`，不要把所有 mapping 擠進主檔。
+- Migration 只放 Infrastructure project 的 `Persistence/Migrations/`。
+- 新增 migration 前先 `git pull --rebase`，確認 main 沒有更新 migration sequence。
+- 固定用 script 建 migration：
+
+```powershell
+.\scripts\db-add-migration.ps1 -Name <Name>
+```
+
+等價指令：
+
+```powershell
+dotnet ef migrations add <Name> `
+  --project src/backend/ETOmniverse.Infrastructure `
+  --startup-project src/backend/ETOmniverse.Api `
+  --output-dir Persistence/Migrations
+```
+
+- `dotnet ef` 需由開發者本機安裝；若不存在，先安裝 local/global tool 後再產 migration，不手寫非空 migration。
+- Table / column 命名走 EFCore.NamingConventions；不要每張表手寫 `[Table]` 來解決 snake_case。
+- `SaveChangesAsync` 統一從 `IUnitOfWork` 進入；feature repository 不直接暴露 `DbContext.SaveChangesAsync`。
+- `IRepository<T>` 只給 aggregate root 使用；read model / query model 另建 Query/Read repository，並在 feature spec 標明 deliberate CQRS exception。
+- Repository integration test 預設用 Testcontainers MSSQL；本機 Docker 未啟動時要明確 skip 或輸出可理解錯誤，不假綠。
+
+### 已知陷阱
+
+- 此 checkout 可能遇到 `obj\*.tmp` access denied；build/test/restore 使用 `--artifacts-path $env:TEMP\et-omniverse-artifacts`。
+- 若 NuGet restore 因代理或 Schannel 問題失敗，可先建本機 offline source，再搭配 `--packages $env:TEMP\et-nuget-packages` 跑 restore；不要把個人 NuGet cache 狀態當成團隊前提。
+
 ## 寫 code（前端 / Vue）
 
 - Composition API + `<script setup lang="ts">`

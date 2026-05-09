@@ -2,7 +2,7 @@
 id: F-004
 title: HTTP outbound base
 module:
-status: draft
+status: implemented
 owner: jimmyliao
 created: 2026-05-09
 updated: 2026-05-09
@@ -10,7 +10,7 @@ supersedes:
 superseded-by:
 related-adr: []
 related-interview: []
-phase:
+phase: 04
 ---
 
 # F-004：HTTP outbound base
@@ -115,13 +115,14 @@ ET-Omniverse Phase 1 會呼叫多個外部服務：kie.ai、Gemini、大數據�
 
 ## 實作連結（完工後填）
 
-- Correlation handler：`<src/backend/ETOmniverse.Common/Http/CorrelationIdPropagationHandler.cs>`
-- Outbound logging handler：`<src/backend/ETOmniverse.Common/Http/OutboundHttpLoggingHandler.cs>`
-- Resilience registration：`<src/backend/ETOmniverse.Infrastructure/Http/HttpClientRegistrationExtensions.cs>`
-- Options model：`<src/backend/ETOmniverse.Infrastructure/Http/ExternalServiceOptions.cs>`
-- Sample port：`<src/backend/ETOmniverse.Domain/Common/Ports/ISampleEchoPort.cs>`
-- Sample client：`<src/backend/ETOmniverse.Infrastructure/ExternalServices/SampleEcho/>`
-- Tests：`<tests/backend/ETOmniverse.Infrastructure.Tests/HttpOutbound/>`
+- Correlation handler：`src/backend/ETOmniverse.Common/Http/CorrelationIdPropagationHandler.cs`
+- Outbound logging handler：`src/backend/ETOmniverse.Common/Http/OutboundHttpLoggingHandler.cs`
+- Resilience handler：`src/backend/ETOmniverse.Infrastructure/Http/ResilientHttpClientHandler.cs`
+- Resilience registration：`src/backend/ETOmniverse.Infrastructure/Http/HttpClientRegistrationExtensions.cs`
+- Options model：`src/backend/ETOmniverse.Infrastructure/Http/ExternalServiceOptions.cs`
+- Sample port：`src/backend/ETOmniverse.Domain/Common/Ports/ISampleEchoPort.cs`
+- Sample client：`src/backend/ETOmniverse.Infrastructure/ExternalServices/SampleEcho/SampleEchoClient.cs`
+- Tests：`tests/backend/ETOmniverse.Infrastructure.Tests/HttpOutbound/`
 - 主要 PR：#TBD
 
 ## 依賴決策（NuGet）
@@ -143,3 +144,4 @@ ET-Omniverse Phase 1 會呼叫多個外部服務：kie.ai、Gemini、大數據�
 | 日期 | 變更 | PR |
 |---|---|---|
 | 2026-05-09 | 初版 (status: draft) | #TBD |
+| 2026-05-09 | F-004 implemented：typed client foundation + handlers + retry/timeout + SampleEcho tests；resilience package 因本機 restore/cache 限制採共用 handler deviation | #TBD |

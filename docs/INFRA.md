@@ -47,6 +47,22 @@ docker/
 - Secret、connection string、API key 不進 repo。
 - `appsettings.*.Ops.json` 只放部署差異，不放 feature 行為邏輯。
 
+### External service config
+
+*F-004 落地後生效（per `docs/specs/F-004-http-outbound-base.md`）。*
+
+`ExternalServices:*` 是 outbound HTTP typed client 的設定根節點。repo 內只允許 schema / placeholder；真實 endpoint、API key、token 一律走 `appsettings.{Environment}.Ops.json`、environment variables 或 user-secrets。
+
+| Key | 用途 | 預設值 | Secret | 影響 |
+|---|---|---|---|---|
+| `ExternalServices:SampleEcho:BaseUrl` | Sample typed client 測試 pipeline 用 base URL | `http://localhost` placeholder | 否（真實服務 URL 視環境可能敏感，Ops 覆蓋） | typed client startup validation / BaseAddress |
+| `ExternalServices:*:TimeoutSeconds` | outbound timeout | `10` | 否 | 超時後回 `Result<T>` failure |
+| `ExternalServices:*:Retry:MaxAttempts` | transient retry 次數 | `3` | 否 | 只 retry timeout、5xx、408、429 |
+| `ExternalServices:*:Retry:BaseDelayMs` | exponential backoff 起始延遲 | `200` | 否 | retry 間隔 |
+| `ExternalServices:*:CircuitBreaker:Enabled` | circuit breaker 開關預留 | `false` | 否 | Day 1 不啟用 |
+
+Day 1 implementation note：原 spec 優先採 `Microsoft.Extensions.Http.Resilience`；目前本機 package/cache 不存在且 restore 受限，因此 F-004 先用共用 `ResilientHttpClientHandler` 實作同等 timeout/retry 行為。未來若引入官方 resilience pipeline，必須保留既有測試語意。
+
 ## 環境矩陣
 
 | 環境 | API Environment | Primary DB | Vector DB | Redis/Queue | Web | 用途 |
@@ -61,6 +77,21 @@ docker/
 - MSSQL 是 transactional source of truth，EF Core 10 migrations 只管理 MSSQL schema。
 - Qdrant 暫不啟用；Phase 2/RAG 需求確認後再新增 vector DB adapter、compose service、snapshot runbook。
 - local infra 至少要有 `mssql-data`、`redis-data`、`seq-data` 三個 volume。
+
+### MSSQL / EF Core config
+
+*F-005 落地後生效（per `docs/specs/F-005-persistence-foundation.md`）。*
+
+| Key | 用途 | Repo 預設值 | Secret | 影響 |
+|---|---|---|---|---|
+| `ConnectionStrings:Default` | API transactional MSSQL connection string | local placeholder with trusted connection | 是（真實帳密 / host 不進 repo） | API startup、EF Core DbContext、ready health check、migration CLI |
+
+規則：
+
+- 真實 lab / staging / production connection string 只能放 `appsettings.{Environment}.Ops.json`、environment variables 或 user-secrets。
+- API startup 會在 `ConnectionStrings:Default` 缺失時 fail fast；錯誤訊息不得輸出密碼。
+- EF Core migration assembly 固定為 `ETOmniverse.Infrastructure`。
+- 本 phase 不自動對開發者 local DB 執行 `database update`；需要本機套 migration 時，由開發者明確執行 `dotnet ef database update`。
 
 ## Observability Staging
 

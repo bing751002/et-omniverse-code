@@ -15,8 +15,8 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 1: Frontend Login Demo** - 跑完一輪完整 GSD 流程並產出 login → welcome 前端 demo，驗證 SDD spec、governance hook 與 GSD 工具棧可在此 repo 端到端運作 (completed 2026-04-XX)
 - [x] **Phase 2: Backend Logging Foundation** - 共用 log 基礎建設（Serilog JSON console + CorrelationId + request log middleware + masking），落地 F-002 spec、為後續 HTTP / DB / 模組開發提供 LogContext 基礎 (completed 2026-05-09)
 - [x] **Phase 3: HTTP inbound base** - 建立 inbound API contract foundation（Result<T> / ErrorKind → ProblemDetails、global exception handler、FluentValidation endpoint filter、Ping sample、CORS / OpenAPI policy），對應 F-003 (completed 2026-05-09)
-- [ ] **Phase 4: HTTP outbound base** - 建立 outbound HTTP typed client foundation（IHttpClientFactory、CorrelationId propagation、latency/status logging、timeout/retry resilience、sample typed client），對應 F-004
-- [ ] **Phase 5: Persistence foundation** - 建立 MSSQL / EF Core persistence foundation（DbContext skeleton、baseline migration、UoW / repository base、Testcontainers MSSQL fixture、seed boundary），對應 F-005
+- [x] **Phase 4: HTTP outbound base** - 建立 outbound HTTP typed client foundation（IHttpClientFactory、CorrelationId propagation、latency/status logging、timeout/retry resilience、sample typed client），對應 F-004 (completed 2026-05-09)
+- [x] **Phase 5: Persistence foundation** - 建立 MSSQL / EF Core persistence foundation（DbContext skeleton、baseline migration、UoW / repository base、Testcontainers MSSQL fixture、seed boundary），對應 F-005 (completed 2026-05-09)
 
 ## Phase Details
 
@@ -47,8 +47,8 @@ Phases execute in numeric order: 1, 2, 3, 4, 5
 | 1. Frontend Login Demo | 3/3 | Complete   | 2026-04-XX |
 | 2. Backend Logging Foundation | 6/5 | Complete   | 2026-05-09 |
 | 3. HTTP inbound base | 6/5 | Complete   | 2026-05-09 |
-| 4. HTTP outbound base | 0/5 | Planned | - |
-| 5. Persistence foundation | 0/5 | Planned | - |
+| 4. HTTP outbound base | 5/5 | Complete | 2026-05-09 |
+| 5. Persistence foundation | 5/5 | Complete | 2026-05-09 |
 
 ### Phase 2: Backend Logging Foundation
 
@@ -87,14 +87,14 @@ Plans:
 **Spec**: `docs/specs/F-004-http-outbound-base.md`
 **Requirements**: AC-1, AC-2, AC-3, AC-4, AC-5, AC-6, AC-7, AC-8
 **Depends on:** Phase 3
-**Plans:** 5 plans
+**Plans:** 5/5 plans complete
 
 Plans:
-- [ ] 04-01-PLAN.md — Contracts/options/DI foundation（Domain SampleEcho port、ExternalServiceOptions、package refs、config validation、F-004 status: draft → approved → implementing）(AC-1, AC-6)
-- [ ] 04-02-PLAN.md — Outbound handlers（CorrelationId propagation + latency/status structured logging + secret-safe log assertions）(AC-2, AC-4)
-- [ ] 04-03-PLAN.md — Resilience pipeline（Microsoft.Extensions.Http.Resilience timeout/retry/backoff、non-retry 4xx、disabled circuit breaker default）(AC-3, AC-6)
-- [ ] 04-04-PLAN.md — SampleEcho typed client（test-only fake server、Result<T> failure mapping、200/400/500/timeout coverage）(AC-1, AC-2, AC-3, AC-4, AC-5, AC-7)
-- [ ] 04-05-PLAN.md — Docs/spec closeout（ExternalServices config docs、secret grep、build/test smoke、F-004 implemented、phase summary）(AC-6, AC-8)
+- [x] 04-01-PLAN.md — Contracts/options/DI foundation（Domain SampleEcho port、ExternalServiceOptions、package refs、config validation、F-004 status: draft → approved → implementing）(AC-1, AC-6)
+- [x] 04-02-PLAN.md — Outbound handlers（CorrelationId propagation + latency/status structured logging + secret-safe log assertions）(AC-2, AC-4)
+- [x] 04-03-PLAN.md — Resilience pipeline（timeout/retry/backoff、non-retry 4xx、disabled circuit breaker default；implementation uses ResilientHttpClientHandler deviation）(AC-3, AC-6)
+- [x] 04-04-PLAN.md — SampleEcho typed client（test-only fake server、Result<T> failure mapping、200/400/500/timeout coverage）(AC-1, AC-2, AC-3, AC-4, AC-5, AC-7)
+- [x] 04-05-PLAN.md — Docs/spec closeout（ExternalServices config docs、secret grep、build/test smoke、F-004 implemented、phase summary）(AC-6, AC-8)
 
 ### Phase 5: Persistence foundation
 
@@ -102,11 +102,11 @@ Plans:
 **Spec**: `docs/specs/F-005-persistence-foundation.md`
 **Requirements**: AC-1, AC-2, AC-3, AC-4, AC-5, AC-6, AC-7, AC-8, AC-9, AC-10
 **Depends on:** Phase 4
-**Plans:** 5 plans
+**Plans:** 5/5 plans complete
 
 Plans:
-- [ ] 05-01-PLAN.md — EF/MSSQL skeleton（package refs、partial DbContext、design-time factory、DI、ready health check、F-005 status: draft → approved → implementing）(AC-1, AC-2, AC-3)
-- [ ] 05-02-PLAN.md — Naming + baseline migration（snake_case/plural convention、empty InitialBaseline、migration CLI script/docs）(AC-4, AC-5, AC-6)
-- [ ] 05-03-PLAN.md — Repository/UoW foundation（IAggregateRoot、IRepository<T>、IUnitOfWork、RepositoryBase、UnitOfWork）(AC-7)
-- [ ] 05-04-PLAN.md — Testcontainers MSSQL fixture（container migrate + sample aggregate CRUD + Docker unavailable behavior）(AC-8, AC-4, AC-7)
-- [ ] 05-05-PLAN.md — Seed/docs/spec closeout（dev seed vs prod migration data、build/test smoke、F-005 implemented、phase summary）(AC-9, AC-10)
+- [x] 05-01-PLAN.md — EF/MSSQL skeleton（package refs、partial DbContext、design-time factory、DI、ready health check、F-005 status: draft → approved → implementing）(AC-1, AC-2, AC-3)
+- [x] 05-02-PLAN.md — Naming + baseline migration（snake_case/plural convention、empty InitialBaseline、migration CLI script/docs）(AC-4, AC-5, AC-6)
+- [x] 05-03-PLAN.md — Repository/UoW foundation（IAggregateRoot、IRepository<T>、IUnitOfWork、RepositoryBase、UnitOfWork）(AC-7)
+- [x] 05-04-PLAN.md — Testcontainers MSSQL fixture（container migrate + sample aggregate CRUD + Docker unavailable behavior）(AC-8, AC-4, AC-7)
+- [x] 05-05-PLAN.md — Seed/docs/spec closeout（dev seed vs prod migration data、build/test smoke、F-005 implemented、phase summary）(AC-9, AC-10)

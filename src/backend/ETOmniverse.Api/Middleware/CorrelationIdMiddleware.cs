@@ -2,13 +2,14 @@ namespace ETOmniverse.Api.Middleware;
 
 using System;
 using System.Threading.Tasks;
+using ETOmniverse.Common.Http;
 using Microsoft.AspNetCore.Http;
 using Serilog.Context;
 
 public sealed class CorrelationIdMiddleware
 {
-    public const string HeaderName = "X-Correlation-Id";
-    public const string LogProperty = "CorrelationId";
+    public const string HeaderName = CorrelationIdConstants.HeaderName;
+    public const string LogProperty = CorrelationIdConstants.LogProperty;
 
     private readonly RequestDelegate _next;
     public CorrelationIdMiddleware(RequestDelegate next) => _next = next;
