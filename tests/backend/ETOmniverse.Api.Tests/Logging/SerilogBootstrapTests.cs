@@ -16,8 +16,8 @@ public class SerilogBootstrapTests
         await using var factory = new LoggingTestWebAppFactory();
         var client = factory.CreateClient();
 
-        // 觸發任一 request 確保 startup log + request log 都產出
-        _ = await client.GetAsync("/health");
+        // 觸發非 /health endpoint 確保 request log 產出（/health 被 RequestLoggingMiddleware 排除）
+        _ = await client.GetAsync("/test/echo");
 
         factory.Sink.LogEvents.Should().NotBeEmpty();
 
