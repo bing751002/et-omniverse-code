@@ -166,7 +166,7 @@ LLM 寫文件時必守：
 | 機制 | 檔案 | 行為 |
 |---|---|---|
 | MR template | `.gitlab/merge_request_templates/Default.md` | GitLab merge request 預設模板 |
-| PR fallback template | `.gitea/PULL_REQUEST_TEMPLATE.md` / `.github/pull_request_template.md` | 非 GitLab 平台備用 |
+| PR fallback template | `.github/pull_request_template.md` | 非 GitLab 平台備用 |
 | pre-commit hook | `.githooks/pre-commit` | commit 前跑文件治理檢查 |
 | CI stage | `ci/jenkins/Jenkinsfile` | Jenkins 跑 `check-doc-governance.py` + `check-spec-links.py` |
 | 檢查腳本 | `scripts/check-doc-governance.py` | code / infra / auth / ADR 變更必須同步文件或提出 no-doc rationale |
