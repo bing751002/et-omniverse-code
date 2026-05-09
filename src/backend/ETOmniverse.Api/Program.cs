@@ -24,6 +24,10 @@ try
     // 不在 builder 階段判斷是因為 WAF integration test 需要在 CreateHost 階段才覆蓋 appsettings
     builder.Services.AddHostedService<ETOmniverse.Common.Logging.LoggingHeartbeatHostedService>();
 
+    // F-003 AC-2: GlobalExceptionHandler — 走內建 IExceptionHandler 路線（per CONTEXT D-B1）
+    builder.Services.AddExceptionHandler<ETOmniverse.Api.Middleware.GlobalExceptionHandler>();
+    builder.Services.AddProblemDetails(); // 啟用 RFC 7807 ProblemDetails 預設機制
+
     var app = builder.Build();
 
     if (app.Environment.IsDevelopment())
@@ -34,6 +38,10 @@ try
     // F-002: CorrelationIdMiddleware 必須早於 RequestLoggingMiddleware（spec 硬規則）
     app.UseMiddleware<CorrelationIdMiddleware>();
     app.UseMiddleware<RequestLoggingMiddleware>();
+
+    // F-003 AC-2/AC-4: ExceptionHandler 必須在 CorrelationIdMiddleware 之後（traceId 才能讀到）；
+    // 放在 RequestLoggingMiddleware 之後讓 RequestLoggingMiddleware 仍能記 Error 級 summary log
+    app.UseExceptionHandler();
 
     app.MapETOmniverseHealthEndpoints();
 
