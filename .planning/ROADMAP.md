@@ -14,6 +14,9 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [ ] **Phase 1: Frontend Login Demo** - 跑完一輪完整 GSD 流程並產出 login → welcome 前端 demo，驗證 SDD spec、governance hook 與 GSD 工具棧可在此 repo 端到端運作
 - [x] **Phase 2: Backend Logging Foundation** - 共用 log 基礎建設（Serilog JSON console + CorrelationId + request log middleware + masking），落地 F-002 spec、為後續 HTTP / DB / 模組開發提供 LogContext 基礎 (completed 2026-05-09)
+- [ ] **Phase 3: HTTP inbound base** - 建立 inbound API contract foundation（Result<T> / ErrorKind → ProblemDetails、global exception handler、FluentValidation endpoint filter、Ping sample、CORS / OpenAPI policy），對應 F-003
+- [ ] **Phase 4: HTTP outbound base** - 建立 outbound HTTP typed client foundation（IHttpClientFactory、CorrelationId propagation、latency/status logging、timeout/retry resilience、sample typed client），對應 F-004
+- [ ] **Phase 5: Persistence foundation** - 建立 MSSQL / EF Core persistence foundation（DbContext skeleton、baseline migration、UoW / repository base、Testcontainers MSSQL fixture、seed boundary），對應 F-005
 
 ## Phase Details
 
@@ -43,6 +46,9 @@ Phases execute in numeric order: 1, 2
 |-------|----------------|--------|-----------|
 | 1. Frontend Login Demo | 0/3 | Not started | - |
 | 2. Backend Logging Foundation | 6/5 | Complete   | 2026-05-09 |
+| 3. HTTP inbound base | 0/0 | Not planned | - |
+| 4. HTTP outbound base | 0/0 | Not planned | - |
+| 5. Persistence foundation | 0/0 | Not planned | - |
 
 ### Phase 2: Backend Logging Foundation
 
@@ -64,3 +70,33 @@ Plans:
 - Wave 2: 02-02, 02-03 (兩 plan 都僅 depends_on 02-01；可並行，但 Program.cs 觸碰同檔，建議 sequential commit)
 - Wave 3: 02-04 (純文件 / infra / CI；不動 src/backend code，可與 wave 2 並行)
 - Wave 4: 02-05 (嚴格依賴前 4 plan 全部 done — 跑 dotnet build/test smoke + status flip 收尾)
+
+### Phase 3: HTTP inbound base
+
+**Goal:** [To be planned]
+**Requirements**: TBD
+**Depends on:** Phase 2
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (run /gsd-plan-phase 3 to break down)
+
+### Phase 4: HTTP outbound base
+
+**Goal:** [To be planned]
+**Requirements**: TBD
+**Depends on:** Phase 3
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (run /gsd-plan-phase 4 to break down)
+
+### Phase 5: Persistence foundation
+
+**Goal:** [To be planned]
+**Requirements**: TBD
+**Depends on:** Phase 4
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (run /gsd-plan-phase 5 to break down)

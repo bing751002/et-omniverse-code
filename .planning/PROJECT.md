@@ -1,5 +1,7 @@
 # ET-Omniverse v2
 
+> **Milestone v1.0 範圍演進說明（2026-05-09）**：原本 v1.0 只規劃 Phase 01 frontend login demo（process validation），Phase 02 完成後使用者擴張範圍把 backend foundation（Phase 02 logging + Phase 03 HTTP inbound + Phase 04 HTTP outbound + Phase 05 Persistence）全納入 v1.0。當前 milestone 定位 = **GSD/SDD process validation + backend foundation**。
+
 ## What This Is
 
 東森（EHSN）內部的 7-step 排播平台 v2。greenfield .NET modular monolith（.NET 10 / EF Core 10 / MSSQL / Quartz.NET）+ Vue 3 前端，鎖定節目部 / 編輯部 / 行銷部跨部門協作流程：建批次 → 商品挑選 → 受眾分眾 → AI VCR 生成 → 行銷物料 → 排播 → 通知 / 共編。
@@ -34,14 +36,14 @@
 
 #### 此 milestone 排除
 
-- 後端業務 API（任何 .NET 業務 endpoint） — 之後 phase 才碰，此 milestone 只做共用基建（Phase 02 logging foundation 已落地）
+- 後端業務 API（任何 .NET 業務 endpoint） — 留給 v1.1+ 業務 milestone，v1.0 只做共用基建（Phase 02 logging + Phase 03 HTTP inbound + Phase 04 HTTP outbound + Phase 05 Persistence foundation）
 - 真實 auth（JWT / session / user store / RBAC） — D14 推到 Phase 2，此 milestone 連 demo 都不做假版
 - Auth state 模擬（router guard / localStorage `fakeLoggedIn`） — 用最簡的 `router.push`，避免 demo 雜訊
 - 視覺設計系統 / design tokens — 用 Vue/CSS 預設，不抽元件
 - Form validation（必填 / email 格式） — 純 UI 跳轉，欄位內容無意義
 - 跨 browser / 響應式 / a11y 嚴格驗證 — dogfood 不做，未來 phase 再補
 - 部署（Docker compose / Jenkins build） — 本機跑得起來即可
-- 多個 phase — 此 milestone 只跑 1 個 phase 一次完整循環
+- ~~多個 phase — 此 milestone 只跑 1 個 phase 一次完整循環~~ **(已失效 2026-05-09：milestone 範圍擴張為 backend foundation v1.0，Phase 02-05 全部納入)**
 
 #### 整個 Phase 1 排除（從 README）
 
@@ -105,4 +107,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-05-09 after Phase 02 verification passed*
+*Last updated: 2026-05-09 after milestone v1.0 scope expanded to include Phase 03/04/05 (HTTP inbound / outbound / persistence)*
