@@ -16,6 +16,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\src\backend\ETOmniverse.Infrastructure\ETOmniverse.Infrastructure.csproj" />
+    <ProjectReference Include="..\ETOmniverse.TestSupport\ETOmniverse.TestSupport.csproj" />
   </ItemGroup>
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
