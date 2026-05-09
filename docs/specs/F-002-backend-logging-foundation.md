@@ -2,7 +2,7 @@
 id: F-002
 title: Backend logging foundation (Serilog + CorrelationId)
 module:
-status: implementing
+status: implemented
 owner: jimmyliao
 created: 2026-05-09
 updated: 2026-05-09
@@ -232,3 +232,4 @@ CONVENTIONS.md 規定加 NuGet 前要先評估必要性。本 spec 引入：
 | 2026-05-09 | status: approved → implementing（02-01-PLAN Cluster A+D 落地） | #TBD |
 | 2026-05-09 | In scope 段 docker-compose.yml 字面對齊到 overlay 路徑（docker/compose/base.{api,web}.yml）— spec drift fix，與 .ps1→.py 同類，scope 不變 | #TBD |
 | 2026-05-09 | 實作連結填實（02-01 ~ 02-04 全部落地） | #TBD |
+| 2026-05-09 | status: implementing → implemented（Phase 2 完成、所有 11 條 AC 機械驗收通過） | #TBD |
