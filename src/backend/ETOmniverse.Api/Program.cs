@@ -14,7 +14,17 @@ try
 
     builder.Host.UseSerilog(SerilogSetup.Configure);
 
-    builder.Services.AddOpenApi();
+    // F-003 AC-6: OpenAPI metadata（title / version / description），document name "v1"
+    builder.Services.AddOpenApi("v1", options =>
+    {
+        options.AddDocumentTransformer((document, context, ct) =>
+        {
+            document.Info.Title = "ET-Omniverse API";
+            document.Info.Version = "v1";
+            document.Info.Description = "ET-Omniverse inbound HTTP API（F-003 inbound base）";
+            return Task.CompletedTask;
+        });
+    });
     builder.Services.AddHealthChecks();
     builder.Services.AddETOmniverseInfrastructure(builder.Configuration);
 
@@ -33,9 +43,35 @@ try
     // F-003 AC-3: FluentValidation assembly scanning（per CONTEXT D-C2）
     builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 
+    // F-003 AC-5: CORS policy — Dev allow-all / Prod 白名單 / 未設定 fail-closed
+    // 注意：AllowedOrigins 在 AddPolicy lambda 內 resolve（lambda 在 CORS service build 時才呼叫，
+    // WAF 透過 ConfigureAppConfiguration 注入的 in-memory source 此時已 merge 完成；
+    // 若在 service registration 階段讀 builder.Configuration，WAF 覆蓋尚未套用會抓不到 allowlist）
+    builder.Services.AddCors(options =>
+    {
+        options.AddPolicy("Default", policy =>
+        {
+            if (builder.Environment.IsDevelopment())
+            {
+                policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+            }
+            else
+            {
+                var corsAllowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? Array.Empty<string>();
+                if (corsAllowedOrigins.Length > 0)
+                {
+                    policy.WithOrigins(corsAllowedOrigins).AllowAnyMethod().AllowAnyHeader();
+                }
+                // else: 不加 rule → fail-closed（cross-origin 不會收到 Access-Control-Allow-Origin header）
+            }
+        });
+    });
+
     var app = builder.Build();
 
-    if (app.Environment.IsDevelopment())
+    // F-003 AC-6: OpenAPI policy — config 為主，未設則 fallback IsDevelopment（Production 預設 false fail-closed）
+    var openApiEnabled = builder.Configuration.GetValue<bool?>("OpenApi:Enabled") ?? app.Environment.IsDevelopment();
+    if (openApiEnabled)
     {
         app.MapOpenApi();
     }
@@ -47,6 +83,9 @@ try
     // F-003 AC-2/AC-4: ExceptionHandler 必須在 CorrelationIdMiddleware 之後（traceId 才能讀到）；
     // 放在 RequestLoggingMiddleware 之後讓 RequestLoggingMiddleware 仍能記 Error 級 summary log
     app.UseExceptionHandler();
+
+    // F-003 AC-5: 必須在 ExceptionHandler 之後、endpoint 之前
+    app.UseCors("Default");
 
     app.MapETOmniverseHealthEndpoints();
 
