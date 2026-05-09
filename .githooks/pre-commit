@@ -37,3 +37,9 @@ if echo "$STAGED" | grep -qE '^src/backend/.*\.cs$'; then
     echo "[pre-commit] scanning forbidden DateTime APIs in src/backend/..."
     python scripts/check-no-datetime-now.py --staged
 fi
+
+# 6. F-007 AC-C6: test endpoint namespace + Features/Test/ consistency
+if echo "$STAGED" | grep -qE '^src/backend/.*\.cs$'; then
+    echo "[pre-commit] scanning test endpoint namespace consistency..."
+    python scripts/check-test-endpoints.py --staged
+fi
