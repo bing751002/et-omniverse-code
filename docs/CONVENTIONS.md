@@ -281,6 +281,45 @@ Refs: F-001 AC-1 ~ AC-3
 - **不掛 UserId enricher**：F-002 不掛；Identity 模組（D14）落地時加，並列為 Identity 自身的 AC
 - **業務 metric 不走 log sink**：VCR 用量、批次完成率等業務 metric 走 MSSQL（per 既有「已知陷阱」表）
 
+## Time handling — TimeProvider mandate
+
+*F-007 落地後生效（per `docs/specs/F-007-testability-foundation.md`、`docs/decisions/D-20-timeprovider-mandatory.md`）。*
+
+Per D-20，所有 production code（`src/backend/**`）**禁止**直接呼叫：
+
+- `DateTime.Now` / `DateTime.UtcNow`
+- `DateTimeOffset.Now` / `DateTimeOffset.UtcNow`
+
+一律走 DI 注入的 `TimeProvider`：
+
+```csharp
+public class ScheduleService(TimeProvider timeProvider)
+{
+    public DateTimeOffset Now() => timeProvider.GetUtcNow();
+}
+```
+
+測試端注入 `Microsoft.Extensions.Time.Testing.FakeTimeProvider`：
+
+```csharp
+var time = new FakeTimeProvider(DateTimeOffset.Parse("2026-01-01Z"));
+time.Advance(TimeSpan.FromHours(2));
+```
+
+### 例外與 rationale-bypass
+
+極少數場景（DB `defaultValueSql=GETUTCDATE()`、log enricher metadata）允許豁免。
+inline 標 `// allow: <reason>`（per D-18），例：
+
+```csharp
+var now = DateTime.UtcNow; // allow: enricher metadata, not business logic
+```
+
+### CI 守門
+
+`scripts/check-no-datetime-now.py` 掃 `src/backend/**/*.cs`（排除 `Migrations/`、`bin/`、`obj/`），
+命中即 `exit 1`。pre-commit hook 已串接，違規無法 commit。
+
 ## 詞彙
 
 詳見 [`GLOSSARY.md`](GLOSSARY.md)。

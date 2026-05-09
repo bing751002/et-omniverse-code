@@ -28,6 +28,8 @@ try
             return Task.CompletedTask;
         });
     });
+    // F-007 AC-A1 / D-20: TimeProvider 全棧強制 — 所有業務 code 走 DI 取得 TimeProvider
+    builder.Services.AddSingleton(TimeProvider.System);
     builder.Services.AddHealthChecks();
     builder.Services.AddETOmniverseInfrastructure(builder.Configuration);
 
