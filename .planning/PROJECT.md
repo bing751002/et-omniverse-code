@@ -24,15 +24,17 @@
 - [x] **UI-03**: `pnpm dev` 起得來、瀏覽器可手動操作完整 login → welcome 跳轉（manual UAT 2026-05-09 5/5 pass）— Validated in Phase 01
 - [x] **DOC-01**: 給 team 的 walkthrough 素材（`.planning/phases/01-frontend-login-demo/WALKTHROUGH.md` 9-section pointer）— Validated in Phase 01
 
-### Active
+#### Phase 02 — Backend Logging Foundation (complete 2026-05-09)
 
-(None — milestone v1.0 唯一 phase 已驗收，等 `/gsd:complete-milestone` 收尾)
+- [x] **F-002 / AC-1..AC-11**: Serilog JSON sink + CorrelationId/RequestLogging middleware + masking + IBackgroundCorrelationScope + LoggingHeartbeatHostedService + ICurrentUser port + CONVENTIONS/INFRA docs + check-no-console-write CI guard — Validated in Phase 02（11/11 ACs，36 tests pass，spec status `implemented`）
+
+### Active
 
 ### Out of Scope
 
 #### 此 milestone 排除
 
-- 後端 API（任何 .NET endpoint） — Phase 2 才碰，此 milestone 純前端 dogfood
+- 後端業務 API（任何 .NET 業務 endpoint） — 之後 phase 才碰，此 milestone 只做共用基建（Phase 02 logging foundation 已落地）
 - 真實 auth（JWT / session / user store / RBAC） — D14 推到 Phase 2，此 milestone 連 demo 都不做假版
 - Auth state 模擬（router guard / localStorage `fakeLoggedIn`） — 用最簡的 `router.push`，避免 demo 雜訊
 - 視覺設計系統 / design tokens — 用 Vue/CSS 預設，不抽元件
@@ -103,4 +105,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-05-09 after Phase 01 verification passed*
+*Last updated: 2026-05-09 after Phase 02 verification passed*
