@@ -18,7 +18,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 4: HTTP outbound base** - 建立 outbound HTTP typed client foundation（IHttpClientFactory、CorrelationId propagation、latency/status logging、timeout/retry resilience、sample typed client），對應 F-004 (completed 2006-05-09)
 - [x] **Phase 5: Persistence foundation** - 建立 MSSQL / EF Core persistence foundation（DbContext skeleton、baseline migration、UoW / repository base、Testcontainers MSSQL fixture、seed boundary），對應 F-005 (completed 2006-05-09)
 - [x] **Phase 6: Test-mode authentication** - env-guarded TestAuthenticationHandler + `X-Test-User` / `X-Test-Roles` header + Production hard-fail，讓 v1.1+ 業務 phase 可對 `[Authorize]` endpoint 寫 integration / E2E test，對應 F-006 / D-19 (completed 2006-05-09)
-- [ ] **Phase 7: Testability foundation** - TimeProvider 強制 (D-20) + Respawn / TransactionalTestBase / MsSqlContainerFixture (D-21) + `/api/test/*` namespace 集中註冊 + Production hard-fail (D-22)，對應 F-007
+- [x] **Phase 7: Testability foundation** - TimeProvider 強制 (D-20) + Respawn / TransactionalTestBase / MsSqlContainerFixture (D-21) + `/api/test/*` namespace 集中註冊 + Production hard-fail (D-22)，對應 F-007 (completed 2006-05-09)
 
 ## Phase Details
 
@@ -52,7 +52,7 @@ Phases execute in numeric order: 1, 2, 3, 4, 5, 6, 7
 | 4. HTTP outbound base | 5/5 | Complete | 2006-05-09 |
 | 5. Persistence foundation | 5/5 | Complete | 2006-05-09 |
 | 6. Test-mode authentication | 4/4 | Complete | 2006-05-09 |
-| 7. Testability foundation | 2/5 | In progress | — |
+| 7. Testability foundation | 5/5 | Complete | 2006-05-09 |
 
 ### Phase 2: Backend Logging Foundation
 
@@ -148,4 +148,4 @@ Plans:
 - [x] 07-02-PLAN.md — B 區塊基建 (MsSqlContainerFixture + DatabaseCollection + Respawn/Testcontainers.MsSql pkg 加入 + 兩 class 共用 container smoke) (AC-B1, B4, B5)
 - [x] 07-03-PLAN.md — B 區塊執行 (RespawnDatabaseReset + TransactionalTestBase + 50-fact 速度 smoke + __EFMigrationsHistory 保留整合測) (AC-B2, B3, B6)
 - [x] 07-04-PLAN.md — C 區塊 (MapTestOnlyEndpointsExtensions + Program.cs 重構 + Production hard-fail + F-002 4 file path migration + check-test-endpoints.py + pre-commit) (AC-C1, C2, C3, C4, C5, C6, C7)
-- [ ] 07-05-PLAN.md — 收尾 (dotnet build/test solution 全綠 + F-007 status implementing -> implemented + 實作連結填實 + Phase 07 PHASE-SUMMARY) (AC-D1, D2, D3)
+- [x] 07-05-PLAN.md — 收尾 (dotnet build/test solution 全綠 + F-007 status implementing -> implemented + 實作連結填實 + Phase 07 PHASE-SUMMARY) (AC-D1, D2, D3)
