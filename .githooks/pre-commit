@@ -25,3 +25,9 @@ fi
 # 3. Documentation governance
 echo "[pre-commit] enforcing doc governance..."
 python scripts/check-doc-governance.py --staged
+
+# 4. F-002 AC-8: forbidden console / Serilog.Log / Debug.WriteLine in src/backend/
+if echo "$STAGED" | grep -qE '^src/backend/.*\.cs$'; then
+    echo "[pre-commit] scanning forbidden logging APIs in src/backend/..."
+    python scripts/check-no-console-write.py --staged
+fi
