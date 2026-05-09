@@ -51,7 +51,7 @@ Phases execute in numeric order: 1, 2, 3, 4, 5, 6, 7
 | 3. HTTP inbound base | 6/5 | Complete   | 2006-05-09 |
 | 4. HTTP outbound base | 5/5 | Complete | 2006-05-09 |
 | 5. Persistence foundation | 5/5 | Complete | 2006-05-09 |
-| 6. Test-mode authentication | 0/0 | Not planned | — |
+| 6. Test-mode authentication | 0/4 | Planned | — |
 | 7. Testability foundation | 0/0 | Not planned | — |
 
 ### Phase 2: Backend Logging Foundation
@@ -121,10 +121,19 @@ Plans:
 **Spec**: `docs/specs/F-006-test-mode-authentication.md`
 **Requirements**: AC-1, AC-2, AC-3, AC-4, AC-5, AC-6, AC-7, AC-8, AC-9, AC-10
 **Depends on:** Phase 5
-**Plans:** 0 plans
+**Plans:** 4 plans
 
 Plans:
-- [ ] TBD (run /gsd:plan-phase 6 to break down)
+- [ ] 06-01-PLAN.md — Handler / Options / Defaults / AddTestAuthentication extension + unit test + F-006 status: draft → approved → implementing (AC-1, AC-2)
+- [ ] 06-02-PLAN.md — Program.cs IntegrationTest-only Authentication 註冊 + Production startup hard-fail guard + integration test (AC-7)
+- [ ] 06-03-PLAN.md — Features/Test/Auth/ fixture endpoints (whoami / admin) + 5 條 integration test (authenticated 200、no header 401、role missing 403、role match 200、X-Correlation-Id 留存) (AC-3, AC-4, AC-5, AC-6, AC-9)
+- [ ] 06-04-PLAN.md — AuthenticatedTestClientExtensions helper + spec 實作連結填實 + F-006 status: implementing → implemented + Phase 06 PHASE-SUMMARY (AC-8, AC-10)
+
+**Wave Structure:**
+- Wave 1: 06-01 (foundation — handler/options/extension 沒 dependency)
+- Wave 2: 06-02 (depends on 06-01 — Program.cs 用 AddTestAuthentication + Defaults const)
+- Wave 3: 06-03 (depends on 06-02 — fixture endpoint 需要 IntegrationTest env auth pipeline 已就緒)
+- Wave 4: 06-04 (depends on 06-03 — helper 內含 e2e smoke 打 /test/auth/admin，需要 06-03 endpoint)
 
 ### Phase 7: Testability foundation
 
