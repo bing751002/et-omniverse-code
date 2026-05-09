@@ -66,11 +66,36 @@ docker/
 
 | 階段 | 做法 |
 |---|---|
-| Day 1 | Serilog JSON + CorrelationId + console/file sink |
+| Day 1 | Serilog JSON + CorrelationId + console sink only + docker json-file rotation |
 | P1.x | 加 Seq 或簡單 log sink，方便本機與 lab 查 log |
 | P1.6+ | EFK / Fluent Bit；必要時再加 Prometheus/Grafana |
 
 不把業務 metric（例如 VCR 用量、批次完成率）塞進 Prometheus；業務報表走 MSSQL。
+
+### Day 1 log retention policy
+
+*F-002 落地後生效（per `docs/specs/F-002-backend-logging-foundation.md`）。*
+
+**App 端**：
+- 只寫 console JSON sink（CLEF / `RenderedCompactJsonFormatter`）
+- **不**做 in-app file sink — 避免 fluent-bit 上線後雙寫、host 權限糾纏
+- 啟動異常透過 `BootstrapLogger` 落 stderr，不靜默
+
+**Compose 端**：
+- 對 `api` / `web` service 設 `logging.driver: json-file` + `options.max-size: 50m` + `options.max-file: "5"`
+- 設定位置：`docker/compose/base.api.yml` 與 `docker/compose/base.web.yml`（overlay；root `docker/docker-compose.yml` 用 `include` 串）
+- 避免 container log 撐爆 host 磁碟
+
+**限制聲明（重要）**：
+- docker `json-file` rotation 是 **size-based 不是 time-based**
+- **不保證**「保留一週」或任何時間級別追查能力（log 量大可能幾小時就轉走）
+- **staging / lab 若需固定保留 N 天日誌，P1.x 必須提前上 Seq 或其他 log collector**
+- 不能假裝 docker rotation 撐得到 P1.6 EFK 才上來
+
+**Seq schema hook**：
+- `docker/docker-compose.infra.yml` 的 `seq` service 保留
+- API 端 Day 1 不掛 Seq sink
+- P1.x 開啟時改 `appsettings` 即可（schema 已預留）
 
 ## CI/CD Staging
 

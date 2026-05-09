@@ -215,6 +215,26 @@ Refs: F-001 AC-1 ~ AC-3
 - **避免**：同步 I/O（全 async）
 - **避免**：在 controller / endpoint 內寫業務邏輯（要進 UseCase）
 
+## Logging
+
+*F-002 落地後生效（per `docs/specs/F-002-backend-logging-foundation.md`）。*
+
+- **業務 code 唯一入口**：`Microsoft.Extensions.Logging.ILogger<T>`（透過 DI 注入）
+- **禁直接呼叫**：
+  - `Serilog.Log.*`（用 `ILogger<T>`）
+  - `Console.WriteLine`（bootstrap 階段用 `BootstrapLogger`，其他不可）
+  - `Debug.WriteLine`
+  - 例外：`src/backend/ETOmniverse.Common/Logging/BootstrapLogger.cs` 自身
+  - CI 強制：`scripts/check-no-console-write.py`（pre-commit hook 已串接）
+- **禁自寫 `LogContext.PushProperty(...)`**：
+  - HTTP 請求 → 走 `CorrelationIdMiddleware`
+  - 背景任務 → 走 `IBackgroundCorrelationScope.Begin()`
+  - 共用 property（AppName / EnvironmentName / AppVersion / MachineName）→ 走 enricher（`SerilogSetup` 已掛）
+- **Log message 用 structured template**：`logger.LogInformation("User {UserId} did {Action}", id, action)`
+  - 禁字串內插（`logger.LogInformation($"User {id} did {action}")`），會破壞 structured log
+- **不掛 UserId enricher**：F-002 不掛；Identity 模組（D14）落地時加，並列為 Identity 自身的 AC
+- **業務 metric 不走 log sink**：VCR 用量、批次完成率等業務 metric 走 MSSQL（per 既有「已知陷阱」表）
+
 ## 詞彙
 
 詳見 [`GLOSSARY.md`](GLOSSARY.md)。

@@ -109,9 +109,9 @@ F-002 Logging foundation ─┬─→ F-003 HTTP inbound base （middleware 要 
     - **限制聲明**：docker json-file rotation 是 **size-based 不是 time-based**，**不保證**「保留一週」或任何時間級別追查能力。staging / lab 若需固定保留 N 天日誌，**P1.x 必須提前**上 Seq 或其他 log collector，不能假裝 docker rotation 撐得到 P1.6 EFK 才上來
   - 加註：`docker/docker-compose.infra.yml` 的 `seq` service 保留，但 API 端 Day 1 不掛 Seq sink；P1.x 開啟時改 appsettings 即可
 
-- **`docker-compose.yml` 修正**（同 PR）
-  - 對 `api` service 加 `logging.driver: json-file` + `options.max-size: 50m` + `options.max-file: "5"`
-  - 對 `web` service 同樣設定（雖然 nginx access log 已分開，container log 也要 cap）
+- **docker compose overlay 修正（`docker/compose/base.{api,web}.yml`）**（同 PR）
+  - 對 `docker/compose/base.api.yml` 的 `api` service 加 `logging.driver: json-file` + `options.max-size: 50m` + `options.max-file: "5"`
+  - 對 `docker/compose/base.web.yml` 的 `web` service 同樣設定（雖然 nginx access log 已分開，container log 也要 cap）
   - 不改 `docker-compose.infra.yml`（infra 服務 mssql / redis / seq 各自有 log 行為，不在本 spec 範圍）
 
 ### Out of scope
@@ -227,3 +227,4 @@ CONVENTIONS.md 規定加 NuGet 前要先評估必要性。本 spec 引入：
 | 2026-05-09 | 初版 (status: draft) | #TBD |
 | 2026-05-09 | status: draft → approved；AC-8 / 實作連結 .ps1 → .py（per CONTEXT.md D-03，跨平台 + 既有 governance scripts 全 python） | #TBD |
 | 2026-05-09 | status: approved → implementing（02-01-PLAN Cluster A+D 落地） | #TBD |
+| 2026-05-09 | In scope 段 docker-compose.yml 字面對齊到 overlay 路徑（docker/compose/base.{api,web}.yml）— spec drift fix，與 .ps1→.py 同類，scope 不變 | #TBD |
