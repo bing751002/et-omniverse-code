@@ -2,7 +2,7 @@
 id: F-003
 title: HTTP inbound base
 module:
-status: implementing
+status: implemented
 owner: jimmyliao
 created: 2026-05-09
 updated: 2026-05-09
@@ -160,3 +160,4 @@ F-003 是所有後端 API endpoint 的 inbound 契約基礎。F-002 先落地 Co
 | 2026-05-09 | status: draft → approved（per .planning/phases/03-http-inbound-base/03-CONTEXT.md，9 條 AC + 5 plan 切分鎖定） | #TBD |
 | 2026-05-09 | status: approved → implementing（03-01-PLAN Domain 半邊落地：Result<T> + ErrorKind） | #TBD |
 | 2026-05-09 | 實作連結填實（03-01 ~ 03-04 全部落地，Domain Result<T> + ProblemDetails + Validation + Ping + CORS/OpenAPI） | #TBD |
+| 2026-05-09 | status: implementing → implemented（Phase 3 完成、所有 9 條 AC 機械驗收通過） | #TBD |
