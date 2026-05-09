@@ -1,7 +1,9 @@
 using ETOmniverse.Api.Features.Common.Health;
+using ETOmniverse.Api.Features.Common.Ping;
 using ETOmniverse.Api.Middleware;
 using ETOmniverse.Common.Logging;
 using ETOmniverse.Infrastructure.DependencyInjection;
+using FluentValidation;
 using Serilog;
 
 BootstrapLogger.Initialize();
@@ -28,6 +30,9 @@ try
     builder.Services.AddExceptionHandler<ETOmniverse.Api.Middleware.GlobalExceptionHandler>();
     builder.Services.AddProblemDetails(); // 啟用 RFC 7807 ProblemDetails 預設機制
 
+    // F-003 AC-3: FluentValidation assembly scanning（per CONTEXT D-C2）
+    builder.Services.AddValidatorsFromAssemblyContaining<Program>();
+
     var app = builder.Build();
 
     if (app.Environment.IsDevelopment())
@@ -44,6 +49,15 @@ try
     app.UseExceptionHandler();
 
     app.MapETOmniverseHealthEndpoints();
+
+    // F-003 AC-7: Common Ping sample（GET /api/common/ping、POST /api/common/ping/echo）
+    app.MapPingEndpoints();
+
+    // F-003 AC-7: ping/fail 僅 IntegrationTest 環境註冊（沿用 Phase 02 環境 guard 模式）
+    if (app.Environment.IsEnvironment("IntegrationTest"))
+    {
+        app.MapPingFailEndpoint();
+    }
 
     // F-002 AC-3 B2: IntegrationTest 環境限定的測試 endpoint（5xx 機械驗證用）
     if (app.Environment.IsEnvironment("IntegrationTest"))

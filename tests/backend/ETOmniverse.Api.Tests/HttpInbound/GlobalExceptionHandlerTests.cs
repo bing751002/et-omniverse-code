@@ -19,7 +19,13 @@ using Xunit;
 /// (c) response 不外洩 stack trace / exception.Message
 /// (d) Error 級 log + CorrelationId property
 /// LoggingTestWebAppFactory 預設已 UseEnvironment("IntegrationTest")，無需另外設。
+///
+/// [Collection("LoggingTests")] — 03-03 deviation：與 PingEndpointsTests /
+/// ValidationFilterTests 並行時，Program.cs `finally Log.CloseAndFlush()` 在
+/// factory dispose 階段會關閉全域 Serilog logger 影響同時執行的另一 factory Sink。
+/// 加入同 collection 避免 cross-class race（既有 Logging/ 測試亦採同模式）。
 /// </summary>
+[Collection("LoggingTests")]
 public class GlobalExceptionHandlerTests
 {
     [Fact]
