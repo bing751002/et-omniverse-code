@@ -1,7 +1,7 @@
 using ETOmniverse.Api.Authentication.Test;
 using ETOmniverse.Api.Features.Common.Health;
 using ETOmniverse.Api.Features.Common.Ping;
-using ETOmniverse.Api.Features.Test.Auth;
+using ETOmniverse.Api.Features.Test;
 using ETOmniverse.Api.Middleware;
 using ETOmniverse.Common.Logging;
 using ETOmniverse.Infrastructure.DependencyInjection;
@@ -129,31 +129,17 @@ try
     // F-003 AC-7: Common Ping sample（GET /api/common/ping、POST /api/common/ping/echo）
     app.MapPingEndpoints();
 
-    // F-003 AC-7: ping/fail 僅 IntegrationTest 環境註冊（沿用 Phase 02 環境 guard 模式）
-    // F-006 AC-3..AC-6: TestAuth fixture endpoints 同樣僅 IntegrationTest 註冊
+    // F-003 AC-7: ping/fail 僅 IntegrationTest 環境註冊（D-22 白名單，沿用既有 namespace）
     if (app.Environment.IsEnvironment("IntegrationTest"))
     {
         app.MapPingFailEndpoint();
-        app.MapTestAuthEndpoints();
     }
 
-    // F-002 AC-3 B2: IntegrationTest 環境限定的測試 endpoint（5xx 機械驗證用）
+    // F-007 AC-C2 / D-22: 集中註冊 test-only endpoints（/api/test/*）
+    // 雙線防護：caller if（此處）+ extension 第一行 hard-fail throw
     if (app.Environment.IsEnvironment("IntegrationTest"))
     {
-        app.MapGet("/test/throw", (HttpContext _) =>
-        {
-            throw new InvalidOperationException("intentional test exception for AC-3 5xx level verification");
-        });
-
-        app.MapPost("/test/echo", async (HttpContext ctx) =>
-        {
-            // 讀完 body（讓 RequestLoggingMiddleware 已做完 buffering capture），回 200
-            using var reader = new StreamReader(ctx.Request.Body);
-            _ = await reader.ReadToEndAsync();
-            return Results.Ok();
-        });
-
-        app.MapGet("/test/echo", () => Results.Ok());
+        app.MapTestOnlyEndpoints();
     }
 
     app.Run();
