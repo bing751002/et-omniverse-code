@@ -1,6 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.7">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="EFCore.NamingConventions" Version="10.0.1" />
     <ProjectReference Include="..\ETOmniverse.Domain\ETOmniverse.Domain.csproj" />
     <ProjectReference Include="..\ETOmniverse.Common\ETOmniverse.Common.csproj" />
   </ItemGroup>
