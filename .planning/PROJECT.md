@@ -14,21 +14,19 @@
 
 ### Validated
 
-(None yet — 全新專案，第一個 milestone 開跑)
+#### Milestone v1.0 — GSD/SDD Process Validation (Phase 01 complete 2026-05-09)
+
+- [x] **DEMO-01**: 跑完一輪完整 GSD 流程（add-phase → discuss-phase → plan-phase → execute-phase → verify-work → ship）— Validated in Phase 01
+- [x] **DEMO-02**: 產出對應的 `docs/specs/F-001-*.md`（人寫，跟 PLAN.md 並存，驗證 spec/PLAN 雙軌可行）— Validated in Phase 01
+- [x] **DEMO-03**: pre-commit hook + governance script 在實際 commit 中運作（11/11 hook-clean，rationale-bypass 一次 organic 觸發）— Validated in Phase 01
+- [x] **UI-01**: 前端 login 頁（form：username + password；submit 後 `router.push('/welcome')`）— Validated in Phase 01
+- [x] **UI-02**: 前端 welcome placeholder 頁（顯示 "Welcome" 文字即可）— Validated in Phase 01
+- [x] **UI-03**: `pnpm dev` 起得來、瀏覽器可手動操作完整 login → welcome 跳轉（manual UAT 2026-05-09 5/5 pass）— Validated in Phase 01
+- [x] **DOC-01**: 給 team 的 walkthrough 素材（`.planning/phases/01-frontend-login-demo/WALKTHROUGH.md` 9-section pointer）— Validated in Phase 01
 
 ### Active
 
-#### Milestone v1.0 — GSD/SDD Process Validation
-
-實際 deliverable 不是程式功能，而是**驗證並 demo 整套 SDD + GSD 工具棧在 et-omniverse-v2 跑得起來**，產物可讓 team 觀察重現。
-
-- [ ] **DEMO-01**: 跑完一輪完整 GSD 流程（add-phase → discuss-phase → plan-phase → execute-phase → verify-work → ship）
-- [ ] **DEMO-02**: 產出對應的 `docs/specs/F-001-*.md`（人寫，跟 PLAN.md 並存，驗證 spec/PLAN 雙軌可行）
-- [ ] **DEMO-03**: pre-commit hook + governance script 在實際 commit 中運作（不是空跑）
-- [ ] **UI-01**: 前端 login 頁（form：username + password；submit 後 `router.push('/welcome')`）
-- [ ] **UI-02**: 前端 welcome placeholder 頁（顯示 "Welcome" 文字即可）
-- [ ] **UI-03**: `pnpm dev` 起得來、瀏覽器可手動操作完整 login → welcome 跳轉
-- [ ] **DOC-01**: 給 team 的 walkthrough（口頭 + screen share）：spec vs PLAN 差異、governance 機制、commit history 對應 PLAN tasks
+(None — milestone v1.0 唯一 phase 已驗收，等 `/gsd:complete-milestone` 收尾)
 
 ### Out of Scope
 
@@ -105,4 +103,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-05-08 after initialization*
+*Last updated: 2026-05-09 after Phase 01 verification passed*
