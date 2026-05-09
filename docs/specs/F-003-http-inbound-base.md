@@ -126,16 +126,17 @@ F-003 是所有後端 API endpoint 的 inbound 契約基礎。F-002 先落地 Co
 - [ ] **AC-8 endpoint shape**：Ping sample 位於 `Api/Features/Common/Ping`，endpoint body 只做 binding、validation、use case/result mapping，不寫業務邏輯 — 對應測試：code review
 - [ ] **AC-9 build clean**：`dotnet build` / `dotnet test` 通過 — 對應測試：build smoke
 
-## 實作連結（完工後填）
+## 實作連結
 
-- Result mapping：`<src/backend/ETOmniverse.Api/Features/Common/ProblemDetails/ResultHttpExtensions.cs>`
-- Result model：`<src/backend/ETOmniverse.Domain/Common/Model/Result.cs>`
-- Error kind：`<src/backend/ETOmniverse.Domain/Common/Model/ErrorKind.cs>`
-- ProblemDetails factory：`<src/backend/ETOmniverse.Api/Features/Common/ProblemDetails/ProblemDetailsExtensions.cs>`
-- Exception handler：`<src/backend/ETOmniverse.Api/Middleware/GlobalExceptionHandler.cs>`
-- Validation filter：`<src/backend/ETOmniverse.Api/Features/Common/Validation/ValidationEndpointFilter.cs>`
-- Ping endpoint：`<src/backend/ETOmniverse.Api/Features/Common/Ping/>`
-- API tests：`<tests/backend/ETOmniverse.Api.Tests/HttpInbound/>`
+- Result mapping：`src/backend/ETOmniverse.Api/Features/Common/ProblemDetails/ResultHttpExtensions.cs`
+- Result model：`src/backend/ETOmniverse.Domain/Common/Model/Result.cs`
+- Error kind：`src/backend/ETOmniverse.Domain/Common/Model/ErrorKind.cs`
+- ProblemDetails factory：`src/backend/ETOmniverse.Api/Features/Common/ProblemDetails/ProblemDetailsExtensions.cs`
+- Exception handler：`src/backend/ETOmniverse.Api/Middleware/GlobalExceptionHandler.cs`
+- Validation filter：`src/backend/ETOmniverse.Api/Features/Common/Validation/ValidationEndpointFilter.cs`
+- Ping endpoint：`src/backend/ETOmniverse.Api/Features/Common/Ping/` (PingEndpoints.cs / EchoRequest.cs / EchoRequestValidator.cs)
+- API tests：`tests/backend/ETOmniverse.Api.Tests/HttpInbound/` (ProblemDetailsShapeTests / GlobalExceptionHandlerTests / ResultHttpExtensionsTests / PingEndpointsTests / ValidationFilterTests / CorsPolicyTests / OpenApiPolicyTests)
+- Domain tests：`tests/backend/ETOmniverse.Domain.Tests/Common/Model/` (ResultTests / ErrorKindTests)
 - 主要 PR：#TBD
 
 ## 依賴決策（NuGet）
@@ -158,3 +159,4 @@ F-003 是所有後端 API endpoint 的 inbound 契約基礎。F-002 先落地 Co
 | 2026-05-09 | 初版 (status: draft) | #TBD |
 | 2026-05-09 | status: draft → approved（per .planning/phases/03-http-inbound-base/03-CONTEXT.md，9 條 AC + 5 plan 切分鎖定） | #TBD |
 | 2026-05-09 | status: approved → implementing（03-01-PLAN Domain 半邊落地：Result<T> + ErrorKind） | #TBD |
+| 2026-05-09 | 實作連結填實（03-01 ~ 03-04 全部落地，Domain Result<T> + ProblemDetails + Validation + Ping + CORS/OpenAPI） | #TBD |
