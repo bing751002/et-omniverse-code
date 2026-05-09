@@ -31,3 +31,9 @@ if echo "$STAGED" | grep -qE '^src/backend/.*\.cs$'; then
     echo "[pre-commit] scanning forbidden logging APIs in src/backend/..."
     python scripts/check-no-console-write.py --staged
 fi
+
+# 5. F-007 AC-A2: forbidden DateTime.Now/UtcNow in src/backend/
+if echo "$STAGED" | grep -qE '^src/backend/.*\.cs$'; then
+    echo "[pre-commit] scanning forbidden DateTime APIs in src/backend/..."
+    python scripts/check-no-datetime-now.py --staged
+fi
