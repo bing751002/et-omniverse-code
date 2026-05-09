@@ -21,7 +21,7 @@ public class RequestLoggingMiddlewareTests
     public async Task Non_health_request_emits_summary_log_with_required_structured_properties()
     {
         await using var f = new LoggingTestWebAppFactory();
-        _ = await f.CreateClient().PostAsync("/test/echo",
+        _ = await f.CreateClient().PostAsync("/api/test/echo",
             new System.Net.Http.StringContent("{}", System.Text.Encoding.UTF8, "application/json"));
 
         var summary = f.Sink.LogEvents.First(e => e.MessageTemplate.Text.StartsWith("HTTP "));
@@ -43,7 +43,7 @@ public class RequestLoggingMiddlewareTests
     {
         // B2 強制：5xx 級必須有機械驗證，不能省略
         await using var f = new LoggingTestWebAppFactory();
-        try { _ = await f.CreateClient().GetAsync("/test/throw"); }
+        try { _ = await f.CreateClient().GetAsync("/api/test/throw"); }
         catch { /* HttpClient may surface server exception in TestServer; ignore */ }
 
         var summary = f.Sink.LogEvents.First(e => e.MessageTemplate.Text.StartsWith("HTTP "));

@@ -14,7 +14,7 @@ public class MaskingTests
     public async Task Body_capture_default_disabled_log_does_not_contain_RequestBody_property()
     {
         await using var f = new LoggingTestWebAppFactory();
-        _ = await f.CreateClient().PostAsJsonAsync("/test/echo", new { password = "hunter2" });
+        _ = await f.CreateClient().PostAsJsonAsync("/api/test/echo", new { password = "hunter2" });
         var summary = f.Sink.LogEvents.First(e => e.MessageTemplate.Text.StartsWith("HTTP "));
         summary.Properties.Should().NotContainKey("RequestBody");
     }
@@ -24,7 +24,7 @@ public class MaskingTests
     {
         await using var f = new LoggingTestWebAppFactory()
             .WithSetting("Logging:RequestBody:Enabled", "true");
-        _ = await f.CreateClient().PostAsJsonAsync("/test/echo", new { password = "hunter2" });
+        _ = await f.CreateClient().PostAsJsonAsync("/api/test/echo", new { password = "hunter2" });
         var summary = f.Sink.LogEvents.First(e => e.MessageTemplate.Text.StartsWith("HTTP "));
         summary.Properties.Should().ContainKey("RequestBody");
         var body = summary.Properties["RequestBody"].ToString();
@@ -38,7 +38,7 @@ public class MaskingTests
         await using var f = new LoggingTestWebAppFactory()
             .WithSetting("Logging:RequestBody:Enabled", "true")
             .WithSetting("Logging:Mask:AdditionalFields:0", "customSecret");
-        _ = await f.CreateClient().PostAsJsonAsync("/test/echo", new { customSecret = "leak-me" });
+        _ = await f.CreateClient().PostAsJsonAsync("/api/test/echo", new { customSecret = "leak-me" });
         var summary = f.Sink.LogEvents.First(e => e.MessageTemplate.Text.StartsWith("HTTP "));
         summary.Properties["RequestBody"].ToString().Should().NotContain("leak-me");
     }
@@ -47,7 +47,7 @@ public class MaskingTests
     public async Task QueryString_token_is_masked_in_Path_property_even_without_body_capture()
     {
         await using var f = new LoggingTestWebAppFactory();
-        _ = await f.CreateClient().GetAsync("/test/echo?token=should-not-appear");
+        _ = await f.CreateClient().GetAsync("/api/test/echo?token=should-not-appear");
         var summary = f.Sink.LogEvents.First(e => e.MessageTemplate.Text.StartsWith("HTTP "));
         var path = summary.Properties["Path"].ToString();
         path.Should().NotContain("should-not-appear");
@@ -61,7 +61,7 @@ public class MaskingTests
             .WithSetting("Logging:RequestBody:Enabled", "true");
         var huge = new string('a', 33 * 1024);   // > 32 KB
         var content = new StringContent($"{{\"big\":\"{huge}\"}}", System.Text.Encoding.UTF8, "application/json");
-        _ = await f.CreateClient().PostAsync("/test/echo", content);
+        _ = await f.CreateClient().PostAsync("/api/test/echo", content);
 
         var summary = f.Sink.LogEvents.First(e => e.MessageTemplate.Text.StartsWith("HTTP "));
         // B4: structured property 斷言（不是 RenderMessage 字串搜尋）
@@ -78,7 +78,7 @@ public class MaskingTests
             .WithSetting("Logging:RequestBody:Enabled", "true");
         var multipart = new MultipartFormDataContent();
         multipart.Add(new StringContent("secret-value"), "field1");
-        _ = await f.CreateClient().PostAsync("/test/echo", multipart);
+        _ = await f.CreateClient().PostAsync("/api/test/echo", multipart);
 
         var summary = f.Sink.LogEvents.First(e => e.MessageTemplate.Text.StartsWith("HTTP "));
         summary.Properties.Should().ContainKey("ContentType");

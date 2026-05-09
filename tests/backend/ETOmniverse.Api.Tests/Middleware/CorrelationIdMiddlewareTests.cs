@@ -23,7 +23,7 @@ public class CorrelationIdMiddlewareTests
     {
         await using var f = new LoggingTestWebAppFactory();
         var client = f.CreateClient();
-        var req = new HttpRequestMessage(HttpMethod.Post, "/test/echo");
+        var req = new HttpRequestMessage(HttpMethod.Post, "/api/test/echo");
         req.Headers.Add("X-Correlation-Id", "test-corr-123");
         req.Content = new StringContent("{}", System.Text.Encoding.UTF8, "application/json");
         var resp = await client.SendAsync(req);
@@ -35,7 +35,7 @@ public class CorrelationIdMiddlewareTests
     {
         await using var f = new LoggingTestWebAppFactory();
         var client = f.CreateClient();
-        var req = new HttpRequestMessage(HttpMethod.Post, "/test/echo");
+        var req = new HttpRequestMessage(HttpMethod.Post, "/api/test/echo");
         req.Headers.Add("X-Correlation-Id", "shared-corr");
         req.Content = new StringContent("{}", System.Text.Encoding.UTF8, "application/json");
         _ = await client.SendAsync(req);

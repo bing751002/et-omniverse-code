@@ -34,7 +34,7 @@ public class GlobalExceptionHandlerTests
         await using var factory = new LoggingTestWebAppFactory();
         var client = factory.CreateClient();
 
-        var res = await client.GetAsync("/test/throw");
+        var res = await client.GetAsync("/api/test/throw");
 
         res.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
         res.Content.Headers.ContentType?.MediaType.Should().Be("application/problem+json");
@@ -53,7 +53,7 @@ public class GlobalExceptionHandlerTests
     public async Task Unhandled_exception_response_does_not_leak_stack_trace()
     {
         await using var factory = new LoggingTestWebAppFactory();
-        var res = await factory.CreateClient().GetAsync("/test/throw");
+        var res = await factory.CreateClient().GetAsync("/api/test/throw");
         var raw = await res.Content.ReadAsStringAsync();
 
         raw.Should().NotContain("at ETOmniverse.");
@@ -65,7 +65,7 @@ public class GlobalExceptionHandlerTests
     public async Task Unhandled_exception_logs_Error_level_with_correlation_id()
     {
         await using var factory = new LoggingTestWebAppFactory();
-        _ = await factory.CreateClient().GetAsync("/test/throw");
+        _ = await factory.CreateClient().GetAsync("/api/test/throw");
 
         factory.Sink.LogEvents
             .Should().Contain(e => e.Level == LogEventLevel.Error,

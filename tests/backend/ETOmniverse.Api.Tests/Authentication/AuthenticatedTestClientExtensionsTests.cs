@@ -42,7 +42,7 @@ public class AuthenticatedTestClientExtensionsTests
         using var factory = new LoggingTestWebAppFactory();
         using var client = factory.CreateAuthenticatedClient("alice", new[] { "Admin" });
 
-        var resp = await client.GetAsync("/test/auth/admin");
+        var resp = await client.GetAsync("/api/test/auth/admin");
         resp.StatusCode.Should().Be(HttpStatusCode.OK);
     }
 

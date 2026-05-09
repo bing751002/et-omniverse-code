@@ -26,7 +26,7 @@ public class TestAuthEndpointsIntegrationTests
     {
         await using var factory = new LoggingTestWebAppFactory();
         var client = factory.CreateClient();
-        var req = new HttpRequestMessage(HttpMethod.Get, "/test/auth/whoami");
+        var req = new HttpRequestMessage(HttpMethod.Get, "/api/test/auth/whoami");
         req.Headers.Add(TestAuthenticationDefaults.UserHeaderName, "alice");
 
         var resp = await client.SendAsync(req);
@@ -45,7 +45,7 @@ public class TestAuthEndpointsIntegrationTests
         await using var factory = new LoggingTestWebAppFactory();
         var client = factory.CreateClient();
 
-        var resp = await client.GetAsync("/test/auth/whoami");
+        var resp = await client.GetAsync("/api/test/auth/whoami");
 
         resp.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         resp.Content.Headers.ContentType?.MediaType.Should().Be("application/problem+json");
@@ -59,7 +59,7 @@ public class TestAuthEndpointsIntegrationTests
     {
         await using var factory = new LoggingTestWebAppFactory();
         var client = factory.CreateClient();
-        var req = new HttpRequestMessage(HttpMethod.Get, "/test/auth/admin");
+        var req = new HttpRequestMessage(HttpMethod.Get, "/api/test/auth/admin");
         req.Headers.Add(TestAuthenticationDefaults.UserHeaderName, "alice");
 
         var resp = await client.SendAsync(req);
@@ -75,7 +75,7 @@ public class TestAuthEndpointsIntegrationTests
     {
         await using var factory = new LoggingTestWebAppFactory();
         var client = factory.CreateClient();
-        var req = new HttpRequestMessage(HttpMethod.Get, "/test/auth/admin");
+        var req = new HttpRequestMessage(HttpMethod.Get, "/api/test/auth/admin");
         req.Headers.Add(TestAuthenticationDefaults.UserHeaderName, "alice");
         req.Headers.Add(TestAuthenticationDefaults.RoleHeaderName, "Admin,Editor");
 
@@ -93,7 +93,7 @@ public class TestAuthEndpointsIntegrationTests
     {
         await using var factory = new LoggingTestWebAppFactory();
         var client = factory.CreateClient();
-        var req = new HttpRequestMessage(HttpMethod.Get, "/test/auth/whoami");
+        var req = new HttpRequestMessage(HttpMethod.Get, "/api/test/auth/whoami");
         const string corr = "fixed-corr-id-06-03";
         req.Headers.Add("X-Correlation-Id", corr);
 

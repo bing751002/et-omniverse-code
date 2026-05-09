@@ -17,7 +17,7 @@ public class SerilogBootstrapTests
         var client = factory.CreateClient();
 
         // 觸發非 /health endpoint 確保 request log 產出（/health 被 RequestLoggingMiddleware 排除）
-        _ = await client.GetAsync("/test/echo");
+        _ = await client.GetAsync("/api/test/echo");
 
         factory.Sink.LogEvents.Should().NotBeEmpty();
 
