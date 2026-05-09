@@ -2,7 +2,7 @@
 id: F-007
 title: Testability foundation — TimeProvider mandate, DB lifecycle, test endpoint discipline
 module:
-status: draft
+status: approved
 owner: jimmyliao
 created: 2026-05-09
 updated: 2026-05-09
