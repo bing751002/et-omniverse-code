@@ -42,7 +42,7 @@ Phases execute in numeric order: 1, 2
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Frontend Login Demo | 0/3 | Not started | - |
-| 2. Backend Logging Foundation | 2/5 | In Progress|  |
+| 2. Backend Logging Foundation | 4/5 | In Progress|  |
 
 ### Phase 2: Backend Logging Foundation
 
@@ -50,12 +50,12 @@ Phases execute in numeric order: 1, 2
 **Spec**: `docs/specs/F-002-backend-logging-foundation.md` (status: draft → 規劃時 → approved → implementing → implemented，per D-08 4-step)
 **Requirements**: AC-1, AC-2, AC-3, AC-4, AC-5, AC-6, AC-7, AC-8, AC-9, AC-10, AC-11 (F-002 spec 11 條 AC)
 **Depends on:** Phase 1 (process validation only — no code dependency)
-**Plans:** 2/5 plans executed
+**Plans:** 4/5 plans executed
 
 Plans:
 - [x] 02-01-PLAN.md — Foundation + Test Sink (Serilog bootstrap + enrichers + BootstrapLogger + InMemorySink TestSupport) + F-002 status flip draft → approved → implementing + spec .ps1 → .py drift fix (AC-1, AC-5, AC-6)
 - [x] 02-02-PLAN.md — HTTP middleware (CorrelationId + RequestLogging with body cap + additive mask + /health 排除) + MaskFields baseline + LoggingOptions + Common.Tests project (AC-2, AC-3, AC-4)
-- [ ] 02-03-PLAN.md — Background helper (IBackgroundCorrelationScope + LoggingHeartbeatHostedService) + ICurrentUser port + AnonymousCurrentUser stub + DI 註冊 (AC-7)
+- [x] 02-03-PLAN.md — Background helper (IBackgroundCorrelationScope + LoggingHeartbeatHostedService) + ICurrentUser port + AnonymousCurrentUser stub + DI 註冊 (AC-7)
 - [x] 02-04-PLAN.md — Docs / Infra / CI (CONVENTIONS.md Logging 段 + INFRA.md Day 1 retention policy + docker-compose json-file rotation + scripts/check-no-console-write.py + pre-commit hook 串接) (AC-8, AC-9, AC-10)
 - [ ] 02-05-PLAN.md — 收尾 (build/test smoke + spec 實作連結填實 + F-002 status flip implementing → implemented) (AC-11)
 
