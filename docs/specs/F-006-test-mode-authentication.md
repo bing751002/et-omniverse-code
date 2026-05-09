@@ -54,16 +54,16 @@ per **D-19** 決議走 env-guarded TestAuthenticationHandler，本 spec 落地�
 
 ## 驗收條件
 
-- [ ] **AC-1** `TestAuthenticationHandler` 落 `<src/backend/ETOmniverse.Api/Authentication/Test/>` namespace — 對應測試：unit
-- [ ] **AC-2** `AddTestAuthentication()` extension 落 `<src/backend/ETOmniverse.Api/Authentication/Test/AuthenticationBuilderExtensions.cs>` — 對應測試：unit
-- [ ] **AC-3** Integration test 送 `X-Test-User: alice` 進入 `[Authorize]` endpoint 回 200，且 `User.Identity.Name == "alice"` — 對應測試：integration
-- [ ] **AC-4** Integration test 不送 header 進入 `[Authorize]` endpoint 回 401 ProblemDetails (per F-003 contract) — 對應測試：integration
-- [ ] **AC-5** Integration test 送 `X-Test-User: alice` 但 endpoint 標 `[Authorize(Roles = "Admin")]`，未送 `X-Test-Roles` → 回 403 ProblemDetails — 對應測試：integration
-- [ ] **AC-6** Integration test 送 `X-Test-User: alice` + `X-Test-Roles: Admin,Editor` → 進入 `[Authorize(Roles = "Admin")]` endpoint 回 200 — 對應測試：integration
-- [ ] **AC-7** Production 環境（`ASPNETCORE_ENVIRONMENT=Production`）啟動 `app.Run()` 前若 Test scheme 已註冊 → throw `InvalidOperationException` 含 message "Test authentication scheme MUST NOT be registered outside IntegrationTest environment." — 對應測試：integration（用 WebApplicationFactory 強制 env=Production 測 throws）
-- [ ] **AC-8** `LoggingTestWebAppFactory.CreateAuthenticatedClient(string user, string[] roles)` helper 存在，回 `HttpClient` 預設帶 Test header — 對應測試：unit / integration
-- [ ] **AC-9** ProblemDetails 401 / 403 response 仍帶 `X-Correlation-Id`（per F-003 AC-4 — 跟 logging foundation 對齊不破壞） — 對應測試：integration
-- [ ] **AC-10** dotnet build 0 warning / 0 error；docs/specs/F-006 status flip 完整 D-08 4-step（draft → approved → implementing → implemented）
+- [x] **AC-1** `TestAuthenticationHandler` 落 `src/backend/ETOmniverse.Api/Authentication/Test/` namespace — 對應測試：unit
+- [x] **AC-2** `AddTestAuthentication()` extension 落 `src/backend/ETOmniverse.Api/Authentication/Test/AuthenticationBuilderExtensions.cs` — 對應測試：unit
+- [x] **AC-3** Integration test 送 `X-Test-User: alice` 進入 `[Authorize]` endpoint 回 200，且 `User.Identity.Name == "alice"` — 對應測試：integration
+- [x] **AC-4** Integration test 不送 header 進入 `[Authorize]` endpoint 回 401 ProblemDetails (per F-003 contract) — 對應測試：integration
+- [x] **AC-5** Integration test 送 `X-Test-User: alice` 但 endpoint 標 `[Authorize(Roles = "Admin")]`，未送 `X-Test-Roles` → 回 403 ProblemDetails — 對應測試：integration
+- [x] **AC-6** Integration test 送 `X-Test-User: alice` + `X-Test-Roles: Admin,Editor` → 進入 `[Authorize(Roles = "Admin")]` endpoint 回 200 — 對應測試：integration
+- [x] **AC-7** Production 環境（`ASPNETCORE_ENVIRONMENT=Production`）啟動 `app.Run()` 前若 Test scheme 已註冊 → throw `InvalidOperationException` 含 message "Test authentication scheme MUST NOT be registered outside IntegrationTest environment." — 對應測試：integration（用 WebApplicationFactory 強制 env=Production 測 throws）
+- [x] **AC-8** `LoggingTestWebAppFactory.CreateAuthenticatedClient(string user, string[] roles)` helper 存在，回 `HttpClient` 預設帶 Test header — 對應測試：unit / integration
+- [x] **AC-9** ProblemDetails 401 / 403 response 仍帶 `X-Correlation-Id`（per F-003 AC-4 — 跟 logging foundation 對齊不破壞） — 對應測試：integration
+- [x] **AC-10** dotnet build 0 warning / 0 error；docs/specs/F-006 status flip 完整 D-08 4-step（draft → approved → implementing → implemented）
 
 ## 實作連結（完工後填）
 
