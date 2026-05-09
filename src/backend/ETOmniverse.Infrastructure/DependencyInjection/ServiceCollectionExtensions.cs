@@ -4,7 +4,6 @@ using ETOmniverse.Domain.Common.Ports;
 using ETOmniverse.Infrastructure.Http;
 using ETOmniverse.Infrastructure.Identity;
 using ETOmniverse.Infrastructure.Persistence;
-using ETOmniverse.Infrastructure.Time;
 
 namespace ETOmniverse.Infrastructure.DependencyInjection;
 
@@ -16,7 +15,7 @@ public static class ServiceCollectionExtensions
   {
     _ = configuration;
 
-    services.AddSingleton<IClock, SystemClock>();
+    services.AddSingleton(TimeProvider.System);
     services.AddSingleton<ICurrentUser, AnonymousCurrentUser>();
     services.AddSingleton<ETOmniverse.Common.Logging.IBackgroundCorrelationScope,
                           ETOmniverse.Common.Logging.BackgroundCorrelationScope>();
