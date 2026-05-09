@@ -125,7 +125,7 @@ Plans:
 
 Plans:
 - [x] 06-01-PLAN.md — Handler / Options / Defaults / AddTestAuthentication extension + unit test + F-006 status: draft → approved → implementing (AC-1, AC-2)
-- [ ] 06-02-PLAN.md — Program.cs IntegrationTest-only Authentication 註冊 + Production startup hard-fail guard + integration test (AC-7)
+- [x] 06-02-PLAN.md — Program.cs IntegrationTest-only Authentication 註冊 + Production startup hard-fail guard + integration test (AC-7)
 - [ ] 06-03-PLAN.md — Features/Test/Auth/ fixture endpoints (whoami / admin) + 5 條 integration test (authenticated 200、no header 401、role missing 403、role match 200、X-Correlation-Id 留存) (AC-3, AC-4, AC-5, AC-6, AC-9)
 - [ ] 06-04-PLAN.md — AuthenticatedTestClientExtensions helper + spec 實作連結填實 + F-006 status: implementing → implemented + Phase 06 PHASE-SUMMARY (AC-8, AC-10)
 
