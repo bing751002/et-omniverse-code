@@ -67,12 +67,14 @@ per **D-19** 決議走 env-guarded TestAuthenticationHandler，本 spec 落地�
 
 ## 實作連結（完工後填）
 
-- Handler：`<src/backend/ETOmniverse.Api/Authentication/Test/TestAuthenticationHandler.cs>`
-- Options：`<src/backend/ETOmniverse.Api/Authentication/Test/TestAuthenticationSchemeOptions.cs>`
-- Extension：`<src/backend/ETOmniverse.Api/Authentication/Test/AuthenticationBuilderExtensions.cs>`
-- Startup guard：`<src/backend/ETOmniverse.Api/Program.cs 內 production hard-fail>`
-- Test helper：`<tests/backend/ETOmniverse.TestSupport/Authentication/AuthenticatedTestClientExtensions.cs>`
-- 主要 PR：#XXX
+- Handler：[`src/backend/ETOmniverse.Api/Authentication/Test/TestAuthenticationHandler.cs`](../../src/backend/ETOmniverse.Api/Authentication/Test/TestAuthenticationHandler.cs)
+- Options：[`src/backend/ETOmniverse.Api/Authentication/Test/TestAuthenticationSchemeOptions.cs`](../../src/backend/ETOmniverse.Api/Authentication/Test/TestAuthenticationSchemeOptions.cs)
+- Defaults：[`src/backend/ETOmniverse.Api/Authentication/Test/TestAuthenticationDefaults.cs`](../../src/backend/ETOmniverse.Api/Authentication/Test/TestAuthenticationDefaults.cs)
+- Extension：[`src/backend/ETOmniverse.Api/Authentication/Test/AuthenticationBuilderExtensions.cs`](../../src/backend/ETOmniverse.Api/Authentication/Test/AuthenticationBuilderExtensions.cs)
+- Startup guard：[`src/backend/ETOmniverse.Api/Program.cs`](../../src/backend/ETOmniverse.Api/Program.cs)（搜尋 `MUST NOT be registered outside IntegrationTest environment`）
+- Test fixture endpoints：[`src/backend/ETOmniverse.Api/Features/Test/Auth/TestAuthEndpoints.cs`](../../src/backend/ETOmniverse.Api/Features/Test/Auth/TestAuthEndpoints.cs)
+- Test helper：[`tests/backend/ETOmniverse.TestSupport/Authentication/AuthenticatedTestClientExtensions.cs`](../../tests/backend/ETOmniverse.TestSupport/Authentication/AuthenticatedTestClientExtensions.cs)
+- 主要 PR：（待 PR 編號落地後補）
 
 ## Open questions
 
