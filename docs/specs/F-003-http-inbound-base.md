@@ -2,7 +2,7 @@
 id: F-003
 title: HTTP inbound base
 module:
-status: draft
+status: approved
 owner: jimmyliao
 created: 2026-05-09
 updated: 2026-05-09
@@ -10,7 +10,7 @@ supersedes:
 superseded-by:
 related-adr: []
 related-interview: []
-phase:
+phase: 03-http-inbound-base
 ---
 
 # F-003：HTTP inbound base
@@ -156,3 +156,4 @@ F-003 是所有後端 API endpoint 的 inbound 契約基礎。F-002 先落地 Co
 | 日期 | 變更 | PR |
 |---|---|---|
 | 2026-05-09 | 初版 (status: draft) | #TBD |
+| 2026-05-09 | status: draft → approved（per .planning/phases/03-http-inbound-base/03-CONTEXT.md，9 條 AC + 5 plan 切分鎖定） | #TBD |
