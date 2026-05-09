@@ -17,7 +17,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 3: HTTP inbound base** - 建立 inbound API contract foundation（Result<T> / ErrorKind → ProblemDetails、global exception handler、FluentValidation endpoint filter、Ping sample、CORS / OpenAPI policy），對應 F-003 (completed 2006-05-09)
 - [x] **Phase 4: HTTP outbound base** - 建立 outbound HTTP typed client foundation（IHttpClientFactory、CorrelationId propagation、latency/status logging、timeout/retry resilience、sample typed client），對應 F-004 (completed 2006-05-09)
 - [x] **Phase 5: Persistence foundation** - 建立 MSSQL / EF Core persistence foundation（DbContext skeleton、baseline migration、UoW / repository base、Testcontainers MSSQL fixture、seed boundary），對應 F-005 (completed 2006-05-09)
-- [ ] **Phase 6: Test-mode authentication** - env-guarded TestAuthenticationHandler + `X-Test-User` / `X-Test-Roles` header + Production hard-fail，讓 v1.1+ 業務 phase 可對 `[Authorize]` endpoint 寫 integration / E2E test，對應 F-006 / D-19
+- [x] **Phase 6: Test-mode authentication** - env-guarded TestAuthenticationHandler + `X-Test-User` / `X-Test-Roles` header + Production hard-fail，讓 v1.1+ 業務 phase 可對 `[Authorize]` endpoint 寫 integration / E2E test，對應 F-006 / D-19 (completed 2006-05-09)
 - [ ] **Phase 7: Testability foundation** - TimeProvider 強制 (D-20) + Respawn / TransactionalTestBase / MsSqlContainerFixture (D-21) + `/api/test/*` namespace 集中註冊 + Production hard-fail (D-22)，對應 F-007
 
 ## Phase Details
@@ -51,7 +51,7 @@ Phases execute in numeric order: 1, 2, 3, 4, 5, 6, 7
 | 3. HTTP inbound base | 6/5 | Complete   | 2006-05-09 |
 | 4. HTTP outbound base | 5/5 | Complete | 2006-05-09 |
 | 5. Persistence foundation | 5/5 | Complete | 2006-05-09 |
-| 6. Test-mode authentication | 0/4 | Planned | — |
+| 6. Test-mode authentication | 4/4 | Complete | 2006-05-09 |
 | 7. Testability foundation | 0/5 | Planned | — |
 
 ### Phase 2: Backend Logging Foundation
@@ -127,7 +127,7 @@ Plans:
 - [x] 06-01-PLAN.md — Handler / Options / Defaults / AddTestAuthentication extension + unit test + F-006 status: draft → approved → implementing (AC-1, AC-2)
 - [x] 06-02-PLAN.md — Program.cs IntegrationTest-only Authentication 註冊 + Production startup hard-fail guard + integration test (AC-7)
 - [x] 06-03-PLAN.md — Features/Test/Auth/ fixture endpoints (whoami / admin) + 5 條 integration test (authenticated 200、no header 401、role missing 403、role match 200、X-Correlation-Id 留存) (AC-3, AC-4, AC-5, AC-6, AC-9)
-- [ ] 06-04-PLAN.md — AuthenticatedTestClientExtensions helper + spec 實作連結填實 + F-006 status: implementing → implemented + Phase 06 PHASE-SUMMARY (AC-8, AC-10)
+- [x] 06-04-PLAN.md — AuthenticatedTestClientExtensions helper + spec 實作連結填實 + F-006 status: implementing → implemented + Phase 06 PHASE-SUMMARY (AC-8, AC-10)
 
 **Wave Structure:**
 - Wave 1: 06-01 (foundation — handler/options/extension 沒 dependency)
