@@ -2,7 +2,7 @@
 id: F-001
 title: Frontend login page (dogfood)
 module:
-status: implementing
+status: implemented
 owner: jimmyliao
 created: 2026-05-09
 updated: 2026-05-09
@@ -44,11 +44,11 @@ phase: 1
 
 ## 驗收條件
 
-- [ ] `pnpm dev` 起得來，`http://localhost:5173/login` 顯示包含 `Username` / `Password` label 與 `Log in` 按鈕的 form — 對應測試：manual UAT
-- [ ] 直接打開 `http://localhost:5173/` 自動 redirect 到 `/login` — 對應測試：manual UAT
-- [ ] 在 username 或 password input 填任意值，點 `Log in` 或按 Enter，URL 變 `/welcome` 且頁面顯示 `Welcome` — 對應測試：manual UAT
-- [ ] tab title 在 `/login` 為 `Login — ET-Omniverse`，在 `/welcome` 為 `Welcome — ET-Omniverse` — 對應測試：manual UAT
-- [ ] `pnpm build` 不出錯 (vue-tsc + vite build 通過) — 對應測試：build smoke
+- [x] `pnpm dev` 起得來，`http://localhost:5173/login` 顯示包含 `Username` / `Password` label 與 `Log in` 按鈕的 form — 對應測試：manual UAT
+- [x] 直接打開 `http://localhost:5173/` 自動 redirect 到 `/login` — 對應測試：manual UAT
+- [x] 在 username 或 password input 填任意值，點 `Log in` 或按 Enter，URL 變 `/welcome` 且頁面顯示 `Welcome` — 對應測試：manual UAT
+- [x] tab title 在 `/login` 為 `Login — ET-Omniverse`，在 `/welcome` 為 `Welcome — ET-Omniverse` — 對應測試：manual UAT
+- [x] `pnpm build` 不出錯 (vue-tsc + vite build 通過) — 對應測試：build smoke
 
 ## 實作連結（完工後填）
 
@@ -73,3 +73,4 @@ phase: 1
 | 2026-05-09 | 初版 (status: draft) | #TBD |
 | 2026-05-09 | status: draft → approved (plan-phase 完，準備開工) | #TBD |
 | 2026-05-09 | status: approved → implementing (execute-phase 開始實作) | #TBD |
+| 2026-05-09 | status: implementing → implemented (manual UAT 通過、phase 完成) | #TBD |
