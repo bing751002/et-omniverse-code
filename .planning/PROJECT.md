@@ -1,103 +1,52 @@
 # ET-Omniverse v2
 
-> **Milestone v1.0 範圍演進說明（2026-05-09）**：原本 v1.0 只規劃 Phase 01 frontend login demo（process validation），Phase 02 完成後使用者擴張範圍把 backend foundation（Phase 02 logging + Phase 03 HTTP inbound + Phase 04 HTTP outbound + Phase 05 Persistence）全納入 v1.0。當前 milestone 定位 = **GSD/SDD process validation + backend foundation**。
-
 ## What This Is
 
 東森（EHSN）內部的 7-step 排播平台 v2。greenfield .NET modular monolith（.NET 10 / EF Core 10 / MSSQL / Quartz.NET）+ Vue 3 前端，鎖定節目部 / 編輯部 / 行銷部跨部門協作流程：建批次 → 商品挑選 → 受眾分眾 → AI VCR 生成 → 行銷物料 → 排播 → 通知 / 共編。
 
-完整專案脈絡見 [`README.md`](../README.md)、[`docs/ARCHITECTURE.md`](../docs/ARCHITECTURE.md)、[`docs/DECISIONS.md`](../docs/DECISIONS.md)、[`.planning/codebase/`](codebase/)（剛產出的 codebase map）。
+完整專案脈絡見 [`README.md`](../README.md)、[`docs/ARCHITECTURE.md`](../docs/ARCHITECTURE.md)、[`docs/DECISIONS.md`](../docs/DECISIONS.md)、[`.planning/codebase/`](codebase/)。
 
 ## Core Value
 
 **用 SDD（spec-driven development）+ GSD 工具棧把 7-step 排播流程從紙本散亂搬到結構化、可追溯的數位系統**。一切契約（spec / ADR / 訪談）優先於實作，code 永遠對齊已 approved 的 spec。
 
-## Requirements
+## Current State
 
-### Validated
+**Shipped:** v1.0 — GSD/SDD Process Validation + Backend Foundation (2026-05-09)
 
-#### Milestone v1.0 — GSD/SDD Process Validation (Phase 01 complete 2026-05-09)
+- 7 phases, 32 plans, 110 commits — audit passed（56/56 ACs, 16/16 wirings, 5/5 E2E flows）
+- F-001 ~ F-007 全部 status = `implemented`
+- Backend foundation 就緒：logging / HTTP in/out / persistence / test-mode auth / testability
+- Decisions logged: D-19, D-20, D-21, D-22
 
-- [x] **DEMO-01**: 跑完一輪完整 GSD 流程（add-phase → discuss-phase → plan-phase → execute-phase → verify-work → ship）— Validated in Phase 01
-- [x] **DEMO-02**: 產出對應的 `docs/specs/F-001-*.md`（人寫，跟 PLAN.md 並存，驗證 spec/PLAN 雙軌可行）— Validated in Phase 01
-- [x] **DEMO-03**: pre-commit hook + governance script 在實際 commit 中運作（11/11 hook-clean，rationale-bypass 一次 organic 觸發）— Validated in Phase 01
-- [x] **UI-01**: 前端 login 頁（form：username + password；submit 後 `router.push('/welcome')`）— Validated in Phase 01
-- [x] **UI-02**: 前端 welcome placeholder 頁（顯示 "Welcome" 文字即可）— Validated in Phase 01
-- [x] **UI-03**: `pnpm dev` 起得來、瀏覽器可手動操作完整 login → welcome 跳轉（manual UAT 2026-05-09 5/5 pass）— Validated in Phase 01
-- [x] **DOC-01**: 給 team 的 walkthrough 素材（`.planning/phases/01-frontend-login-demo/WALKTHROUGH.md` 9-section pointer）— Validated in Phase 01
+詳見 [`milestones/v1.0-ROADMAP.md`](milestones/v1.0-ROADMAP.md) 與 [`milestones/v1.0-REQUIREMENTS.md`](milestones/v1.0-REQUIREMENTS.md)。
 
-#### Phase 02 — Backend Logging Foundation (complete 2026-05-09)
+## Next Milestone Goals (v1.1 — TBD)
 
-- [x] **F-002 / AC-1..AC-11**: Serilog JSON sink + CorrelationId/RequestLogging middleware + masking + IBackgroundCorrelationScope + LoggingHeartbeatHostedService + ICurrentUser port + CONVENTIONS/INFRA docs + check-no-console-write CI guard — Validated in Phase 02（11/11 ACs，36 tests pass，spec status `implemented`）
+v1.0 已建立完整 backend foundation；v1.1 應該是**第一個業務 feature**。下個 milestone 透過 `/gsd:new-milestone` 定義具體 scope，候選方向：
 
-#### Phase 03 — HTTP inbound base (complete 2026-05-09)
-
-- [x] **F-003 / AC-1..AC-9**: Domain Result<T> + ErrorKind enum + API ToHttpResult() + RFC 7807 ProblemDetails (含 traceId/code) + GlobalExceptionHandler (IExceptionHandler) + ValidationEndpointFilter + Common Ping sample + CORS policy (Dev allow-all / Prod fail-closed) + OpenAPI policy (config-driven OpenApi:Enabled) — Validated in Phase 03（9/9 ACs，dotnet test 78/78 pass，spec status `implemented`，D-08 4-step status flip 完整）
-
-### Active
-
-#### Phase 04 — HTTP outbound base (planned, F-004 spec draft)
-- [ ] **F-004**: IHttpClientFactory + typed client、CorrelationId propagation、latency/status logging、timeout/retry resilience、sample typed client
-
-#### Phase 05 — Persistence foundation (planned, F-005 spec draft)
-- [ ] **F-005**: MSSQL / EF Core 10 DbContext skeleton、baseline migration、UoW / repository base、Testcontainers MSSQL fixture、seed boundary
-
-### Out of Scope
-
-#### 此 milestone 排除
-
-- 後端業務 API（任何 .NET 業務 endpoint） — 留給 v1.1+ 業務 milestone，v1.0 只做共用基建（Phase 02 logging + Phase 03 HTTP inbound + Phase 04 HTTP outbound + Phase 05 Persistence foundation）
-- 真實 auth（JWT / session / user store / RBAC） — D14 推到 Phase 2，此 milestone 連 demo 都不做假版
-- Auth state 模擬（router guard / localStorage `fakeLoggedIn`） — 用最簡的 `router.push`，避免 demo 雜訊
-- 視覺設計系統 / design tokens — 用 Vue/CSS 預設，不抽元件
-- Form validation（必填 / email 格式） — 純 UI 跳轉，欄位內容無意義
-- 跨 browser / 響應式 / a11y 嚴格驗證 — dogfood 不做，未來 phase 再補
-- 部署（Docker compose / Jenkins build） — 本機跑得起來即可
-- ~~多個 phase — 此 milestone 只跑 1 個 phase 一次完整循環~~ **(已失效 2026-05-09：milestone 範圍擴張為 backend foundation v1.0，Phase 02-05 全部納入)**
-
-#### 整個 Phase 1 排除（從 README）
-
-- Fugo 復購服務 — Phase 2
-- AD/LDAP — Phase 2（D14）
-- Qdrant / RAG — Phase 2
-- Jenkins / Harbor / EFK 上線級監控 — P1.6 之後
-
-## Context
-
-**專案狀態**：剛 bootstrap，docs/ 完整、src/ 是 skeleton（無業務邏輯）、tests/ 是 placeholder（UnitTest1.cs）。
-
-**已 dogfood 過的工具棧**：
-- SDD 文件結構（`docs/specs/` `docs/decisions/` `docs/interviews/` `docs/patterns/` `docs/retrospectives/`）— 模板齊備，待第一份 spec 產生
-- Documentation governance（`scripts/check-doc-governance.py` + `.githooks/pre-commit` + Jenkinsfile Docs Lint stage）— 已驗證 Rule 1/2/4 + rationale bypass 機制
-- GSD 流程（`/gsd:map-codebase` 已跑、產出 `.planning/codebase/` 7 份文件）
-
-**團隊規範**：
-- 強制 Claude Code + GSD（見 `docs/AI-GUIDE.md`）
-- 強制 SDD（spec → ADR → execute → verify）
-- F-XXX:phase 1:1 預設對映
-- spec status 流轉：draft → approved → implementing → implemented → modifying → deprecated
-
-**GSD 版本鎖**：`.gsd-version` = 1.28.0（team 全員一致；升版由 lead 改檔 + 公告）
+- 第一個業務 entity（CRUD + spec + Authorize endpoint，dogfood 完整 stack：F-002 logging + F-003 inbound + F-005 persistence + F-006 test auth）
+- 真實 auth foundation（D-14：JWT / session / local user 表 / RBAC）
+- 7-step 排播流程的第一步（建批次？商品挑選？— 待 product 訪談確認）
 
 ## Constraints
 
-- **Tech stack（鎖死）**：.NET 10 + EF Core 10 + MSSQL + Quartz.NET（後端，此 milestone 不動）；Vue 3 + Vite + pnpm（前端，此 milestone 唯一動的部分）
+- **Tech stack（鎖死）**：.NET 10 + EF Core 10 + MSSQL + Quartz.NET（後端）；Vue 3 + Vite + pnpm（前端）
 - **Workflow（鎖死）**：所有開發必走 GSD（`/gsd:add-phase` → `/gsd:discuss-phase` → `/gsd:plan-phase` → `/gsd:execute-phase` → `/gsd:verify-work` → `/gsd:ship`）。Bug fix 走 `/gsd:debug`
-- **SDD（鎖死）**：每個 phase 必有對應 `docs/specs/F-XXX-*.md`，由人（含主 Claude 共寫）撰寫，GSD 不自動產
+- **SDD（鎖死）**：每個 phase 必有對應 `docs/specs/F-XXX-*.md`，由人撰寫，GSD 不自動產
 - **Governance（執行中）**：commit 前 pre-commit hook 強制檢查；違規必更新對應 KB 或加 `docs/no-doc-update-*.md` rationale
-- **Phase 1 邊界（D10 起）**：見 README + Out of Scope；看到 Phase 2 code 立刻 reject
-- **Demo 非交付給終端使用者**：milestone v1.0 對象是 **team 內部**，不對外、不上 staging、不收集真實使用 metrics
+- **F-XXX:phase 1:1 預設對映**
+- **spec status 流轉**：draft → approved → implementing → implemented → modifying → deprecated（D-08 4-step）
 
 ## Key Decisions
 
-歷史決策見 [`docs/DECISIONS.md`](../docs/DECISIONS.md) D10-D18。本專案層級新增決策追加到此表（同步 `docs/decisions/D-XX-*.md`）：
+歷史決策見 [`docs/DECISIONS.md`](../docs/DECISIONS.md)。專案層級決策：
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| Milestone v1.0 範圍收斂為「process validation」而非「Phase 1 上半 MVP」 | 跳過大範圍把 GSD 工具棧先在 repo 跑通，避免工具沒驗證就推大範圍工作 | — Pending |
-| Login demo 用純 `router.push` 不做 auth state 模擬 | 此 milestone 重點是 GSD 流程不是 auth；fake state 只增 demo 雜訊 | — Pending |
-| Demo 形式 = PR + commit history + 口頭 walkthrough，不做 slide deck | 工具棧本身就是 demo artifact；slide 重複又會跟 code 漂移 | — Pending |
-| GSD 版本鎖採 `.gsd-version` + ONBOARDING 引用，不 vendor GSD 引擎進 repo | meta-tooling 投資延後；vendor 是 1-3 小時 + 持續維運成本，現階段非必要 | — Pending |
+| Milestone v1.0 範圍從「process validation」擴張為「+ backend foundation」 | Phase 02 完成後使用者要求把 backend 共用基建一次納入，避免 v1.1 業務 phase 又在補基建 | ✅ Validated — 7 phases 全部蓋章，v1.1+ 業務 phase 開工就有完整 stack |
+| GSD 版本鎖採 `.gsd-version` + ONBOARDING 引用，不 vendor GSD 引擎進 repo | meta-tooling 投資延後；vendor 是 1-3 小時 + 持續維運成本 | ✅ Validated — 全程 110 commits hook-clean，無工具版本爭議 |
+| PHASE-SUMMARY / plan SUMMARY 為 disk-only（`.gitignore`），對外契約由 specs + ADR + commit history 承擔 | SDD purist：契約只 1 份（spec），summary 為內部 working artifact | ✅ Validated — v1.0 完整跑通，外部審計可從 specs + ADR + git log 重建脈絡 |
 
 ## Evolution
 
@@ -113,8 +62,20 @@ This document evolves at phase transitions and milestone boundaries.
 **After each milestone** (via `/gsd:complete-milestone`):
 1. Full review of all sections
 2. Core Value check — still the right priority?
-3. Audit Out of Scope — reasons still valid?
-4. Update Context with current state
+3. Update Current State + Next Milestone Goals
+
+<details>
+<summary>Previous milestone history (v1.0)</summary>
+
+### Milestone v1.0 — GSD/SDD Process Validation + Backend Foundation (2026-05-08 → 2026-05-09)
+
+原本只規劃 Phase 01 frontend login demo（process validation），Phase 02 完成後使用者擴張範圍把 backend foundation（logging / HTTP / persistence / test infra）全納入。最終 7 phases 全部蓋章，audit passed。
+
+**Validated requirements:** DEMO-01/02/03, UI-01/02/03, DOC-01, F-002 (AC-1..11), F-003 (AC-1..9), F-004 (AC-1..8), F-005 (AC-1..10), F-006 (AC-1..10), F-007 (AC-A1..D3 / 22 ACs).
+
+詳見 [`milestones/v1.0-ROADMAP.md`](milestones/v1.0-ROADMAP.md).
+
+</details>
 
 ---
-*Last updated: 2026-05-09 after Phase 03 complete (HTTP inbound base — F-003 implemented, 78/78 tests, D-08 4-step clean)*
+*Last updated: 2026-05-09 after v1.0 milestone complete*
