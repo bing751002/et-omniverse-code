@@ -110,6 +110,11 @@ logs/
 tmp/
 temp/
 
+# ===== Python =====
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
 # ===== Generated =====
 src/frontend/**/auto-imports.d.ts
 src/frontend/**/components.d.ts
