@@ -2,7 +2,7 @@
 id: F-006
 title: Test-mode authentication scheme for E2E / integration test
 module:
-status: approved
+status: implementing
 owner: jimmyliao
 created: 2026-05-09
 updated: 2026-05-09
