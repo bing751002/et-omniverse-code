@@ -9,7 +9,7 @@ Milestone **v1.0 — GSD/SDD Process Validation**。實際 deliverable 不是程
 
 ### Process
 
-- [ ] **DEMO-01**: 跑完一輪完整 GSD 流程（add-phase → discuss-phase → plan-phase → execute-phase → verify-work → ship），所有對應的 `.planning/phases/<phase>/` artifact 完整保留
+- [x] **DEMO-01**: 跑完一輪完整 GSD 流程（add-phase → discuss-phase → plan-phase → execute-phase → verify-work → ship），所有對應的 `.planning/phases/<phase>/` artifact 完整保留
 - [x] **DEMO-02**: 產出對應的 `docs/specs/F-001-frontend-login-page.md`（人寫的 SDD 契約，frontmatter 完整、status 隨 phase 進度流轉）
 - [x] **DEMO-03**: pre-commit hook + governance script 在實際 phase commits 中運作（不是空跑），rationale 機制有實際使用至少一次
 
@@ -17,11 +17,11 @@ Milestone **v1.0 — GSD/SDD Process Validation**。實際 deliverable 不是程
 
 - [x] **UI-01**: 前端 login 頁含 username + password form，submit 後 `router.push('/welcome')`，無 form validation、無 auth state、無 router guard
 - [x] **UI-02**: 前端 welcome placeholder 頁（顯示 "Welcome" 文字即可，不做動態內容）
-- [ ] **UI-03**: `pnpm dev` 起 frontend，瀏覽器手動操作可完成 login → welcome 跳轉路徑
+- [x] **UI-03**: `pnpm dev` 起 frontend，瀏覽器手動操作可完成 login → welcome 跳轉路徑
 
 ### Documentation
 
-- [ ] **DOC-01**: 給 team 的 walkthrough 素材（口頭 + screen share 可用）：spec vs PLAN 差異、governance 機制、commit history 對應 PLAN tasks 的清單
+- [x] **DOC-01**: 給 team 的 walkthrough 素材（口頭 + screen share 可用）：spec vs PLAN 差異、governance 機制、commit history 對應 PLAN tasks 的清單
 
 ## v2 Requirements
 
@@ -64,13 +64,13 @@ Milestone **v1.0 — GSD/SDD Process Validation**。實際 deliverable 不是程
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| DEMO-01 | Phase 1 | Pending |
+| DEMO-01 | Phase 1 | Complete |
 | DEMO-02 | Phase 1 | Complete |
 | DEMO-03 | Phase 1 | Complete |
 | UI-01 | Phase 1 | Complete |
 | UI-02 | Phase 1 | Complete |
-| UI-03 | Phase 1 | Pending |
-| DOC-01 | Phase 1 | Pending |
+| UI-03 | Phase 1 | Complete |
+| DOC-01 | Phase 1 | Complete |
 
 **Coverage:**
 - v1 requirements: 7 total
