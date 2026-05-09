@@ -1,9 +1,11 @@
+using ETOmniverse.Api.Authentication.Test;
 using ETOmniverse.Api.Features.Common.Health;
 using ETOmniverse.Api.Features.Common.Ping;
 using ETOmniverse.Api.Middleware;
 using ETOmniverse.Common.Logging;
 using ETOmniverse.Infrastructure.DependencyInjection;
 using FluentValidation;
+using Microsoft.AspNetCore.Authentication;
 using Serilog;
 
 BootstrapLogger.Initialize();
@@ -67,7 +69,32 @@ try
         });
     });
 
+    // F-006 AC-7: Test authentication scheme 僅在 IntegrationTest 環境註冊。
+    // Non-IntegrationTest env：完全不註冊 Authentication（v1.0 還沒有真實 auth scheme，業務 endpoint 也尚未掛 [Authorize]）。
+    if (builder.Environment.IsEnvironment("IntegrationTest"))
+    {
+        builder.Services
+            .AddAuthentication(TestAuthenticationDefaults.AuthenticationScheme)
+            .AddTestAuthentication();
+        builder.Services.AddAuthorization();
+    }
+
     var app = builder.Build();
+
+    // F-006 AC-7: Production / Staging / Development 啟動時若 Test auth scheme 已註冊 → hard-fail。
+    // 防止 config / refactor 意外把 test bypass 帶到 prod。
+    if (!app.Environment.IsEnvironment("IntegrationTest"))
+    {
+        var schemeProvider = app.Services.GetService<IAuthenticationSchemeProvider>();
+        if (schemeProvider is not null)
+        {
+            var testScheme = await schemeProvider.GetSchemeAsync(TestAuthenticationDefaults.AuthenticationScheme);
+            if (testScheme is not null)
+            {
+                throw new InvalidOperationException("Test authentication scheme MUST NOT be registered outside IntegrationTest environment.");
+            }
+        }
+    }
 
     // F-003 AC-6: OpenAPI policy — config 為主，未設則 fallback IsDevelopment（Production 預設 false fail-closed）
     var openApiEnabled = builder.Configuration.GetValue<bool?>("OpenApi:Enabled") ?? app.Environment.IsDevelopment();
@@ -86,6 +113,13 @@ try
 
     // F-003 AC-5: 必須在 ExceptionHandler 之後、endpoint 之前
     app.UseCors("Default");
+
+    // F-006: Authentication / Authorization pipeline — 僅 IntegrationTest 環境啟用（無註冊則略過）
+    if (app.Environment.IsEnvironment("IntegrationTest"))
+    {
+        app.UseAuthentication();
+        app.UseAuthorization();
+    }
 
     app.MapETOmniverseHealthEndpoints();
 
