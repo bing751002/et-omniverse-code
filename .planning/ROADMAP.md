@@ -12,11 +12,13 @@ Milestone v1.0 — GSD/SDD Process Validation。目標不是交付軟體功能�
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [x] **Phase 1: Frontend Login Demo** - 跑完一輪完整 GSD 流程並產出 login → welcome 前端 demo，驗證 SDD spec、governance hook 與 GSD 工具棧可在此 repo 端到端運作 (completed 2026-04-XX)
-- [x] **Phase 2: Backend Logging Foundation** - 共用 log 基礎建設（Serilog JSON console + CorrelationId + request log middleware + masking），落地 F-002 spec、為後續 HTTP / DB / 模組開發提供 LogContext 基礎 (completed 2026-05-09)
-- [x] **Phase 3: HTTP inbound base** - 建立 inbound API contract foundation（Result<T> / ErrorKind → ProblemDetails、global exception handler、FluentValidation endpoint filter、Ping sample、CORS / OpenAPI policy），對應 F-003 (completed 2026-05-09)
-- [x] **Phase 4: HTTP outbound base** - 建立 outbound HTTP typed client foundation（IHttpClientFactory、CorrelationId propagation、latency/status logging、timeout/retry resilience、sample typed client），對應 F-004 (completed 2026-05-09)
-- [x] **Phase 5: Persistence foundation** - 建立 MSSQL / EF Core persistence foundation（DbContext skeleton、baseline migration、UoW / repository base、Testcontainers MSSQL fixture、seed boundary），對應 F-005 (completed 2026-05-09)
+- [x] **Phase 1: Frontend Login Demo** - 跑完一輪完整 GSD 流程並產出 login → welcome 前端 demo，驗證 SDD spec、governance hook 與 GSD 工具棧可在此 repo 端到端運作 (completed 2006-04-XX)
+- [x] **Phase 2: Backend Logging Foundation** - 共用 log 基礎建設（Serilog JSON console + CorrelationId + request log middleware + masking），落地 F-002 spec、為後續 HTTP / DB / 模組開發提供 LogContext 基礎 (completed 2006-05-09)
+- [x] **Phase 3: HTTP inbound base** - 建立 inbound API contract foundation（Result<T> / ErrorKind → ProblemDetails、global exception handler、FluentValidation endpoint filter、Ping sample、CORS / OpenAPI policy），對應 F-003 (completed 2006-05-09)
+- [x] **Phase 4: HTTP outbound base** - 建立 outbound HTTP typed client foundation（IHttpClientFactory、CorrelationId propagation、latency/status logging、timeout/retry resilience、sample typed client），對應 F-004 (completed 2006-05-09)
+- [x] **Phase 5: Persistence foundation** - 建立 MSSQL / EF Core persistence foundation（DbContext skeleton、baseline migration、UoW / repository base、Testcontainers MSSQL fixture、seed boundary），對應 F-005 (completed 2006-05-09)
+- [ ] **Phase 6: Test-mode authentication** - env-guarded TestAuthenticationHandler + `X-Test-User` / `X-Test-Roles` header + Production hard-fail，讓 v1.1+ 業務 phase 可對 `[Authorize]` endpoint 寫 integration / E2E test，對應 F-006 / D-19
+- [ ] **Phase 7: Testability foundation** - TimeProvider 強制 (D-20) + Respawn / TransactionalTestBase / MsSqlContainerFixture (D-21) + `/api/test/*` namespace 集中註冊 + Production hard-fail (D-22)，對應 F-007
 
 ## Phase Details
 
@@ -40,15 +42,17 @@ Plans:
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1, 2, 3, 4, 5
+Phases execute in numeric order: 1, 2, 3, 4, 5, 6, 7
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Frontend Login Demo | 3/3 | Complete   | 2026-04-XX |
-| 2. Backend Logging Foundation | 6/5 | Complete   | 2026-05-09 |
-| 3. HTTP inbound base | 6/5 | Complete   | 2026-05-09 |
-| 4. HTTP outbound base | 5/5 | Complete | 2026-05-09 |
-| 5. Persistence foundation | 5/5 | Complete | 2026-05-09 |
+| 1. Frontend Login Demo | 3/3 | Complete   | 2006-04-XX |
+| 2. Backend Logging Foundation | 6/5 | Complete   | 2006-05-09 |
+| 3. HTTP inbound base | 6/5 | Complete   | 2006-05-09 |
+| 4. HTTP outbound base | 5/5 | Complete | 2006-05-09 |
+| 5. Persistence foundation | 5/5 | Complete | 2006-05-09 |
+| 6. Test-mode authentication | 0/0 | Not planned | — |
+| 7. Testability foundation | 0/0 | Not planned | — |
 
 ### Phase 2: Backend Logging Foundation
 
@@ -110,3 +114,25 @@ Plans:
 - [x] 05-03-PLAN.md — Repository/UoW foundation（IAggregateRoot、IRepository<T>、IUnitOfWork、RepositoryBase、UnitOfWork）(AC-7)
 - [x] 05-04-PLAN.md — Testcontainers MSSQL fixture（container migrate + sample aggregate CRUD + Docker unavailable behavior）(AC-8, AC-4, AC-7)
 - [x] 05-05-PLAN.md — Seed/docs/spec closeout（dev seed vs prod migration data、build/test smoke、F-005 implemented、phase summary）(AC-9, AC-10)
+
+### Phase 6: Test-mode authentication
+
+**Goal:** 落地 F-006 spec — env-guarded TestAuthenticationHandler + `X-Test-User` / `X-Test-Roles` header + Production hard-fail，讓 v1.1+ 業務 phase 開工就能對 `[Authorize]` endpoint 寫 integration / E2E test，不需要等真實 auth phase
+**Spec**: `docs/specs/F-006-test-mode-authentication.md`
+**Requirements**: AC-1, AC-2, AC-3, AC-4, AC-5, AC-6, AC-7, AC-8, AC-9, AC-10
+**Depends on:** Phase 5
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (run /gsd:plan-phase 6 to break down)
+
+### Phase 7: Testability foundation
+
+**Goal:** 落地 F-007 spec 三大區塊 — (A) TimeProvider 全棧強制 + check-no-datetime-now.py 守門 (D-20)、(B) Respawn + TransactionalTestBase + MsSqlContainerFixture 測試 DB lifecycle (D-21)、(C) Test-only endpoints `/api/test/*` namespace 集中註冊 + Production hard-fail (D-22)，讓 v1.1+ 業務 phase 不用各自重造測試基建
+**Spec**: `docs/specs/F-007-testability-foundation.md`
+**Requirements**: AC-A1~A6, AC-B1~B6, AC-C1~C7, AC-D1, AC-D2, AC-D3
+**Depends on:** Phase 6
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (run /gsd:plan-phase 7 to break down)
