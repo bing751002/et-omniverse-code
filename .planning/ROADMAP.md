@@ -53,7 +53,7 @@ Phases execute in numeric order: 1, 2
 **Plans:** 5 plans
 
 Plans:
-- [ ] 02-01-PLAN.md — Foundation + Test Sink (Serilog bootstrap + enrichers + BootstrapLogger + InMemorySink TestSupport) + F-002 status flip draft → approved → implementing + spec .ps1 → .py drift fix (AC-1, AC-5, AC-6)
+- [x] 02-01-PLAN.md — Foundation + Test Sink (Serilog bootstrap + enrichers + BootstrapLogger + InMemorySink TestSupport) + F-002 status flip draft → approved → implementing + spec .ps1 → .py drift fix (AC-1, AC-5, AC-6)
 - [ ] 02-02-PLAN.md — HTTP middleware (CorrelationId + RequestLogging with body cap + additive mask + /health 排除) + MaskFields baseline + LoggingOptions + Common.Tests project (AC-2, AC-3, AC-4)
 - [ ] 02-03-PLAN.md — Background helper (IBackgroundCorrelationScope + LoggingHeartbeatHostedService) + ICurrentUser port + AnonymousCurrentUser stub + DI 註冊 (AC-7)
 - [ ] 02-04-PLAN.md — Docs / Infra / CI (CONVENTIONS.md Logging 段 + INFRA.md Day 1 retention policy + docker-compose json-file rotation + scripts/check-no-console-write.py + pre-commit hook 串接) (AC-8, AC-9, AC-10)
