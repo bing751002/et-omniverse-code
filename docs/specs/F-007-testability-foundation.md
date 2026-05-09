@@ -2,7 +2,7 @@
 id: F-007
 title: Testability foundation — TimeProvider mandate, DB lifecycle, test endpoint discipline
 module:
-status: implementing
+status: implemented
 owner: jimmyliao
 created: 2026-05-09
 updated: 2026-05-09
@@ -74,46 +74,46 @@ v1.0 backend foundation（F-002 logging / F-003 HTTP inbound / F-004 HTTP outbou
 ## 驗收條件
 
 ### A. TimeProvider
-- [ ] **AC-A1** `builder.Services.AddSingleton(TimeProvider.System)` 註冊在 Program.cs — 對應測試：integration（DI resolve `TimeProvider` 拿到 instance）
-- [ ] **AC-A2** `scripts/check-no-datetime-now.py` 掃 backend C# 檔（排除 `Migrations/`、`bin/`、`obj/`）抓到任何 `DateTime.Now` / `DateTime.UtcNow` / `DateTimeOffset.Now` / `DateTimeOffset.UtcNow` 即 exit 非零 — 對應測試：unit（script 餵 fixture file 測 detection）
-- [ ] **AC-A3** pre-commit hook 串 `check-no-datetime-now.py`（per F-002 模式） — 對應測試：integration（hook script 餵違規 file 測 block）
-- [ ] **AC-A4** F-002 / F-003 既有 src code 若違反 AC-A2，本 spec 一併修正並通過 — 對應測試：CI（dotnet build + test 全綠）
-- [ ] **AC-A5** TestSupport 提供 `FakeTimeProviderFixture`（包 `Microsoft.Extensions.TimeProvider.Testing.FakeTimeProvider`），整合 xUnit collection fixture — 對應測試：unit
-- [ ] **AC-A6** CONVENTIONS.md 增一節「Time handling — TimeProvider mandate」描述規則與例外 — 對應測試：grep CONVENTIONS.md 含必要 keyword
+- [x] **AC-A1** `builder.Services.AddSingleton(TimeProvider.System)` 註冊在 Program.cs — 對應測試：integration（DI resolve `TimeProvider` 拿到 instance）
+- [x] **AC-A2** `scripts/check-no-datetime-now.py` 掃 backend C# 檔（排除 `Migrations/`、`bin/`、`obj/`）抓到任何 `DateTime.Now` / `DateTime.UtcNow` / `DateTimeOffset.Now` / `DateTimeOffset.UtcNow` 即 exit 非零 — 對應測試：unit（script 餵 fixture file 測 detection）
+- [x] **AC-A3** pre-commit hook 串 `check-no-datetime-now.py`（per F-002 模式） — 對應測試：integration（hook script 餵違規 file 測 block）
+- [x] **AC-A4** F-002 / F-003 既有 src code 若違反 AC-A2，本 spec 一併修正並通過 — 對應測試：CI（dotnet build + test 全綠）
+- [x] **AC-A5** TestSupport 提供 `FakeTimeProviderFixture`（包 `Microsoft.Extensions.TimeProvider.Testing.FakeTimeProvider`），整合 xUnit collection fixture — 對應測試：unit
+- [x] **AC-A6** CONVENTIONS.md 增一節「Time handling — TimeProvider mandate」描述規則與例外 — 對應測試：grep CONVENTIONS.md 含必要 keyword
 
 ### B. DB lifecycle
-- [ ] **AC-B1** `MsSqlContainerFixture` 落 `tests/backend/ETOmniverse.TestSupport/Database/`，xUnit collection fixture，提供 connection string property — 對應測試：integration（兩個 test class 共用同 fixture，container 只啟動一次）
-- [ ] **AC-B2** `RespawnDatabaseReset.ResetAsync()` 截斷所有 user table，保留 `__EFMigrationsHistory` — 對應測試：integration（先 insert data → ResetAsync → query empty + migration table 仍在）
-- [ ] **AC-B3** `TransactionalTestBase` 提供 transaction-per-test，test 結束自動 rollback — 對應測試：integration（test method insert data → next test method 看不到）
-- [ ] **AC-B4** `[Collection("Database")]` xUnit collection definition 落 `tests/backend/ETOmniverse.TestSupport/Database/DatabaseCollection.cs` — 對應測試：grep
-- [ ] **AC-B5** Respawn + Testcontainers package reference 加進 `tests/backend/ETOmniverse.TestSupport.csproj`（依賴版本由執行 phase planner 視 F-005 既選版本決定） — 對應測試：grep
-- [ ] **AC-B6** Smoke test 範例：跑 50 個 transactional test 在開發機 < 5 sec — 對應測試：integration（含 timing assertion 寬鬆 timeout）
+- [x] **AC-B1** `MsSqlContainerFixture` 落 `tests/backend/ETOmniverse.TestSupport/Database/`，xUnit collection fixture，提供 connection string property — 對應測試：integration（兩個 test class 共用同 fixture，container 只啟動一次）
+- [x] **AC-B2** `RespawnDatabaseReset.ResetAsync()` 截斷所有 user table，保留 `__EFMigrationsHistory` — 對應測試：integration（先 insert data → ResetAsync → query empty + migration table 仍在）
+- [x] **AC-B3** `TransactionalTestBase` 提供 transaction-per-test，test 結束自動 rollback — 對應測試：integration（test method insert data → next test method 看不到）
+- [x] **AC-B4** `[Collection("Database")]` xUnit collection definition 落 `tests/backend/ETOmniverse.TestSupport/Database/DatabaseCollection.cs` — 對應測試：grep
+- [x] **AC-B5** Respawn + Testcontainers package reference 加進 `tests/backend/ETOmniverse.TestSupport.csproj`（依賴版本由執行 phase planner 視 F-005 既選版本決定） — 對應測試：grep
+- [x] **AC-B6** Smoke test 範例：跑 50 個 transactional test 在開發機 < 5 sec — 對應測試：integration（含 timing assertion 寬鬆 timeout）
 
 ### C. Test endpoints
-- [ ] **AC-C1** `Features/Test/MapTestOnlyEndpointsExtensions.cs` 內部第一行 `if (!app.Environment.IsEnvironment("IntegrationTest")) throw new InvalidOperationException(...)` — 對應測試：unit
-- [ ] **AC-C2** Program.cs 改 call `app.MapTestOnlyEndpoints()`（不再 inline `if IsEnvironment` block） — 對應測試：grep + integration
-- [ ] **AC-C3** Production env startup 若 `MapTestOnlyEndpoints` 被 call → throw — 對應測試：integration（強制 env=Production 跑 WAF 測 throws）
-- [ ] **AC-C4** 既有 `/test/throw` `/test/echo` 遷移到 `/api/test/throw` `/api/test/echo`，F-002 既有 test 同步更新 path → 仍全綠 — 對應測試：integration
-- [ ] **AC-C5** `/api/common/ping/fail` 不變（per D-22 — F-003 ping sample 留原 namespace） — 對應測試：grep + integration
-- [ ] **AC-C6** `scripts/check-test-endpoints.py` 掃 `Features/Test/` 註冊一致性 — 對應測試：unit
-- [ ] **AC-C7** pre-commit hook 串 `check-test-endpoints.py` — 對應測試：integration
+- [x] **AC-C1** `Features/Test/MapTestOnlyEndpointsExtensions.cs` 內部第一行 `if (!app.Environment.IsEnvironment("IntegrationTest")) throw new InvalidOperationException(...)` — 對應測試：unit
+- [x] **AC-C2** Program.cs 改 call `app.MapTestOnlyEndpoints()`（不再 inline `if IsEnvironment` block） — 對應測試：grep + integration
+- [x] **AC-C3** Production env startup 若 `MapTestOnlyEndpoints` 被 call → throw — 對應測試：integration（強制 env=Production 跑 WAF 測 throws）
+- [x] **AC-C4** 既有 `/test/throw` `/test/echo` 遷移到 `/api/test/throw` `/api/test/echo`，F-002 既有 test 同步更新 path → 仍全綠 — 對應測試：integration
+- [x] **AC-C5** `/api/common/ping/fail` 不變（per D-22 — F-003 ping sample 留原 namespace） — 對應測試：grep + integration
+- [x] **AC-C6** `scripts/check-test-endpoints.py` 掃 `Features/Test/` 註冊一致性 — 對應測試：unit
+- [x] **AC-C7** pre-commit hook 串 `check-test-endpoints.py` — 對應測試：integration
 
 ### D. 收尾
-- [ ] **AC-D1** dotnet build solution: 0 warning / 0 error（`-warnaserror` clean）
-- [ ] **AC-D2** dotnet test solution: 全綠（含 F-007 新增 test + F-002~F-006 既有 test 無回歸）
-- [ ] **AC-D3** F-007 spec status flip 完整 D-08 4-step（draft → approved → implementing → implemented）
+- [x] **AC-D1** dotnet build solution: 0 warning / 0 error（`-warnaserror` clean）
+- [x] **AC-D2** dotnet test solution: 全綠（含 F-007 新增 test + F-002~F-006 既有 test 無回歸）
+- [x] **AC-D3** F-007 spec status flip 完整 D-08 4-step（draft → approved → implementing → implemented）
 
 ## 實作連結（完工後填）
 
-- TimeProvider DI：`<src/backend/ETOmniverse.Api/Program.cs>`
-- TimeProvider CI guard：`<scripts/check-no-datetime-now.py>`
-- FakeTimeProviderFixture：`<tests/backend/ETOmniverse.TestSupport/Time/FakeTimeProviderFixture.cs>`
-- MsSqlContainerFixture：`<tests/backend/ETOmniverse.TestSupport/Database/MsSqlContainerFixture.cs>`
-- RespawnDatabaseReset：`<tests/backend/ETOmniverse.TestSupport/Database/RespawnDatabaseReset.cs>`
-- TransactionalTestBase：`<tests/backend/ETOmniverse.TestSupport/Database/TransactionalTestBase.cs>`
-- DatabaseCollection：`<tests/backend/ETOmniverse.TestSupport/Database/DatabaseCollection.cs>`
-- MapTestOnlyEndpointsExtensions：`<src/backend/ETOmniverse.Api/Features/Test/MapTestOnlyEndpointsExtensions.cs>`
-- Test endpoint CI guard：`<scripts/check-test-endpoints.py>`
+- TimeProvider DI：`src/backend/ETOmniverse.Api/Program.cs`
+- TimeProvider CI guard：`scripts/check-no-datetime-now.py`
+- FakeTimeProviderFixture：`tests/backend/ETOmniverse.TestSupport/Time/FakeTimeProviderFixture.cs`
+- MsSqlContainerFixture：`tests/backend/ETOmniverse.TestSupport/Database/MsSqlContainerFixture.cs`
+- RespawnDatabaseReset：`tests/backend/ETOmniverse.TestSupport/Database/RespawnDatabaseReset.cs`
+- TransactionalTestBase：`tests/backend/ETOmniverse.TestSupport/Database/TransactionalTestBase.cs`
+- DatabaseCollection：`tests/backend/ETOmniverse.TestSupport/Database/DatabaseCollection.cs`
+- MapTestOnlyEndpointsExtensions：`src/backend/ETOmniverse.Api/Features/Test/MapTestOnlyEndpointsExtensions.cs`
+- Test endpoint CI guard：`scripts/check-test-endpoints.py`
 - 主要 PR：#XXX
 
 ## Open questions
