@@ -13,7 +13,7 @@ Milestone v1.0 — GSD/SDD Process Validation。目標不是交付軟體功能�
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [ ] **Phase 1: Frontend Login Demo** - 跑完一輪完整 GSD 流程並產出 login → welcome 前端 demo，驗證 SDD spec、governance hook 與 GSD 工具棧可在此 repo 端到端運作
-- [ ] **Phase 2: Backend Logging Foundation** - 共用 log 基礎建設（Serilog JSON console + CorrelationId + request log middleware + masking），落地 F-002 spec、為後續 HTTP / DB / 模組開發提供 LogContext 基礎
+- [x] **Phase 2: Backend Logging Foundation** - 共用 log 基礎建設（Serilog JSON console + CorrelationId + request log middleware + masking），落地 F-002 spec、為後續 HTTP / DB / 模組開發提供 LogContext 基礎 (completed 2026-05-09)
 
 ## Phase Details
 
@@ -42,7 +42,7 @@ Phases execute in numeric order: 1, 2
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Frontend Login Demo | 0/3 | Not started | - |
-| 2. Backend Logging Foundation | 4/5 | In Progress|  |
+| 2. Backend Logging Foundation | 6/5 | Complete   | 2026-05-09 |
 
 ### Phase 2: Backend Logging Foundation
 
@@ -50,14 +50,14 @@ Phases execute in numeric order: 1, 2
 **Spec**: `docs/specs/F-002-backend-logging-foundation.md` (status: draft → 規劃時 → approved → implementing → implemented，per D-08 4-step)
 **Requirements**: AC-1, AC-2, AC-3, AC-4, AC-5, AC-6, AC-7, AC-8, AC-9, AC-10, AC-11 (F-002 spec 11 條 AC)
 **Depends on:** Phase 1 (process validation only — no code dependency)
-**Plans:** 4/5 plans executed
+**Plans:** 6/5 plans complete
 
 Plans:
 - [x] 02-01-PLAN.md — Foundation + Test Sink (Serilog bootstrap + enrichers + BootstrapLogger + InMemorySink TestSupport) + F-002 status flip draft → approved → implementing + spec .ps1 → .py drift fix (AC-1, AC-5, AC-6)
 - [x] 02-02-PLAN.md — HTTP middleware (CorrelationId + RequestLogging with body cap + additive mask + /health 排除) + MaskFields baseline + LoggingOptions + Common.Tests project (AC-2, AC-3, AC-4)
 - [x] 02-03-PLAN.md — Background helper (IBackgroundCorrelationScope + LoggingHeartbeatHostedService) + ICurrentUser port + AnonymousCurrentUser stub + DI 註冊 (AC-7)
 - [x] 02-04-PLAN.md — Docs / Infra / CI (CONVENTIONS.md Logging 段 + INFRA.md Day 1 retention policy + docker-compose json-file rotation + scripts/check-no-console-write.py + pre-commit hook 串接) (AC-8, AC-9, AC-10)
-- [ ] 02-05-PLAN.md — 收尾 (build/test smoke + spec 實作連結填實 + F-002 status flip implementing → implemented) (AC-11)
+- [x] 02-05-PLAN.md — 收尾 (build/test smoke + spec 實作連結填實 + F-002 status flip implementing → implemented) (AC-11)
 
 **Wave Structure:**
 - Wave 1: 02-01 (foundation — 後續 plan 依賴 SerilogSetup + LoggingTestWebAppFactory)
