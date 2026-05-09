@@ -1,0 +1,29 @@
+namespace ETOmniverse.Api.Middleware;
+
+using System;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Serilog.Context;
+
+public sealed class CorrelationIdMiddleware
+{
+    public const string HeaderName = "X-Correlation-Id";
+    public const string LogProperty = "CorrelationId";
+
+    private readonly RequestDelegate _next;
+    public CorrelationIdMiddleware(RequestDelegate next) => _next = next;
+
+    public async Task Invoke(HttpContext ctx)
+    {
+        var incoming = ctx.Request.Headers[HeaderName].ToString();
+        var id = string.IsNullOrWhiteSpace(incoming) ? Guid.NewGuid().ToString("N") : incoming;
+
+        ctx.Response.Headers[HeaderName] = id;
+        ctx.Items[LogProperty] = id;
+
+        using (LogContext.PushProperty(LogProperty, id))
+        {
+            await _next(ctx);
+        }
+    }
+}

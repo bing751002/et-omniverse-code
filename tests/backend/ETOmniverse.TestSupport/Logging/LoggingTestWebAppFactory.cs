@@ -21,6 +21,9 @@ public class LoggingTestWebAppFactory : WebApplicationFactory<Program>
 
     protected override IHost CreateHost(IHostBuilder builder)
     {
+        // 啟用 IntegrationTest 環境，讓 Program.cs 中的測試 endpoint 生效
+        builder.UseEnvironment("IntegrationTest");
+
         builder.ConfigureAppConfiguration(cfg =>
         {
             cfg.AddInMemoryCollection(_overrides);
