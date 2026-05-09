@@ -20,6 +20,10 @@ try
     builder.Services.Configure<LoggingOptions>(
         builder.Configuration.GetSection(LoggingOptions.SectionName));
 
+    // F-002 AC-7: 驗收用 heartbeat — 永遠 register，service 自己讀 Enabled 旗標決定是否跑
+    // 不在 builder 階段判斷是因為 WAF integration test 需要在 CreateHost 階段才覆蓋 appsettings
+    builder.Services.AddHostedService<ETOmniverse.Common.Logging.LoggingHeartbeatHostedService>();
+
     var app = builder.Build();
 
     if (app.Environment.IsDevelopment())
