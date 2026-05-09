@@ -30,10 +30,11 @@
 
 - [x] **F-002 / AC-1..AC-11**: Serilog JSON sink + CorrelationId/RequestLogging middleware + masking + IBackgroundCorrelationScope + LoggingHeartbeatHostedService + ICurrentUser port + CONVENTIONS/INFRA docs + check-no-console-write CI guard — Validated in Phase 02（11/11 ACs，36 tests pass，spec status `implemented`）
 
-### Active
+#### Phase 03 — HTTP inbound base (complete 2026-05-09)
 
-#### Phase 03 — HTTP inbound base (planned, F-003 spec draft)
-- [ ] **F-003**: Result<T> / ErrorKind → ProblemDetails、global exception handler、FluentValidation endpoint filter、Ping sample、CORS / OpenAPI policy
+- [x] **F-003 / AC-1..AC-9**: Domain Result<T> + ErrorKind enum + API ToHttpResult() + RFC 7807 ProblemDetails (含 traceId/code) + GlobalExceptionHandler (IExceptionHandler) + ValidationEndpointFilter + Common Ping sample + CORS policy (Dev allow-all / Prod fail-closed) + OpenAPI policy (config-driven OpenApi:Enabled) — Validated in Phase 03（9/9 ACs，dotnet test 78/78 pass，spec status `implemented`，D-08 4-step status flip 完整）
+
+### Active
 
 #### Phase 04 — HTTP outbound base (planned, F-004 spec draft)
 - [ ] **F-004**: IHttpClientFactory + typed client、CorrelationId propagation、latency/status logging、timeout/retry resilience、sample typed client
@@ -116,4 +117,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-05-09 after milestone v1.0 scope expanded to include Phase 03/04/05 (HTTP inbound / outbound / persistence)*
+*Last updated: 2026-05-09 after Phase 03 complete (HTTP inbound base — F-003 implemented, 78/78 tests, D-08 4-step clean)*
