@@ -163,21 +163,24 @@ F-002 Logging foundation ─┬─→ F-003 HTTP inbound base （middleware 要 
   - [ ] `docker-compose.yml` `api` / `web` service 設了 `logging.driver: json-file` + `max-size: 50m` + `max-file: 5` — 對應測試：manual review + `docker compose config` 解析驗證
 - [ ] **AC-11 build clean**：`dotnet build` warnings-as-errors 通過、`dotnet test` 全部 pass — 對應測試：build smoke
 
-## 實作連結（完工後填）
+## 實作連結
 
-> 路徑以 `<...>` 標記表示尚未存在。
-
-- Serilog setup：`<src/backend/ETOmniverse.Common/Logging/SerilogSetup.cs>`
-- BootstrapLogger：`<src/backend/ETOmniverse.Common/Logging/BootstrapLogger.cs>`
-- Enrichers：`<src/backend/ETOmniverse.Common/Logging/Enrichers/>`
-- CorrelationId middleware：`<src/backend/ETOmniverse.Api/Middleware/CorrelationIdMiddleware.cs>`
-- Request logging middleware：`<src/backend/ETOmniverse.Api/Middleware/RequestLoggingMiddleware.cs>`
-- ICurrentUser stub：`<src/backend/ETOmniverse.Domain/Common/Ports/ICurrentUser.cs>` + `<src/backend/ETOmniverse.Infrastructure/Identity/AnonymousCurrentUser.cs>`
-- Background correlation scope：`<src/backend/ETOmniverse.Common/Logging/IBackgroundCorrelationScope.cs>`
-- Test sink helper：`<tests/ETOmniverse.TestSupport/Logging/InMemoryLogAssertions.cs>`
-- CONVENTIONS.md 補丁：`docs/CONVENTIONS.md`（新增 Logging 段）
-- INFRA.md 補丁：`docs/INFRA.md`（Observability Staging 表格 Day 1 行）
-- CI 禁區掃描：`<scripts/check-no-console-write.py>`
+- Serilog setup：`src/backend/ETOmniverse.Common/Logging/SerilogSetup.cs`
+- BootstrapLogger：`src/backend/ETOmniverse.Common/Logging/BootstrapLogger.cs`
+- Enrichers：`src/backend/ETOmniverse.Common/Logging/Enrichers/` (AppNameEnricher.cs, AppVersionEnricher.cs)
+- CorrelationId middleware：`src/backend/ETOmniverse.Api/Middleware/CorrelationIdMiddleware.cs`
+- Request logging middleware：`src/backend/ETOmniverse.Api/Middleware/RequestLoggingMiddleware.cs`
+- ICurrentUser stub：`src/backend/ETOmniverse.Domain/Common/Ports/ICurrentUser.cs` + `src/backend/ETOmniverse.Infrastructure/Identity/AnonymousCurrentUser.cs`
+- Background correlation scope：`src/backend/ETOmniverse.Common/Logging/IBackgroundCorrelationScope.cs` + `src/backend/ETOmniverse.Common/Logging/BackgroundCorrelationScope.cs`
+- Heartbeat hosted service：`src/backend/ETOmniverse.Common/Logging/LoggingHeartbeatHostedService.cs`
+- MaskFields baseline：`src/backend/ETOmniverse.Common/Logging/MaskFields.cs`
+- LoggingOptions：`src/backend/ETOmniverse.Common/Logging/LoggingOptions.cs`
+- Test sink helper：`tests/backend/ETOmniverse.TestSupport/Logging/InMemoryLogAssertions.cs` + `tests/backend/ETOmniverse.TestSupport/Logging/LoggingTestWebAppFactory.cs`
+- Test projects：`tests/backend/ETOmniverse.TestSupport/`、`tests/backend/ETOmniverse.Common.Tests/`、`tests/backend/ETOmniverse.Api.Tests/`
+- CONVENTIONS.md 補丁：`docs/CONVENTIONS.md`（## Logging 段）
+- INFRA.md 補丁：`docs/INFRA.md`（Observability Staging Day 1 行 + Day 1 log retention policy 段）
+- docker logging（overlay）：`docker/compose/base.api.yml` + `docker/compose/base.web.yml`（json-file rotation 50m / "5"）
+- CI 禁區掃描：`scripts/check-no-console-write.py` + `scripts/test_check_no_console_write.py`（pytest 機械驗證 + pre-commit hook 已串接）
 - 主要 PR：#TBD
 
 ## 參考來源
@@ -228,3 +231,4 @@ CONVENTIONS.md 規定加 NuGet 前要先評估必要性。本 spec 引入：
 | 2026-05-09 | status: draft → approved；AC-8 / 實作連結 .ps1 → .py（per CONTEXT.md D-03，跨平台 + 既有 governance scripts 全 python） | #TBD |
 | 2026-05-09 | status: approved → implementing（02-01-PLAN Cluster A+D 落地） | #TBD |
 | 2026-05-09 | In scope 段 docker-compose.yml 字面對齊到 overlay 路徑（docker/compose/base.{api,web}.yml）— spec drift fix，與 .ps1→.py 同類，scope 不變 | #TBD |
+| 2026-05-09 | 實作連結填實（02-01 ~ 02-04 全部落地） | #TBD |
