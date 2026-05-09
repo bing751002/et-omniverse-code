@@ -86,6 +86,28 @@ merge
 3. 完工後跑 /gsd:audit-milestone + /gsd:complete-milestone
 ```
 
+## Phase Close Checklist（SDD 純粹派回填規則）
+
+`.planning/phases/` 不上 git（見 `.gitignore`）— phase close 前**必須**把以下軌跡手動摘要回 `docs/`，否則決策軌跡會永久遺失：
+
+| 從 .planning/phases/`<phase>`/ | 摘要到 docs/ | 紀律 |
+|---|---|---|
+| `<p>-CONTEXT.md` 的 D-XX 決策 | `docs/decisions/D-XX-*.md`（一個 D 一份） | 同步更新 `docs/DECISIONS.md` 摘要表 |
+| `<p>-RESEARCH.md` 的關鍵技術發現 | `docs/specs/F-XXX-*.md` 的 Background / Notes 區塊 | 引用驗證指令（curl / grep）留痕 |
+| `<p>-VERIFICATION.md` 的 UAT 結果 | spec status: implementing → implemented + commit message | spec frontmatter `updated` 改今天 |
+| 踩到的 gotcha / 反模式 | `docs/CONVENTIONS.md` 「已知陷阱」段 | 寫具體例子，下次別人才看得懂 |
+| Demo / 走讀素材 | `docs/walkthroughs/phase-XX.md` | pointer 為主（連結到 spec / commit / decision） |
+| 失敗的 AI 互動 / 反覆踩坑 | `docs/retrospectives/phase-XX.md` | 對應 AI-GUIDE.md 失敗模式分類 |
+
+**何時跑**：
+- 主要時機：`/gsd:verify-work` 通過後、`/gsd:ship` 之前
+- `/gsd:ship` PR description 應引用回填到的 `D-XX` / `F-XXX` / walkthrough 連結
+- 只有 spec + ADR + walkthrough + retrospective 進 git，phase 食譜本身丟掉
+
+**為什麼不自動產**：摘要需要判斷「哪些是永久決策、哪些是一次性 noise」— 認知 cost 在使用者 / 主 Claude 不在工具，符合 AI-GUIDE.md「事實層自動、洞察層留摩擦」原則。
+
+**例外**：milestone v1.0 Phase 01 的 `.planning/phases/01-frontend-login-demo/` 已 commit 在 git history，作為「process validation 第一輪證據」永久保留，不追溯重構（符合 Kill Switch Day 紀律）。下個 phase 起套此 checklist。
+
 ## Spec status 流轉
 
 | status | 意義 | 何時改 |

@@ -124,3 +124,13 @@ secrets/
 
 # ===== Claude Code（個人 local 設定） =====
 .claude/settings.local.json
+
+# ===== GSD planning（SDD 純粹派：只 spec 上 git，phase 食譜不上） =====
+# 保留上 git：.planning/PROJECT.md、REQUIREMENTS.md、ROADMAP.md（milestone 級契約）
+# 不上 git：phase 級 ephemeral 軌跡（CONTEXT / DISCUSSION / RESEARCH / PLAN / SUMMARY 等）
+# Phase close 時須手動摘要回填到 docs/（見 docs/WORKFLOW.md "Phase Close Checklist"）
+# 註：milestone v1.0 Phase 01 軌跡已 commit 在 git history，作為 process validation 證據保留
+.planning/phases/
+.planning/STATE.md
+.planning/codebase/
+.planning/config.json
