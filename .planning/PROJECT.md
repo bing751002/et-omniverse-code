@@ -32,6 +32,15 @@
 
 ### Active
 
+#### Phase 03 — HTTP inbound base (planned, F-003 spec draft)
+- [ ] **F-003**: Result<T> / ErrorKind → ProblemDetails、global exception handler、FluentValidation endpoint filter、Ping sample、CORS / OpenAPI policy
+
+#### Phase 04 — HTTP outbound base (planned, F-004 spec draft)
+- [ ] **F-004**: IHttpClientFactory + typed client、CorrelationId propagation、latency/status logging、timeout/retry resilience、sample typed client
+
+#### Phase 05 — Persistence foundation (planned, F-005 spec draft)
+- [ ] **F-005**: MSSQL / EF Core 10 DbContext skeleton、baseline migration、UoW / repository base、Testcontainers MSSQL fixture、seed boundary
+
 ### Out of Scope
 
 #### 此 milestone 排除
