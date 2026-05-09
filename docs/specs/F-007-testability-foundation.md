@@ -40,7 +40,7 @@ v1.0 backend foundation（F-002 logging / F-003 HTTP inbound / F-004 HTTP outbou
 #### A. TimeProvider 強制（per D-20）
 - DI 註冊 prod：`builder.Services.AddSingleton(TimeProvider.System)`
 - TestSupport 提供 `FakeTimeProviderFixture` wrapper 整合 `Microsoft.Extensions.TimeProvider.Testing.FakeTimeProvider`
-- CI guard：`scripts/check-no-datetime-now.py` 掃禁區（patterns: `DateTime\.Now`、`DateTime\.UtcNow`、`DateTimeOffset\.Now`、`DateTimeOffset\.UtcNow`）
+- CI guard：`scripts/check-no-datetime-now.py` 掃 backend C# 禁區（patterns: `DateTime\.Now`、`DateTime\.UtcNow`、`DateTimeOffset\.Now`、`DateTimeOffset\.UtcNow`）
 - pre-commit hook 串接（沿用 F-002 `check-no-console-write` 模式）
 - CONVENTIONS.md 補一條硬規則
 - 例外白名單：`Migrations/`（auto-generated）、Logging enricher metadata
@@ -75,7 +75,7 @@ v1.0 backend foundation（F-002 logging / F-003 HTTP inbound / F-004 HTTP outbou
 
 ### A. TimeProvider
 - [ ] **AC-A1** `builder.Services.AddSingleton(TimeProvider.System)` 註冊在 Program.cs — 對應測試：integration（DI resolve `TimeProvider` 拿到 instance）
-- [ ] **AC-A2** `scripts/check-no-datetime-now.py` 掃 `src/backend/**/*.cs`（排除 `Migrations/`、`bin/`、`obj/`）抓到任何 `DateTime.Now` / `DateTime.UtcNow` / `DateTimeOffset.Now` / `DateTimeOffset.UtcNow` 即 exit 非零 — 對應測試：unit（script 餵 fixture file 測 detection）
+- [ ] **AC-A2** `scripts/check-no-datetime-now.py` 掃 backend C# 檔（排除 `Migrations/`、`bin/`、`obj/`）抓到任何 `DateTime.Now` / `DateTime.UtcNow` / `DateTimeOffset.Now` / `DateTimeOffset.UtcNow` 即 exit 非零 — 對應測試：unit（script 餵 fixture file 測 detection）
 - [ ] **AC-A3** pre-commit hook 串 `check-no-datetime-now.py`（per F-002 模式） — 對應測試：integration（hook script 餵違規 file 測 block）
 - [ ] **AC-A4** F-002 / F-003 既有 src code 若違反 AC-A2，本 spec 一併修正並通過 — 對應測試：CI（dotnet build + test 全綠）
 - [ ] **AC-A5** TestSupport 提供 `FakeTimeProviderFixture`（包 `Microsoft.Extensions.TimeProvider.Testing.FakeTimeProvider`），整合 xUnit collection fixture — 對應測試：unit

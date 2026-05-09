@@ -54,8 +54,8 @@ per **D-19** 決議走 env-guarded TestAuthenticationHandler，本 spec 落地�
 
 ## 驗收條件
 
-- [ ] **AC-1** `TestAuthenticationHandler` 落 `src/backend/ETOmniverse.Api/Authentication/Test/` namespace — 對應測試：unit
-- [ ] **AC-2** `AddTestAuthentication()` extension 落 `src/backend/ETOmniverse.Api/Authentication/Test/AuthenticationBuilderExtensions.cs` — 對應測試：unit
+- [ ] **AC-1** `TestAuthenticationHandler` 落 `<src/backend/ETOmniverse.Api/Authentication/Test/>` namespace — 對應測試：unit
+- [ ] **AC-2** `AddTestAuthentication()` extension 落 `<src/backend/ETOmniverse.Api/Authentication/Test/AuthenticationBuilderExtensions.cs>` — 對應測試：unit
 - [ ] **AC-3** Integration test 送 `X-Test-User: alice` 進入 `[Authorize]` endpoint 回 200，且 `User.Identity.Name == "alice"` — 對應測試：integration
 - [ ] **AC-4** Integration test 不送 header 進入 `[Authorize]` endpoint 回 401 ProblemDetails (per F-003 contract) — 對應測試：integration
 - [ ] **AC-5** Integration test 送 `X-Test-User: alice` 但 endpoint 標 `[Authorize(Roles = "Admin")]`，未送 `X-Test-Roles` → 回 403 ProblemDetails — 對應測試：integration
