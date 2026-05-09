@@ -9,3 +9,8 @@ services:
       ConnectionStrings__Default: Server=mssql,1433;Database=et_omniverse;User Id=sa;Password=${MSSQL_SA_PASSWORD};TrustServerCertificate=True;
     ports:
       - "5080:8080"
+    logging:
+      driver: json-file
+      options:
+        max-size: "50m"
+        max-file: "5"
