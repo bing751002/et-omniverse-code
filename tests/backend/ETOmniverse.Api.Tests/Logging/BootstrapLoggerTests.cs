@@ -6,6 +6,7 @@ using ETOmniverse.Common.Logging;
 using FluentAssertions;
 using Xunit;
 
+[Collection("LoggingTests")]
 public class BootstrapLoggerTests
 {
     [Fact]

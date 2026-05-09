@@ -7,6 +7,7 @@ using FluentAssertions;
 using Serilog.Formatting.Compact;
 using Xunit;
 
+[Collection("LoggingTests")]
 public class SerilogBootstrapTests
 {
     [Fact]

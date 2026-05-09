@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using ETOmniverse.TestSupport.Logging;
 using Xunit;
 
+[Collection("LoggingTests")]
 public class EnricherTests
 {
     [Fact]
