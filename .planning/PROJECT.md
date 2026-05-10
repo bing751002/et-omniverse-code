@@ -21,13 +21,16 @@
 
 詳見 [`milestones/v1.0-ROADMAP.md`](milestones/v1.0-ROADMAP.md) 與 [`milestones/v1.0-REQUIREMENTS.md`](milestones/v1.0-REQUIREMENTS.md)。
 
-## Next Milestone Goals (v1.1 — TBD)
+## Current Milestone: v1.1 — Foundation Hardening Before Business
 
-v1.0 已建立完整 backend foundation；v1.1 應該是**第一個業務 feature**。下個 milestone 透過 `/gsd:new-milestone` 定義具體 scope，候選方向：
+**Goal:** 在進入任何 7-step 業務流程前，把驗證、環境、設定、背景任務與前端整合地基補到可交付狀態。
 
-- 第一個業務 entity（CRUD + spec + Authorize endpoint，dogfood 完整 stack：F-002 logging + F-003 inbound + F-005 persistence + F-006 test auth）
-- 真實 auth foundation（D-14：JWT / session / local user 表 / RBAC）
-- 7-step 排播流程的第一步（建批次？商品挑選？— 待 product 訪談確認）
+**Target features:**
+- Verification foundation：本機 build/test 與 CI quality gate 使用同一組可信驗證入口。
+- Environment foundation：Docker/local stack、ConfigTool 與 config contract 可驗證、可診斷。
+- Execution foundation：Quartz background job 與 frontend API integration / Playwright harness 先建立標準路徑。
+
+**Explicit boundary:** 本 milestone 不做商品、排播、AI VCR、派報、真實 RBAC、Fugo、AD、Qdrant 或任何 7-step 業務流程。
 
 ## Constraints
 
@@ -47,6 +50,7 @@ v1.0 已建立完整 backend foundation；v1.1 應該是**第一個業務 featur
 | Milestone v1.0 範圍從「process validation」擴張為「+ backend foundation」 | Phase 02 完成後使用者要求把 backend 共用基建一次納入，避免 v1.1 業務 phase 又在補基建 | ✅ Validated — 7 phases 全部蓋章，v1.1+ 業務 phase 開工就有完整 stack |
 | GSD 版本鎖採 `.gsd-version` + ONBOARDING 引用，不 vendor GSD 引擎進 repo | meta-tooling 投資延後；vendor 是 1-3 小時 + 持續維運成本 | ✅ Validated — 全程 110 commits hook-clean，無工具版本爭議 |
 | PHASE-SUMMARY / plan SUMMARY 為 disk-only（`.gitignore`），對外契約由 specs + ADR + commit history 承擔 | SDD purist：契約只 1 份（spec），summary 為內部 working artifact | ✅ Validated — v1.0 完整跑通，外部審計可從 specs + ADR + git log 重建脈絡 |
+| v1.1 先做 foundation hardening，不直接進業務流程 | v1.0 後仍有 build/test ACL、CI gate、Docker/config、Quartz/frontend integration 缺口；先補橫切地基可降低第一個業務 milestone 的雜訊 | — Pending |
 
 ## Evolution
 
@@ -78,4 +82,4 @@ This document evolves at phase transitions and milestone boundaries.
 </details>
 
 ---
-*Last updated: 2026-05-09 after v1.0 milestone complete*
+*Last updated: 2026-05-10 after v1.1 milestone start*

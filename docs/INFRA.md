@@ -132,6 +132,12 @@ Day 1 implementation note：原 spec 優先採 `Microsoft.Extensions.Http.Resili
 
 - Day 1：先有 `dotnet build`、`dotnet test`、frontend build 的本機命令。
 - Frontend container build 必須使用 repo 鎖定的 pnpm toolchain；`docker/Dockerfile.frontend` 以 `corepack enable` + `pnpm install` + `pnpm run build` 為準，不回退到 npm。
+- v1.1 起本機與 CI 共同入口為：
+  - Local: `powershell -NoProfile -ExecutionPolicy Bypass -File scripts\verify-local.ps1`
+  - CI: `powershell -NoProfile -ExecutionPolicy Bypass -File scripts\verify-ci.ps1 -Configuration Release`
+- Verification scripts 使用 temp artifacts/packages 目錄（預設 `$env:TEMP\et-omniverse-*`），避免 Windows checkout 內 `obj` / artifacts ACL 問題污染結果。
+- NuGet audit 在 verification scripts 中以 `/p:NuGetAudit=false` 關閉；安全稽核應由可連 registry 的獨立 CI job 處理，不能讓 registry/network 抖動阻塞一般 build/test gate。
+- Config validation 入口為 `dotnet run --project src/backend/ETOmniverse.Tools.ConfigTool -- validate`；需要檢視設定時用 `print --redacted`，不可把 secret-like 值輸出到 CI log。
 - Repo skeleton 穩定後：補 Jenkinsfile，只做 build/test/package。
 - 有第一個可部署 demo 後：補 Docker image build + VM deploy + healthcheck。
 - Production 前：才拆 CI/CD 權限、config bundle、rollback、雙階段 healthcheck。

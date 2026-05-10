@@ -2,6 +2,16 @@
 
 ConfigTool is the future command-line entry point for explicit environment operations such as development seed commands.
 
+## Commands
+
+```powershell
+dotnet run --project src/backend/ETOmniverse.Tools.ConfigTool -- validate
+dotnet run --project src/backend/ETOmniverse.Tools.ConfigTool -- print --redacted
+```
+
+`validate` checks non-business configuration required by the current foundation.
+`print --redacted` prints the merged appsettings JSON with secret-like values masked.
+
 F-005 boundary:
 
 - Dev seed commands may live here when a real module needs local/demo data.

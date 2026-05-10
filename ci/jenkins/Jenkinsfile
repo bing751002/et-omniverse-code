@@ -2,29 +2,9 @@ pipeline {
   agent any
 
   stages {
-    stage('Docs Lint') {
+    stage('Verification') {
       steps {
-        bat 'python scripts/check-spec-links.py'
-        bat 'python scripts/build-adr-index.py --check'
-        bat 'python scripts/check-doc-governance.py'
-      }
-    }
-
-    stage('Restore') {
-      steps {
-        bat 'dotnet restore ETOmniverse.sln'
-      }
-    }
-
-    stage('Build') {
-      steps {
-        bat 'dotnet build ETOmniverse.sln --configuration Release --no-restore'
-      }
-    }
-
-    stage('Test') {
-      steps {
-        bat 'dotnet test ETOmniverse.sln --configuration Release --no-build'
+        bat 'powershell -NoProfile -ExecutionPolicy Bypass -File scripts\\verify-ci.ps1 -Configuration Release'
       }
     }
   }
