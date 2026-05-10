@@ -1,6 +1,59 @@
-@ETOmniverse.Api_HostAddress = http://localhost:5223
+@host = http://localhost:5223
+@correlationId = dev-{{$guid}}
 
-GET {{ETOmniverse.Api_HostAddress}}/weatherforecast/
-Accept: application/json
+### Root → 302 redirect to /health/live
+GET {{host}}/
 
-###
+### Health: liveness
+GET {{host}}/health/live
+
+### Health: readiness (需要 MSSQL，無 DB 會 503)
+GET {{host}}/health/ready
+
+### Ping
+GET {{host}}/api/common/ping
+X-Correlation-Id: {{correlationId}}
+
+### Ping: echo (POST)
+POST {{host}}/api/common/ping/echo
+Content-Type: application/json
+X-Correlation-Id: {{correlationId}}
+
+{
+  "message": "hello from .http"
+}
+
+### Ping: echo — validation fail (空 message)
+POST {{host}}/api/common/ping/echo
+Content-Type: application/json
+
+{
+  "message": ""
+}
+
+### Ping: fail — 故意觸發 500（測錯誤 log + ProblemDetails）
+GET {{host}}/api/common/ping/fail
+X-Correlation-Id: {{correlationId}}
+
+### Test: throw (Dev only)
+GET {{host}}/api/test/throw
+
+### Test: echo GET (Dev only)
+GET {{host}}/api/test/echo
+
+### Test: echo POST (Dev only)
+POST {{host}}/api/test/echo
+Content-Type: application/json
+
+{
+  "anything": "goes"
+}
+
+### Test: auth whoami (Dev only)
+GET {{host}}/api/test/auth/whoami
+
+### Test: auth admin (Dev only)
+GET {{host}}/api/test/auth/admin
+
+### OpenAPI spec (Dev only)
+GET {{host}}/openapi/v1.json
