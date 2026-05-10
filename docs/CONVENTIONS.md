@@ -45,16 +45,28 @@
 .\scripts\db-add-migration.ps1 -Name <Name>
 ```
 
+檢查 / 產 SQL / 套 migration 分開：
+
+```powershell
+.\scripts\db-status.ps1
+.\scripts\db-script-migration.ps1 -OutputPath artifacts/migrations/et-omniverse-idempotent.sql
+.\scripts\db-update.ps1
+```
+
+`db-status.ps1` 與 `db-update.ps1` 會連 DB；`db-script-migration.ps1` 只產 SQL，不連 DB。default verification 不可自動執行 DB update。
+
 等價指令：
 
 ```powershell
 dotnet ef migrations add <Name> `
   --project src/backend/ETOmniverse.Infrastructure `
-  --startup-project src/backend/ETOmniverse.Api `
+  --startup-project src/backend/ETOmniverse.Infrastructure `
+  --context EtOmniverseDbContext `
   --output-dir Persistence/Migrations
 ```
 
-- `dotnet ef` 需由開發者本機安裝；若不存在，先安裝 local/global tool 後再產 migration，不手寫非空 migration。
+- `dotnet-ef` 由 repo-local `.config/dotnet-tools.json` 鎖定；若不存在，先跑 `dotnet tool restore`，不依賴 developer global tool。
+- 此 checkout 不可靠一般 `obj/` restore/build；DB ops scripts 會先跑 `scripts/prepare-dotnet-ef-build.ps1`，再用 `dotnet ef --no-build`。
 - Table / column 命名走 EFCore.NamingConventions；不要每張表手寫 `[Table]` 來解決 snake_case。
 - `SaveChangesAsync` 統一從 `IUnitOfWork` 進入；feature repository 不直接暴露 `DbContext.SaveChangesAsync`。
 - `IRepository<T>` 只給 aggregate root 使用；read model / query model 另建 Query/Read repository，並在 feature spec 標明 deliberate CQRS exception。

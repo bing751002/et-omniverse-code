@@ -119,6 +119,8 @@ __pycache__/
 src/frontend/**/auto-imports.d.ts
 src/frontend/**/components.d.ts
 src/frontend/**/src/api/generated/
+!src/frontend/ETOmniverse.Web/src/api/generated/
+!src/frontend/ETOmniverse.Web/src/api/generated/openapi-contract.ts
 
 # ===== Secrets / 個人 =====
 secrets/

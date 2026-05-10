@@ -1,0 +1,98 @@
+{
+    "openapi":  "3.1.1",
+    "info":  {
+                 "title":  "ET-Omniverse API",
+                 "description":  "ET-Omniverse inbound HTTP API（F-003 inbound base）",
+                 "version":  "v1"
+             },
+    "servers":  [
+                    {
+                        "url":  "http://127.0.0.1:5097/"
+                    }
+                ],
+    "paths":  {
+                  "/":  {
+                            "get":  {
+                                        "tags":  [
+                                                     "ETOmniverse.Api"
+                                                 ],
+                                        "responses":  {
+                                                          "200":  {
+                                                                      "description":  "OK"
+                                                                  }
+                                                      }
+                                    }
+                        },
+                  "/health/live":  {
+                                       "get":  {
+                                                   "tags":  [
+                                                                "ETOmniverse.Api"
+                                                            ],
+                                                   "responses":  {
+                                                                     "200":  {
+                                                                                 "description":  "OK"
+                                                                             }
+                                                                 }
+                                               }
+                                   },
+                  "/api/common/ping":  {
+                                           "get":  {
+                                                       "tags":  [
+                                                                    "Common/Ping"
+                                                                ],
+                                                       "operationId":  "Ping",
+                                                       "responses":  {
+                                                                         "200":  {
+                                                                                     "description":  "OK"
+                                                                                 }
+                                                                     }
+                                                   }
+                                       },
+                  "/api/common/ping/echo":  {
+                                                "post":  {
+                                                             "tags":  [
+                                                                          "Common/Ping"
+                                                                      ],
+                                                             "operationId":  "PingEcho",
+                                                             "requestBody":  {
+                                                                                 "content":  {
+                                                                                                 "application/json":  {
+                                                                                                                          "schema":  {
+                                                                                                                                         "$ref":  "#/components/schemas/EchoRequest"
+                                                                                                                                     }
+                                                                                                                      }
+                                                                                             },
+                                                                                 "required":  true
+                                                                             },
+                                                             "responses":  {
+                                                                               "200":  {
+                                                                                           "description":  "OK"
+                                                                                       }
+                                                                           }
+                                                         }
+                                            }
+              },
+    "components":  {
+                       "schemas":  {
+                                       "EchoRequest":  {
+                                                           "required":  [
+                                                                            "message"
+                                                                        ],
+                                                           "type":  "object",
+                                                           "properties":  {
+                                                                              "message":  {
+                                                                                              "type":  "string"
+                                                                                          }
+                                                                          }
+                                                       }
+                                   }
+                   },
+    "tags":  [
+                 {
+                     "name":  "ETOmniverse.Api"
+                 },
+                 {
+                     "name":  "Common/Ping"
+                 }
+             ]
+}

@@ -27,6 +27,24 @@
 - [ ] **EXEC-03**: Frontend has a standard API client integration path based on existing OpenAPI/ProblemDetails contracts.
 - [ ] **EXEC-04**: Frontend has a Playwright/test-auth harness that can exercise authenticated API/UI flows without real login or business workflows.
 
+### Dependency Source Foundation
+
+- [ ] **DEP-01**: Frontend build-critical package versions are exact and lockfile-backed.
+- [ ] **DEP-02**: Repo-local pnpm config prevents accidental inheritance of developer-global offline mode.
+- [ ] **DEP-03**: Package source / TLS / cache failures are documented as dependency-source failures, not build/test failures.
+
+### Frontend Contract Foundation
+
+- [ ] **CONTRACT-01**: API OpenAPI snapshot can be exported from the local API host.
+- [ ] **CONTRACT-02**: Frontend has a committed OpenAPI snapshot and deterministic generated TypeScript contract metadata.
+- [ ] **CONTRACT-03**: Verification detects stale frontend API contract output.
+
+### Migration / DB Ops Foundation
+
+- [ ] **DBOPS-01**: Repo has a local dotnet-ef tool manifest and scripts use it instead of relying on global `dotnet ef`.
+- [ ] **DBOPS-02**: Developer can inspect migration status and generate idempotent SQL through repo scripts.
+- [ ] **DBOPS-03**: Database update is explicit and not part of default verification.
+
 ## Future Requirements
 
 ### Business Features
@@ -60,12 +78,21 @@
 | EXEC-02 | Phase 10 | Blocked: depends on EXEC-01 |
 | EXEC-03 | Phase 10 | Complete |
 | EXEC-04 | Phase 10 | Partial: test-auth header helper exists; Playwright harness blocked by missing package/install |
+| DEP-01 | Phase 11 | Complete |
+| DEP-02 | Phase 11 | Complete |
+| DEP-03 | Phase 11 | Complete; full install still needs package tarballs or reachable registry |
+| CONTRACT-01 | Phase 12 | Complete |
+| CONTRACT-02 | Phase 12 | Complete |
+| CONTRACT-03 | Phase 12 | Complete |
+| DBOPS-01 | Phase 13 | Complete |
+| DBOPS-02 | Phase 13 | Partial: idempotent SQL generation verified; live DB status not run |
+| DBOPS-03 | Phase 13 | Complete |
 
 **Coverage:**
-- v1.1 requirements: 12 total
-- Mapped to phases: 12
+- v1.1 requirements: 21 total
+- Mapped to phases: 21
 - Unmapped: 0
 
 ---
 *Requirements defined: 2026-05-10*
-*Last updated: 2026-05-10 after backend verification repair and frontend package-source diagnosis*
+*Last updated: 2026-05-10 after dependency source, frontend contract, and DB ops foundation setup*

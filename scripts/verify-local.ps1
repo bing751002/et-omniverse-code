@@ -56,6 +56,14 @@ Invoke-Step "backend guard scripts" {
   Invoke-External python @("scripts/check-test-endpoints.py")
 }
 
+Invoke-Step "frontend API contract" {
+  Invoke-External powershell @(
+    "-NoProfile",
+    "-ExecutionPolicy", "Bypass",
+    "-File", "scripts/check-frontend-api-contract.ps1"
+  )
+}
+
 if (-not $SkipRestore) {
   Invoke-Step "dotnet restore" {
     $restoreArgs = @(
