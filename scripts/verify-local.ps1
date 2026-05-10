@@ -2,7 +2,7 @@ param(
   [ValidateSet("Debug", "Release")]
   [string]$Configuration = "Debug",
   [string]$ArtifactsPath = $(Join-Path $env:TEMP "et-omniverse-artifacts"),
-  [string]$PackagesPath = $(Join-Path $env:TEMP "et-omniverse-nuget"),
+  [string]$PackagesPath = "",
   [switch]$SkipRestore,
   [switch]$SkipBuild,
   [switch]$SkipTest,
@@ -40,7 +40,9 @@ $repoRoot = Resolve-Path (Join-Path $PSScriptRoot "..")
 Set-Location $repoRoot
 
 New-Item -ItemType Directory -Force -Path $ArtifactsPath | Out-Null
-New-Item -ItemType Directory -Force -Path $PackagesPath | Out-Null
+if ($PackagesPath -ne "") {
+  New-Item -ItemType Directory -Force -Path $PackagesPath | Out-Null
+}
 
 Invoke-Step "docs governance" {
   Invoke-External python @("scripts/check-spec-links.py")
@@ -56,12 +58,16 @@ Invoke-Step "backend guard scripts" {
 
 if (-not $SkipRestore) {
   Invoke-Step "dotnet restore" {
-    Invoke-External dotnet @(
+    $restoreArgs = @(
       "restore", "ETOmniverse.sln",
       "--artifacts-path", $ArtifactsPath,
-      "--packages", $PackagesPath,
-      "/p:NuGetAudit=false"
+      "/p:NuGetAudit=false",
+      "/m:1"
     )
+    if ($PackagesPath -ne "") {
+      $restoreArgs += @("--packages", $PackagesPath)
+    }
+    Invoke-External dotnet $restoreArgs
   }
 }
 
@@ -73,6 +79,7 @@ if (-not $SkipBuild) {
       "--no-restore",
       "--artifacts-path", $ArtifactsPath,
       "/p:NuGetAudit=false",
+      "/m:1",
       "-warnaserror"
     )
   }
@@ -85,19 +92,35 @@ if (-not $SkipTest) {
       "--configuration", $Configuration,
       "--no-build",
       "--artifacts-path", $ArtifactsPath,
-      "/p:NuGetAudit=false"
+      "/p:NuGetAudit=false",
+      "/m:1"
     )
   }
 }
 
 if (-not $SkipFrontend) {
   Invoke-Step "frontend build" {
-    Push-Location "src/frontend/ETOmniverse.Web"
+    $frontendSource = Join-Path $repoRoot "src/frontend/ETOmniverse.Web"
+    $frontendWork = Join-Path $ArtifactsPath ("frontend-" + [guid]::NewGuid().ToString("N"))
+
+    New-Item -ItemType Directory -Force -Path $frontendWork | Out-Null
+    Copy-Item -Path (Join-Path $frontendSource "package.json") -Destination $frontendWork
+    Copy-Item -Path (Join-Path $frontendSource "index.html") -Destination $frontendWork
+    Copy-Item -Path (Join-Path $frontendSource "tsconfig.json") -Destination $frontendWork
+    Copy-Item -Path (Join-Path $frontendSource "vite.config.ts") -Destination $frontendWork
+    Copy-Item -Path (Join-Path $frontendSource "src") -Destination $frontendWork -Recurse
+
+    $lockFile = Join-Path $frontendSource "pnpm-lock.yaml"
+    if (Test-Path $lockFile) {
+      Copy-Item -Path $lockFile -Destination $frontendWork
+    }
+
+    Push-Location $frontendWork
     try {
       if (Test-Path "pnpm-lock.yaml") {
-        Invoke-External pnpm @("install", "--frozen-lockfile")
+        Invoke-External pnpm @("install", "--frozen-lockfile", "--config.fetch-retries=0")
       } else {
-        Invoke-External pnpm @("install")
+        Invoke-External pnpm @("install", "--config.fetch-retries=0")
       }
       Invoke-External pnpm @("run", "build")
     } finally {

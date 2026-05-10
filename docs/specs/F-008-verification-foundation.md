@@ -33,7 +33,7 @@ This spec does not introduce business features. It only defines the verification
 - [x] **AC-1 Local verification entrypoint**: `scripts/verify-local.ps1` exists and can run checks in named stages.
 - [x] **AC-2 CI verification entrypoint**: `scripts/verify-ci.ps1` exists and delegates to the local entrypoint with CI-safe defaults.
 - [x] **AC-3 CI gate coverage**: Jenkins calls the CI verification entrypoint and covers docs governance, guard scripts, backend build/test, frontend build, and Docker compose config.
-- [x] **AC-4 Known failure mode docs**: `docs/INFRA.md` documents the supported temp artifacts / packages workaround and NuGet audit behavior.
+- [x] **AC-4 Known failure mode docs**: `docs/INFRA.md` documents the supported temp artifacts workaround, global NuGet cache default, NuGet audit behavior, MSBuild `/m:1` workaround, and frontend temp-copy verification behavior.
 - [x] **AC-5 No business scope**: verification scripts do not require business data or execute business workflows.
 
 ## Implementation Links

@@ -135,7 +135,10 @@ Day 1 implementation note：原 spec 優先採 `Microsoft.Extensions.Http.Resili
 - v1.1 起本機與 CI 共同入口為：
   - Local: `powershell -NoProfile -ExecutionPolicy Bypass -File scripts\verify-local.ps1`
   - CI: `powershell -NoProfile -ExecutionPolicy Bypass -File scripts\verify-ci.ps1 -Configuration Release`
-- Verification scripts 使用 temp artifacts/packages 目錄（預設 `$env:TEMP\et-omniverse-*`），避免 Windows checkout 內 `obj` / artifacts ACL 問題污染結果。
+- Verification scripts 使用 temp artifacts 目錄（預設 `$env:TEMP\et-omniverse-artifacts`），避免 Windows checkout 內 `obj` / artifacts ACL 問題污染結果。
+- NuGet packages 預設使用 developer/CI 的 global cache；只有在明確傳入 `-PackagesPath` 時才覆蓋。離線環境不可預設指向空 packages 目錄，否則會嘗試連到 nuget.org 並讓 restore gate 失敗。
+- `dotnet restore` / `dotnet build` / `dotnet test` 在 verification scripts 中固定使用 `/m:1`；目前 .NET 10 SDK 在此 checkout 的 parallel MSBuild graph 會出現 0 errors 但 exit 1 的失敗，單節點執行是已驗證 workaround。
+- Frontend verification 會把 `src/frontend/ETOmniverse.Web` 複製到 temp artifacts 目錄後執行 `pnpm install` / `pnpm run build`，避免 Windows checkout ACL 造成 pnpm `_tmp_*` unlink 失敗。
 - NuGet audit 在 verification scripts 中以 `/p:NuGetAudit=false` 關閉；安全稽核應由可連 registry 的獨立 CI job 處理，不能讓 registry/network 抖動阻塞一般 build/test gate。
 - Config validation 入口為 `dotnet run --project src/backend/ETOmniverse.Tools.ConfigTool -- validate`；需要檢視設定時用 `print --redacted`，不可把 secret-like 值輸出到 CI log。
 - Repo skeleton 穩定後：補 Jenkinsfile，只做 build/test/package。

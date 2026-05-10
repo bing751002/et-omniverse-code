@@ -50,7 +50,7 @@
 |-------------|-------|--------|
 | VER-01 | Phase 8 | Complete |
 | VER-02 | Phase 8 | Complete |
-| VER-03 | Phase 8 | Blocked: dotnet restore exits 1 in current checkout; frontend build lacks node_modules |
+| VER-03 | Phase 8 | Partial: backend restore/build/test and Docker compose config are verified; frontend build is blocked by missing pnpm package metadata/tarballs in offline cache |
 | VER-04 | Phase 8 | Complete |
 | ENV-01 | Phase 9 | Complete |
 | ENV-02 | Phase 9 | Complete |
@@ -68,4 +68,4 @@
 
 ---
 *Requirements defined: 2026-05-10*
-*Last updated: 2026-05-10 after foundation implementation and verification pass*
+*Last updated: 2026-05-10 after backend verification repair and frontend package-source diagnosis*
