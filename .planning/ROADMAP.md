@@ -7,7 +7,7 @@
 ## Milestones
 
 - [x] **v1.0 — GSD/SDD Process Validation + Backend Foundation** (completed 2026-05-09) — 7 phases, 32 plans, F-001..F-007 全部 implemented，audit passed (56/56 ACs, 16/16 wirings, 5/5 E2E flows). 詳見 [`milestones/v1.0-ROADMAP.md`](milestones/v1.0-ROADMAP.md).
-- [ ] **v1.1 — Foundation Hardening Before Business** — 3 phases, 12 requirements. 目標是在進入任何 7-step 業務流程前，補齊 verification / environment / execution foundations.
+- [ ] **v1.1 — Foundation Hardening Before Business** — 3 phases, 12 requirements. 目標是在進入任何 7-step 業務流程前，補齊 verification / environment / execution foundations. Status: Phase 09 complete; Phase 08 / 10 partial because frontend package source, Quartz, and Playwright remain blocked.
 
 ## Active Milestone
 
@@ -23,6 +23,10 @@
 
 **Requirements:** VER-01, VER-02, VER-03, VER-04
 
+**Status:** Partial. Backend restore/build/test, governance, guard scripts, and Docker compose config are verified. Frontend build is blocked by pnpm package source/cache availability.
+
+**Artifacts:** `.planning/phases/08-verification-foundation/08-PHASE-SUMMARY.md`, `.planning/phases/08-verification-foundation/08-VERIFICATION.md`
+
 **Success criteria:**
 1. Repo 有單一 documented local verification command，能分層跑 restore/build/test/governance。
 2. Jenkins/CI 跑 docs governance、ADR index、spec links、backend guard scripts、backend build/test、frontend build、Docker compose config。
@@ -35,6 +39,10 @@
 
 **Requirements:** ENV-01, ENV-02, ENV-03, ENV-04
 
+**Status:** Complete. Docker compose config, healthchecks, env cleanup, and ConfigTool validate/redacted print are implemented and verified.
+
+**Artifacts:** `.planning/phases/09-environment-foundation/09-PHASE-SUMMARY.md`, `.planning/phases/09-environment-foundation/09-VERIFICATION.md`
+
 **Success criteria:**
 1. Docker compose config 可被腳本驗證，infra/app service 定義一致。
 2. API / web compose service 有可用 health/readiness check。
@@ -46,6 +54,10 @@
 **Goal:** 建立非業務的背景任務與前端 API/E2E 整合標準路徑。
 
 **Requirements:** EXEC-01, EXEC-02, EXEC-03, EXEC-04
+
+**Status:** Partial. Frontend package-free API client foundation is implemented. Quartz and Playwright remain blocked by package availability.
+
+**Artifacts:** `.planning/phases/10-execution-foundation/10-PHASE-SUMMARY.md`, `.planning/phases/10-execution-foundation/10-VERIFICATION.md`
 
 **Success criteria:**
 1. API host 有 Quartz registration / job abstraction，可註冊 test-only job。
