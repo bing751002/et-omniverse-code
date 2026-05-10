@@ -1,7 +1,7 @@
 ---
 id: D-20
 title: TimeProvider mandatory for all time-dependent code; ban DateTime.Now / DateTime.UtcNow
-status: proposed
+status: accepted
 date: 2026-05-09
 owner: jimmyliao
 supersedes:

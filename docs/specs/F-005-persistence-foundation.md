@@ -132,7 +132,7 @@ D17 已決定 Phase 1 transactional source of truth 是 MSSQL，EF Core 10 migra
 ## Verification notes
 
 - `InitialBaseline` migration was manually authored because `dotnet-ef` is not installed in the current environment. The migration stays empty by design and is covered by build/test smoke.
-- Local Docker daemon is not running in the current environment, so the Testcontainers repository CRUD test is present but skipped with an explicit Docker-required reason. The fixture itself applies migrations before repository assertions when Docker is available.
+- Local Docker daemon is not running in the current environment, so Docker-dependent Testcontainers tests are reported as real xUnit skipped tests via `DockerFact` / `DockerTheory`. The repository CRUD test exercises `RepositoryBase<T>` + `UnitOfWork` against MSSQL when Docker is available.
 - Package restore required a local offline NuGet source because process proxy variables pointed to `127.0.0.1:9`, and direct Schannel access to NuGet failed with `SEC_E_NO_CREDENTIALS`. Verification used the offline source plus temp artifacts/packages paths.
 
 ## 依賴決策（NuGet）

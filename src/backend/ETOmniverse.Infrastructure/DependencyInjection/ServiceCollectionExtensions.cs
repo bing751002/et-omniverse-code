@@ -16,7 +16,8 @@ public static class ServiceCollectionExtensions
     _ = configuration;
 
     services.AddSingleton(TimeProvider.System);
-    services.AddSingleton<ICurrentUser, AnonymousCurrentUser>();
+    services.AddHttpContextAccessor();
+    services.AddScoped<ICurrentUser, HttpContextCurrentUser>();
     services.AddSingleton<ETOmniverse.Common.Logging.IBackgroundCorrelationScope,
                           ETOmniverse.Common.Logging.BackgroundCorrelationScope>();
     services.AddOutboundHttpClients(configuration);

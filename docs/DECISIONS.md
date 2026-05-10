@@ -7,7 +7,12 @@
 ## ADR Summary
 
 <!-- BEGIN AUTO-GENERATED ADR INDEX -->
-_(尚無 ADR — 待規劃期 D10-D18 搬入 `docs/decisions/D-*.md` 後此表自動產出)_
+| ID | 日期 | 狀態 | 決策 | 鏈結 |
+|---|---|---|---|---|
+| [D-19](decisions/D-19-test-mode-auth-bypass.md) | 2026-05-09 | accepted | Test-mode authentication bypass via env-guarded TestAuthenticationHandler | — |
+| [D-20](decisions/D-20-timeprovider-mandatory.md) | 2026-05-09 | accepted | TimeProvider mandatory for all time-dependent code; ban DateTime.Now / DateTime.UtcNow | — |
+| [D-21](decisions/D-21-testcontainers-respawn.md) | 2026-05-09 | accepted | Testcontainers MSSQL + Respawn for integration / E2E test data lifecycle | — |
+| [D-22](decisions/D-22-test-endpoints-namespace.md) | 2026-05-09 | accepted | Test-only endpoints under /api/test/* namespace with startup hard-fail in Production | — |
 <!-- END AUTO-GENERATED ADR INDEX -->
 
 ## 規劃期決策（待搬入 `docs/decisions/`）

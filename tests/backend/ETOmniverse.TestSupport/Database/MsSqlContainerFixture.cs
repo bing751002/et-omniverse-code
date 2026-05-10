@@ -32,9 +32,9 @@ public sealed class MsSqlContainerFixture : IAsyncLifetime
 
     public async Task InitializeAsync()
     {
-        if (!IsDockerAvailable())
+        if (!DockerAvailability.IsAvailable)
         {
-            // Phase 05 慣例：Docker 不可用 → fixture 不 throw，留給 test class 自行 skip。
+            // Docker-only tests use DockerFact/DockerTheory to report a real skip.
             return;
         }
         _container = new MsSqlBuilder()
@@ -43,30 +43,6 @@ public sealed class MsSqlContainerFixture : IAsyncLifetime
         await _container.StartAsync();
         await using var dbContext = CreateDbContext();
         await dbContext.Database.MigrateAsync();
-    }
-
-    private static bool IsDockerAvailable()
-    {
-        try
-        {
-            var psi = new System.Diagnostics.ProcessStartInfo("docker", "info")
-            {
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                UseShellExecute = false,
-                CreateNoWindow = true,
-            };
-            using var process = System.Diagnostics.Process.Start(psi);
-            if (process is null)
-            {
-                return false;
-            }
-            return process.WaitForExit(2000) && process.ExitCode == 0;
-        }
-        catch
-        {
-            return false;
-        }
     }
 
     public async Task DisposeAsync()

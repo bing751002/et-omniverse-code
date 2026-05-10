@@ -36,6 +36,9 @@ public class TestAuthEndpointsIntegrationTests
         using var doc = JsonDocument.Parse(json);
         doc.RootElement.GetProperty("name").GetString().Should().Be("alice");
         doc.RootElement.GetProperty("authenticated").GetBoolean().Should().BeTrue();
+        doc.RootElement.GetProperty("currentUserId").GetString().Should().Be("alice");
+        doc.RootElement.GetProperty("currentUserAuthenticated").GetBoolean().Should().BeTrue();
+        doc.RootElement.GetProperty("currentUserDisplayName").GetString().Should().Be("alice");
     }
 
     // AC-4: 無 auth header → 401 ProblemDetails + X-Correlation-Id 留存

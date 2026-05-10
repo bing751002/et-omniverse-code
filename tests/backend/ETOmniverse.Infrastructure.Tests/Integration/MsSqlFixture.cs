@@ -1,6 +1,7 @@
 namespace ETOmniverse.Infrastructure.Tests.Integration;
 
 using ETOmniverse.Infrastructure.Persistence;
+using ETOmniverse.Infrastructure.Tests.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Testcontainers.MsSql;
 
@@ -26,5 +27,12 @@ internal sealed class MsSqlFixture : IAsyncLifetime
         var options = new DbContextOptionsBuilder<EtOmniverseDbContext>();
         EtOmniverseDbContextFactory.ConfigureSqlServer(options, ConnectionString);
         return new EtOmniverseDbContext(options.Options);
+    }
+
+    public SamplePersistenceDbContext CreateSamplePersistenceDbContext()
+    {
+        var options = new DbContextOptionsBuilder<EtOmniverseDbContext>();
+        EtOmniverseDbContextFactory.ConfigureSqlServer(options, ConnectionString);
+        return new SamplePersistenceDbContext(options.Options);
     }
 }

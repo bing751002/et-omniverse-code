@@ -1,7 +1,7 @@
 ---
 id: D-21
 title: Testcontainers MSSQL + Respawn for integration / E2E test data lifecycle
-status: proposed
+status: accepted
 date: 2026-05-09
 owner: jimmyliao
 supersedes:

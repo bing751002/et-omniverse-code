@@ -131,6 +131,7 @@ Day 1 implementation note：原 spec 優先採 `Microsoft.Extensions.Http.Resili
 ## CI/CD Staging
 
 - Day 1：先有 `dotnet build`、`dotnet test`、frontend build 的本機命令。
+- Frontend container build 必須使用 repo 鎖定的 pnpm toolchain；`docker/Dockerfile.frontend` 以 `corepack enable` + `pnpm install` + `pnpm run build` 為準，不回退到 npm。
 - Repo skeleton 穩定後：補 Jenkinsfile，只做 build/test/package。
 - 有第一個可部署 demo 後：補 Docker image build + VM deploy + healthcheck。
 - Production 前：才拆 CI/CD 權限、config bundle、rollback、雙階段 healthcheck。

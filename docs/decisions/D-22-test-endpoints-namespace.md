@@ -1,7 +1,7 @@
 ---
 id: D-22
 title: Test-only endpoints under /api/test/* namespace with startup hard-fail in Production
-status: proposed
+status: accepted
 date: 2026-05-09
 owner: jimmyliao
 supersedes:

@@ -48,6 +48,7 @@ v1.0 backend foundation（F-002 logging / F-003 HTTP inbound / F-004 HTTP outbou
 
 #### B. DB lifecycle abstractions（per D-21）
 - `tests/backend/ETOmniverse.TestSupport/Database/MsSqlContainerFixture.cs` — 共用 Testcontainers 容器（IClassFixture / xUnit collection fixture）
+- `tests/backend/ETOmniverse.TestSupport/Database/DockerFactAttribute.cs` / `DockerTheoryAttribute.cs` — Docker 不可用時在 xUnit discovery 層回報真正 skipped，不在 test body 內 `return` 假綠
 - `tests/backend/ETOmniverse.TestSupport/Database/RespawnDatabaseReset.cs` — `ResetAsync()` 用 Respawn 截斷 user table（保留 `__EFMigrationsHistory`）
 - `tests/backend/ETOmniverse.TestSupport/Database/TransactionalTestBase.cs` — base class 提供 `BeginTransactionAsync` / `RollbackAsync`，xUnit `IAsyncLifetime` 整合
 - `[Collection("Database")]` xUnit collection definition

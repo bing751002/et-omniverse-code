@@ -1,7 +1,7 @@
 ---
 id: D-19
 title: Test-mode authentication bypass via env-guarded TestAuthenticationHandler
-status: proposed
+status: accepted
 date: 2026-05-09
 owner: jimmyliao
 supersedes:
@@ -43,7 +43,7 @@ F-003 已經建立 IsEnvironment("IntegrationTest") guard 慣例（`/api/common/
 - 真實 auth phase 上線時要 review TestAuthenticationHandler 還適不適用（可能某些 claim 結構需要對齊）
 
 ### Neutral
-- 與 F-002 ICurrentUser stub 並存：F-002 stub 是「沒 auth 時的 anonymous fallback」，TestAuthenticationHandler 是「test mode 假裝有 auth」，職責互不重疊
+- 與 F-002 ICurrentUser port 並存：`HttpContextCurrentUser` 從 authenticated principal 讀取目前使用者；TestAuthenticationHandler 是「test mode 產生 authenticated principal」，職責互不重疊
 - 跟 v1.1+ 業務 milestone 的 RBAC（D-18 功能面 RBAC + 事業群 scope）相容：Test handler 可以 inject 任意 role / scope claim
 
 ## Alternatives considered

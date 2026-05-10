@@ -22,16 +22,13 @@ public abstract class TransactionalTestBase : IAsyncLifetime
     /// </summary>
     protected EtOmniverseDbContext DbContext { get; private set; } = null!;
 
-    /// <summary>True iff the underlying container fixture has Docker available — proxy for skip-path.</summary>
-    protected bool IsContainerAvailable => _fixture.IsContainerAvailable;
-
     protected TransactionalTestBase(MsSqlContainerFixture fixture) => _fixture = fixture;
 
     public async Task InitializeAsync()
     {
         if (!_fixture.IsContainerAvailable)
         {
-            // Docker 不可用：不建 DbContext / transaction，由 test method 自行 skip。
+            // Docker-only tests use DockerFact/DockerTheory to report a real skip.
             return;
         }
         DbContext = _fixture.CreateDbContext();

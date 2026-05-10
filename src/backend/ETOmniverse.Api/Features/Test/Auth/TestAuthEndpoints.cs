@@ -1,5 +1,6 @@
 namespace ETOmniverse.Api.Features.Test.Auth;
 
+using ETOmniverse.Domain.Common.Ports;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -16,8 +17,15 @@ public static class TestAuthEndpoints
     public static IEndpointRouteBuilder MapTestAuthEndpoints(this IEndpointRouteBuilder app)
     {
         // [Authorize] — 任何 authenticated user 可進
-        app.MapGet("/api/test/auth/whoami", (ClaimsPrincipal user) =>
-            Results.Ok(new { name = user.Identity?.Name, authenticated = user.Identity?.IsAuthenticated ?? false }))
+        app.MapGet("/api/test/auth/whoami", (ClaimsPrincipal user, ICurrentUser currentUser) =>
+            Results.Ok(new
+            {
+                name = user.Identity?.Name,
+                authenticated = user.Identity?.IsAuthenticated ?? false,
+                currentUserId = currentUser.UserId,
+                currentUserAuthenticated = currentUser.IsAuthenticated,
+                currentUserDisplayName = currentUser.DisplayName
+            }))
            .RequireAuthorization()
            .WithTags("Test/Auth")
            .WithName("TestAuthWhoAmI");

@@ -75,10 +75,10 @@ F-002 Logging foundation ─┬─→ F-003 HTTP inbound base （middleware 要 
   - `AppVersion`（從 entry assembly informational version）
   - **`UserId` 不在本 spec 範圍**：F-002 不掛 UserId enricher。理由：Identity 模組落地前，`UserId=anonymous` 會讓每行 log 都帶噪音欄位、訓練 operator 忽略此欄。`UserId` enricher 由 Identity 模組接真實使用者後加，並列為 Identity 自身的 AC（「整個 request 鏈 log 帶真實 userId」）
 
-- **`ICurrentUser` port (stub)**（`src/backend/ETOmniverse.Domain/Common/Ports/ICurrentUser.cs`）
+- **`ICurrentUser` port**（`src/backend/ETOmniverse.Domain/Common/Ports/ICurrentUser.cs`）
   - 介面定義：`UserId` / `IsAuthenticated` / `DisplayName`
-  - Day 1 只有 `AnonymousCurrentUser` 實作（永遠 anonymous）
-  - Identity 模組（D14 / D18）落地時切真實作，本 spec **不**處理 auth
+  - HTTP host 透過 `HttpContextCurrentUser` 從 authenticated principal 讀取目前使用者；無 authenticated principal 時維持 anonymous fallback 語意
+  - Identity 模組（D14 / D18）仍負責真實 login / RBAC，本 spec **不**處理 auth 流程
   - **本 spec 不**把 `ICurrentUser` 接進 LogContext（見上）— 只保留 port 給未來 HTTP / use case 拿
 
 - **`IBackgroundCorrelationScope` helper**（`src/backend/ETOmniverse.Common/Logging/`）
@@ -125,7 +125,7 @@ F-002 Logging foundation ─┬─→ F-003 HTTP inbound base （middleware 要 
 - **PII 細部 masking**（先做欄位黑名單，深度 PII 規則等第一個敏感 log 出現再補）
 - **Audit log writer**（獨立模組，與此 spec 無關）
 - **Quartz / `IHostedService` `JobLoggingDecorator` 整合**（本 spec 只交付 `IBackgroundCorrelationScope` helper，真正 decorator 留給背景任務 phase）
-- **Auth middleware**（`ICurrentUser` 只給 stub；Identity 模組接真實作）
+- **Auth middleware**（`ICurrentUser` 只橋接 authenticated principal；Identity 模組接真實 login / RBAC）
 - **HTTP request id 與 W3C TraceContext 對齊**（不做 distributed tracing 就不需要對齊）
 
 ## 驗收條件
@@ -170,7 +170,7 @@ F-002 Logging foundation ─┬─→ F-003 HTTP inbound base （middleware 要 
 - Enrichers：`src/backend/ETOmniverse.Common/Logging/Enrichers/` (AppNameEnricher.cs, AppVersionEnricher.cs)
 - CorrelationId middleware：`src/backend/ETOmniverse.Api/Middleware/CorrelationIdMiddleware.cs`
 - Request logging middleware：`src/backend/ETOmniverse.Api/Middleware/RequestLoggingMiddleware.cs`
-- ICurrentUser stub：`src/backend/ETOmniverse.Domain/Common/Ports/ICurrentUser.cs` + `src/backend/ETOmniverse.Infrastructure/Identity/AnonymousCurrentUser.cs`
+- ICurrentUser port：`src/backend/ETOmniverse.Domain/Common/Ports/ICurrentUser.cs` + `src/backend/ETOmniverse.Infrastructure/Identity/HttpContextCurrentUser.cs`
 - Background correlation scope：`src/backend/ETOmniverse.Common/Logging/IBackgroundCorrelationScope.cs` + `src/backend/ETOmniverse.Common/Logging/BackgroundCorrelationScope.cs`
 - Heartbeat hosted service：`src/backend/ETOmniverse.Common/Logging/LoggingHeartbeatHostedService.cs`
 - MaskFields baseline：`src/backend/ETOmniverse.Common/Logging/MaskFields.cs`

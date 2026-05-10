@@ -2,6 +2,7 @@ namespace ETOmniverse.Infrastructure.Tests.Persistence;
 
 using ETOmniverse.Domain.Common.Ports;
 using ETOmniverse.Infrastructure.DependencyInjection;
+using ETOmniverse.Infrastructure.Identity;
 using ETOmniverse.Infrastructure.Persistence;
 using FluentAssertions;
 using Microsoft.Extensions.Configuration;
@@ -24,6 +25,9 @@ public sealed class PersistenceRegistrationTests
         services.AddETOmniverseInfrastructure(configuration);
 
         services.Should().Contain(d => d.ServiceType == typeof(EtOmniverseDbContext));
+        services.Should().Contain(d => d.ServiceType == typeof(ICurrentUser)
+            && d.ImplementationType == typeof(HttpContextCurrentUser)
+            && d.Lifetime == ServiceLifetime.Scoped);
         services.Should().Contain(d => d.ServiceType == typeof(IUnitOfWork) && d.ImplementationType == typeof(UnitOfWork));
         services.Should().Contain(d => d.ServiceType == typeof(IRepository<>) && d.ImplementationType == typeof(RepositoryBase<>));
     }

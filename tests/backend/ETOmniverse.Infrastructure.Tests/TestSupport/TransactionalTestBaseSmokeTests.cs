@@ -24,7 +24,7 @@ public sealed class TransactionalTestBaseSmokeTests : TransactionalTestBase
 
     public TransactionalTestBaseSmokeTests(MsSqlContainerFixture fixture) : base(fixture) { }
 
-    [Theory]
+    [DockerTheory]
     [InlineData(0)]  [InlineData(1)]  [InlineData(2)]  [InlineData(3)]  [InlineData(4)]
     [InlineData(5)]  [InlineData(6)]  [InlineData(7)]  [InlineData(8)]  [InlineData(9)]
     [InlineData(10)] [InlineData(11)] [InlineData(12)] [InlineData(13)] [InlineData(14)]
@@ -37,11 +37,6 @@ public sealed class TransactionalTestBaseSmokeTests : TransactionalTestBase
     [InlineData(45)] [InlineData(46)] [InlineData(47)] [InlineData(48)] [InlineData(49)]
     public async Task FiftyTransactionalInsertsAreFastAndIsolated(int idx)
     {
-        if (!IsContainerAvailable)
-        {
-            return; // Docker 不可用 skip
-        }
-
         if (idx == 0)
         {
             s_sharedTimer.Restart();

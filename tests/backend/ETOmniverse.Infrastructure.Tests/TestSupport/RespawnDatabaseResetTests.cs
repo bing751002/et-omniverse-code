@@ -7,7 +7,7 @@ using Xunit;
 
 /// <summary>
 /// AC-B2: RespawnDatabaseReset.ResetAsync truncates user tables, preserves __EFMigrationsHistory.
-/// Per Phase 05 慣例：Docker 不可用 → skip 不 fake-pass。
+/// Per Phase 05 慣例：Docker 不可用 → DockerFact 回報真正 skipped，不 fake-pass。
 /// </summary>
 [Collection("Database")]
 public sealed class RespawnDatabaseResetTests
@@ -16,14 +16,9 @@ public sealed class RespawnDatabaseResetTests
 
     public RespawnDatabaseResetTests(MsSqlContainerFixture fixture) => _fixture = fixture;
 
-    [Fact]
+    [DockerFact]
     public async Task ResetAsync_TruncatesUserTables_PreservesEFMigrationsHistory()
     {
-        if (!_fixture.IsContainerAvailable)
-        {
-            return; // Docker 不可用 skip
-        }
-
         // Arrange: 建一張 throwaway user table + 插一筆，避免依賴 F-005 具體 aggregate
         await using (var conn = new SqlConnection(_fixture.ConnectionString))
         {
